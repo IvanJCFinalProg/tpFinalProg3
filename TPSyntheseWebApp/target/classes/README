@@ -1,0 +1,8 @@
+---- Informations pour le bon fonctionnement de l'application! ----
+
+1. Créer un dossier au nom de << appBasesDonnees >> sous le répertoire votre lecteur C:
+2. À l'intérieur du dossier << appBasesDonnees >>, un dossier au nom de de << appRessources >>
+
+--- Création de fichiers Properties sous le répertoire << appRessources >>  ---
+1. Créer un fichier properties sous le nom << appRessourcesData.properties >> 
+1. Créer un fichier properties sous le nom << appRessourcesFiles.properties >> 
