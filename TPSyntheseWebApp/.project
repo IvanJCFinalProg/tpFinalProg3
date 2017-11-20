@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>TPSyntheseApp2</project>
+		<project>TPSyntheseApp</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
