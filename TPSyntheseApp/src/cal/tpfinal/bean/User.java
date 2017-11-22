@@ -21,6 +21,14 @@ public class User {
 		this.credential = new Credential(compteur);
 		compteur++;
 	}
+	
+	/**
+	 * @param compteur the compteur to set
+	 */
+	public static void setCompteur(int compteur) {
+		User.compteur = compteur;
+	}
+
 
 	/**
 	 * @return the nom

@@ -35,20 +35,16 @@ public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LogManager.getLogger(LoginController.class);
 	private static final String PAGE_COMPTE_USER = "AchatActions.jsp";
-	
-	//private static final String FICHIER_USERS_DATA = "C:\\appBasesDonnees/tableUsers.xml" ;
-	//private static final String FICHIER_LOGIN_DATA = "C:\\appBasesDonnees/tableLogin.xml" ;
-		
+
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		logger.info("Initialisation de l'application");
 		try {
-			System.out.println(!(ServiceUser.fromToXML(ServiceApp.getValue("3",2))!= null));
 			if(!(ServiceUser.fromToXML(ServiceApp.getValue("3",2))!= null)) {
-				System.out.println("passer "+Integer.valueOf(ServiceApp.getValue("1", 1)));
-				//new User().getCredential().setId(Integer.valueOf(ServiceApp.getValue("1", 1))+1);
+				//new User().getCredential().setId(Integer.valueOf(ServiceApp.getValue("1", 1)));
+				User.setCompteur(Integer.valueOf(ServiceApp.getValue("1", 1))+1);
 			}	
 		} catch (Exception e) {
 			logger.error("Problême - Function init(LoginControler) - Initialisation des données");
@@ -85,10 +81,6 @@ public class LoginController extends HttpServlet {
 				else if(email.equals("") && email.isEmpty()) {
 					
 				}
-				if(Authentification.isEmailExist(email, ServiceApp.getValue("3",2))) {
-					// mettre une erreur dans le tableau
-					// afficher à l'utilisateur
-				}
 				if(!passwordConfirm.equals(password)) {
 					
 				}
@@ -97,7 +89,7 @@ public class LoginController extends HttpServlet {
 					//
 					System.out.println(user.getCredential().getId());
 					logger.info(LoginController.class.getName()+" | Id User Creation "+user.getCredential().getId());
-					user.setNom(nom);
+					user.setNom((nom.trim()).substring(0, 1).toUpperCase()+(nom.trim()).substring(1).toLowerCase());
 					user.setPrenom(prenom);
 					user.setPhoneNumber("");
 					user.setSexe(sexe);
@@ -157,3 +149,4 @@ public class LoginController extends HttpServlet {
 	}
 
 }
+
