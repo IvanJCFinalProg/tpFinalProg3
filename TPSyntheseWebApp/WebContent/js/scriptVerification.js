@@ -56,7 +56,9 @@ $(document).ready(function(){
 		if(errorAnneeNaissance){
 			$("#error-date-incript").html("<h5 class=\"errormsg\">Vous devez être agé entre 13 et 120 ans.</h5>");
 			$("#error-date-incript").show;
+			$("#email-inscription").css({"border-color":"#dd4b39"});
 		}else{
+			$("#email-inscription").css({"border-color":""});
 			$("#error-date-incript").hide();
 		}
 	}
@@ -94,8 +96,10 @@ $(document).ready(function(){
 		if(nom_length < 2 || nom_length > 20 ){
 			$("#error-name-incript").html("<h5 class=\"errormsg\">Votre nom doit être composé de 2-20 charactères.</h5>");
 			$("#error-name-incript").show();
+			$("#nom-inscription").css({"border-color":"#dd4b39"});
 			errorNomInscript = true;
 		}else{
+			$("#nom-inscription").css({"border-color":""});
 			$("#error-name-incript").hide();
 		}
 	}
@@ -105,8 +109,10 @@ $(document).ready(function(){
 		if(prenom_length < 2 || prenom_length > 20 ){
 			$("#error-name-incript").html("<h5 class=\"errormsg\">Votre prenom doit être composé de 2-20 charactères.</h5>");
 			$("#error-name-incript").show();
+			$("#prenom-inscription").css({"border-color":"#dd4b39"});
 			errorPrenomInscript = true;
 		}else{	
+			$("#prenom-inscription").css({"border-color":""});
 			$("#error-name-incript").hide();
 		}
 	}
@@ -116,16 +122,19 @@ $(document).ready(function(){
 		if(password_length <= 0 ){
 			$("#error-password-incript").html("<h5 class=\"errormsg\">Le mot de passe est requis.</h5>");
 			$("#error-password-incript").show();
+			$("#password-inscription").css({"border-color":"#dd4b39"});
 			errorPasswordInscrip = true;
 		
 		}
 		else if(password_length < 8){
 			$("#error-password-incript").html("<h5 class=\"errormsg\">Les mots de passe sont faciles à deviner.</h5>" +
 			"<h5 class=\"errormsg\">Veuillez recommancer en utilisant au moins 8 caractères</h5>");
+			$("#password-inscription").css({"border-color":"#dd4b39"});
 			$("#error-password-incript").show();
 			errorPasswordInscrip = true;
 			
 		}else{	
+			$("#password-inscription").css({"border-color":""});
 			$("#error-password-incript").hide();
 		}
 	}
@@ -136,8 +145,10 @@ $(document).ready(function(){
 		if(password != passwordConfirm){
 			$("#error-passwordConfirm-incript").html("<h5 class=\"errormsg\">Les mots de passe ne se correspondent pas</h5>");
 			$("#error-passwordConfirm-incript").show();
+			$("#passwordInscriptConfirm").css({"border-color":"#dd4b39"});
 			errorPasswordConfirmInscript = true;
 		}else {
+			$("#passwordInscriptConfirm").css({"border-color":""});
 			$("#error-passwordConfirm-incript").hide();
 		}
 	}
@@ -145,8 +156,10 @@ $(document).ready(function(){
 	function validateEmail() {
 		var pattern = new RegExp(/^[a-z][\w.-]{4,20}[a-z0-9]@[a-z]*\.[a-z]{2,4}$/i);
 		if(pattern.test($("#email-inscription").val())){
+			$("#email-inscription").css({"border-color":""});
 			$("#error-email-incript").hide();
 		}else{
+			$("#email-inscription").css({"border-color":"#dd4b39"});
 			$("#error-email-incript").html("<h5 class=\"errormsg\">L'adresse email est invalide.</h5>");
 			$("#error-email-incript").show;
 			errorEmailInscript = true;
