@@ -93,7 +93,7 @@ $(document).ready(function(){
 	
 	function validateNom() {
 		var pattern = new RegExp(/^[a-z]{2,20}$/i);
-		if(pattern.test($("#nom-inscription").val()) ){
+		if(!(pattern.test($("#nom-inscription").val())) ){
 			$("#error-name-incript").html("<h5 class=\"errormsg\">Votre nom doit être composé de 2-20 charactères.</h5>");
 			$("#error-name-incript").show();
 			$("#nom-inscription").css({"border-color":"#dd4b39"});
@@ -106,7 +106,7 @@ $(document).ready(function(){
 	
 	function validatePrenom() {
 		var pattern = new RegExp(/^[a-z]{2,20}$/i);
-		if(pattern.test($("#prenom-inscription").val()) ){
+		if(!(pattern.test($("#prenom-inscription").val())) ){
 			$("#error-name-incript").html("<h5 class=\"errormsg\">Votre prenom doit être composé de 2-20 charactères.</h5>");
 			$("#error-name-incript").show();
 			$("#prenom-inscription").css({"border-color":"#dd4b39"});
