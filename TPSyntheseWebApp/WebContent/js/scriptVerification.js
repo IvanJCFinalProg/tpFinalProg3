@@ -26,10 +26,6 @@ $(document).ready(function(){
 	});
 	
 	$("#nom-inscription").focusout(function() {
-		validatePassword();
-	});
-	
-	$("#nom-inscription").focusout(function() {
 		validateNom();
 	});
 	
@@ -41,15 +37,15 @@ $(document).ready(function(){
 		validatePassword();
 	});
 	
-	$("#password-inscription").focusout(function() {
-		validatePassword();
+	$("#passwordInscriptConfirm").focusout(function() {
+		validatePasswordConfirm();
 	});
 	
-	$("email-inscription").focusout(function() {
+	$("#email-inscription").focusout(function() {
 		validateEmail();
 	});
 	
-	$("error-date-incript").focusout(function(){
+	$("#date-inscription").focusout(function(){
 		validateBirthDate();
 	});
 	
@@ -66,6 +62,7 @@ $(document).ready(function(){
 		}
 	}
 	
+	/*** PARTIE LOGIN --- FORM LOGIN ***/
 	function validateEmailLogin() {
 		var email_length = $("#email").val().length;
 		if(email_length <= 0 ){
@@ -91,6 +88,7 @@ $(document).ready(function(){
 			$("#error-password").hide();
 		}
 	}
+	/** FIN **/
 	
 	function validateNom() {
 		var nom_length = $("#nom-inscription").val().length;
@@ -133,8 +131,20 @@ $(document).ready(function(){
 		}
 	}
 	
+	function validatePasswordConfirm() {
+		var password = $("#password-inscription").val();
+		var passwordConfirm = $("#passwordInscriptConfirm").val();
+		if(password != passwordConfirm){
+			$("#error-passwordConfirm-incript").html("<h5 class=\"errormsg\">Les mots de passe ne se correspondent pas</h5>");
+			$("#error-passwordConfirm-incript").show();
+			errorPasswordConfirmInscript = true;
+		}else {
+			$("#error-passwordConfirm-incript").hide();
+		}
+	}
+	
 	function validateEmail() {
-		var pattern = new RegExp(/^[^._-][a-zA-Z0-9._-]{5,20}[a-z]@[a-z]*\.[a-z]{2,4}$/i);
+		var pattern = new RegExp(/^[a-z][\w.-]{4,20}[a-z0-9]@[a-z]*\.[a-z]{2,4}$/i);
 		if(pattern.test($("#email-inscription").val())){
 			$("#error-email-incript").hide();
 		}else{
@@ -150,14 +160,16 @@ $(document).ready(function(){
 		errorPrenomInscript = false;
 		errorPasswordInscript = false;
 		errorAnneeNaissance = false;
+		errorPasswordConfirmInscript = false;
 		
 		validateNom();
 		validatePrenom();
 		validateEmail();
 		validatePassword();
 		validateBirthDate();
+		validatePasswordConfirm();
 		
-		if(!errorNomInscript && !errorEmailInscript && !errorPrenomInscript && !errorPasswordInscript && !errorAnneeNaissance)
+		if(!errorNomInscript && !errorEmailInscript && !errorPrenomInscript && !errorPasswordInscript && !errorAnneeNaissance && !errorPasswordConfirmInscript)
 			return true;
 		else
 			return false;
