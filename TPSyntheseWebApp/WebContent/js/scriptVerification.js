@@ -56,6 +56,7 @@ $(document).ready(function(){
 	function validateBirthDate(){
 		var str = $("#date").val();
 		var age = Math.abs((new Date(Date.now() - (new Date(str)).getTime())).getUTCFullYear() - 1970);
+		alert(age);
 		errorAnneeNaissance = ( age > 120 || age < 13)? true:false;
 		if(errorAnneeNaissance){
 			$("#error-date-incript").html("<h5 class=\"errormsg\">Vous devez être agé entre 13 et 120 ans.</h5>");
@@ -135,7 +136,7 @@ $(document).ready(function(){
 	}
 	
 	function validateEmail() {
-		var pattern = new RegExp(/^[^._-][+a-zA-Z0-9._-][^._-]{5,20}+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
+		var pattern = new RegExp(/^[^._-][a-zA-Z0-9._-]{5,20}[a-z]@[a-z]*\.[a-z]{2,4}$/i);
 		if(pattern.test($("#email-inscription").val())){
 			$("#error-email-incript").hide();
 		}else{
