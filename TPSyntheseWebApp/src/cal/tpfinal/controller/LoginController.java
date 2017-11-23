@@ -57,7 +57,6 @@ public class LoginController extends HttpServlet {
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
-		HttpSession session = request.getSession();
 		PrintWriter writer = response.getWriter();
 		
 		try {
@@ -86,8 +85,6 @@ public class LoginController extends HttpServlet {
 				}
 				else{
 					User user = new User();
-					//
-					System.out.println(user.getCredential().getId());
 					logger.info(LoginController.class.getName()+" | Id User Creation "+user.getCredential().getId());
 					user.setNom((nom.trim()).substring(0, 1).toUpperCase()+(nom.trim()).substring(1).toLowerCase());
 					user.setPrenom(prenom);
@@ -118,8 +115,10 @@ public class LoginController extends HttpServlet {
 				
 			}
 			else if(action.equalsIgnoreCase(IService.TYPE_FORM2)) {
+				HttpSession session = request.getSession();
 				String email = request.getParameter("email");
 				String password = request.getParameter("password");
+				
 				if(email.equals(ServiceApp.getValue("2", 1)) && password.equals(ServiceApp.getValue("3", 1))) {
 					RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("4", 2));
 					dispatcher.forward(request, response);

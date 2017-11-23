@@ -6,11 +6,6 @@ html{
     height: 100%;
 }
 
-.container-fluid {
-    padding-top: 60px;
-    padding-bottom: 60px;
-}
-
 body{
 	font: 400 20px Lato, sans-serif !important;
     line-height: 1.8;
@@ -29,14 +24,17 @@ header {
   color: white;
 }
 
-.container-fluid {
-    padding-top: 30px;
-    padding-bottom: 30px;
+.bg-1 {
+  	background: #232526;  
+	background: -webkit-linear-gradient(to right, #414345, #232526);  
+	background: linear-gradient(to right, #414345, #232526); 
 }
 
-.bg-1{
-	background:url(http://www.patternwall.net/bundles/patternwall/images/patterns/52501e74082ce.png) left top;}
+.container-fluid {
+    padding-top: 60px;
+    padding-bottom: 60px;
 }
+
 
 /*-------------------------------*/
 /*       Sidebar-nav         */
@@ -121,138 +119,4 @@ header {
     line-height: 44px;
 }*/
 /*           FIN                    */
-.icon{
-	font-family:FontAwesome;
-	font-weight:normal;
-	font-style:normal;
-	text-decoration:inherit;
-	-webkit-font-smoothing:antialiased;
-}
 
-.iconUser:before{
-	content:"\f007";
-	margin-right:6px;
-}
-
-.iconAdd{
-  color:gray;
-  cursor:pointer;
-  float:right;
-  font-size:28px;
-  margin-top:6px;
-  text-shadow: 0 0 2px black;
-  transition:all .2s linear; 
-}
-
-.iconAdd:before{content: "\f067";}
-
-.iconAdd:before{color:lighten(gray,10%);}
-
-.iconRemove{
-  cursor:pointer;
-  color:gray;
-  opacity:.5;
-  transition:all .2s linear;
-}
-
-.iconRemove:hover{ opacity:1;}
-.iconRemove:before{content:"\f00d";}
-*{ box-sizing:border-box;outline:none;}
-
-.patternwall{
-   color:#e6e6e6;
-  text-decoration:none;
-  position: absolute;bottom: 20px;right: 20px;}
-  
-.clear{clear:both;}
-
-.permissionWrapper{
-  width:600px;
-  margin:50px auto;
-}
-
-.listFilterLabel{
-  color:gray;
-  text-shadow:0 0 1px black;
-}
-.listFilterInput{
-  margin:0 0 20px 10px;
-  height:28px;
-  line-height:28px;
-  color:gray;
-  padding: 0 10px;
-  background-color:darken(gray, 32%);
-  border:solid 1px darken(gray, 30%);
-  box-shadow:0 0 6px rgba(0,0,0,.2); 
-  border-radius:3px;
-}
-
-.listFilterInput:focus{outline:none;}
-.permissionsTable{
-  width:100%;
-  color:darken(gray, 15%);
-  border-radius:2px;
-  box-shadow:0 0 5px black;
-}
-.permissionsTable > tr{background-color:darken(white, 10%);}
-
-.permissionsTable > th, td{
-    height:42px;
-    font-size:14px;
-    font-weight:normal;
-    padding:0 5px;
-}
-
-.permissionsTablelast-child{
-      width:25px !important;
-}
-.permissionsTable:not():first-child){width:60px;}
-
-.permissionsTable:first-child{
-   text-align:left;
-   padding:4px 10px;
-}
-  
-  thead{
-    th{border-bottom:solid 3px darken(gray, 32%);}
-  }
-  tbody{
-    tr{
-      @include transition(all .4s linear);
-      td:first-child{font-style:italic;}
-      &:hover{background-color:darken(white, 14%);}
-      &.focused{background-color:darken(white, 18%);}
-      &.removeState{
-        @include opacity(0);
-        @include translate(200px, 0);
-      }
-      &.addState{
-        @include opacity(0);
-        @include translate(-200px, 0);
-      }
-    }
-    .userName{display:inline-block;width:90%;}
-  }
-}
-.permissionTag{
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  cursor:pointer;
-  text-align:center;
-  font-size:12px;
-  @include border-radius(3px);
-  @each $perm in view, edit, delete, owner, admin{
-    &[data-perm=#{$perm}]{
-      &.multi{background-color:#c1c1c1;}
-
-      &.active{
-        color:white;
-
-        @if($perm == "view"){background-color: #8DCA35;}
-        @if(($perm == "edit") or ($perm == "delete")){background-color: #FFAB00;}
-        @if(($perm == "owner") or ($perm == "admin")){background-color: #FF702A;}
-      }
-    }
-  }
-}
