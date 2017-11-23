@@ -93,8 +93,8 @@ $(document).ready(function(){
 	}
 	
 	function validateNom() {
-		var nom_length = $("#nom-inscription").val().length;
-		if(nom_length < 2 || nom_length > 20 ){
+		var pattern = new RegExp(/^[a-z]{2,20}$/i);
+		if(pattern.test($("#nom-inscription").val()) ){
 			$("#error-name-incript").html("<h5 class=\"errormsg\">Votre nom doit être composé de 2-20 charactères.</h5>");
 			$("#error-name-incript").show();
 			errorNomInscript = true;
@@ -104,8 +104,8 @@ $(document).ready(function(){
 	}
 	
 	function validatePrenom() {
-		var prenom_length = $("#prenom-inscription").val().length;
-		if(prenom_length < 2 || prenom_length > 20 ){
+		var pattern = new RegExp(/^[a-z]{2,20}$/i);
+		if(pattern.test($("#prenom-inscription").val()) ){
 			$("#error-name-incript").html("<h5 class=\"errormsg\">Votre prenom doit être composé de 2-20 charactères.</h5>");
 			$("#error-name-incript").show();
 			errorPrenomInscript = true;
@@ -134,7 +134,7 @@ $(document).ready(function(){
 	}
 	
 	function validateEmail() {
-		var pattern = new RegExp(/^[^._-][a-zA-Z0-9._-]{5,20}[a-z]@[a-z]*\.[a-z]{2,4}$/i);
+		var pattern = new RegExp(/^[a-z][\w.-]{4,20}[a-z]@[a-z]*\.[a-z]{2,4}$/i);
 		if(pattern.test($("#email-inscription").val())){
 			$("#error-email-incript").hide();
 		}else{
