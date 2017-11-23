@@ -51,14 +51,13 @@ $(document).ready(function(){
 	
 	function validateBirthDate(){
 		var str = $("#date-inscription").val();
-		var age = Math.abs((new Date(Date.now() - (new Date(str)).getTime())).getUTCFullYear() - 1970);
-		alert(age);
+		var age = (new Date(Date.now() - (new Date(str)).getTime())).getUTCFullYear() - 1970;
 		errorAnneeNaissance = ( age > 120 || age < 13)? true:false;
 		if(errorAnneeNaissance){
-			$("#error-date-incript").hide();
-		}else{
 			$("#error-date-incript").html("<h5 class=\"errormsg\">Vous devez être agé entre 13 et 120 ans.</h5>");
 			$("#error-date-incript").show;
+		}else{
+			$("#error-date-incript").hide();
 		}
 	}
 	
