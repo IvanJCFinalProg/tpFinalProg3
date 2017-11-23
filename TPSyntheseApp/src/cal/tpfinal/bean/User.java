@@ -1,5 +1,8 @@
 package cal.tpfinal.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.DateTime;
 
 public class User {
@@ -16,10 +19,12 @@ public class User {
 	private boolean blocked = false;
 	protected Credential credential;
 	private static int compteur = 1;
+	private List<Publication> feed;
 		
 	public User() {
 		this.credential = new Credential(compteur);
 		compteur++;
+		feed = new ArrayList<Publication>();
 	}
 	
 	/**
