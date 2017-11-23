@@ -53,9 +53,7 @@ $(document).ready(function(){
 		var str = $("#date-inscription").val();
 		var age = (new Date(Date.now() - (new Date(str)).getTime())).getUTCFullYear() - 1970;
 		errorAnneeNaissance = ( age > 120 || age < 13)? true:false;
-		if(!errorAnneeNaissance){
-			$("#error-date-incript").hide();
-		}else{
+		if(errorAnneeNaissance){
 			$("#error-date-incript").html("<h5 class=\"errormsg\">Vous devez être agé entre 13 et 120 ans.</h5>");
 			$("#error-date-incript").show;
 		}else{
