@@ -71,6 +71,10 @@ public class ServiceUser {
 		return tableUsers.get(idx);
 	}
 	
+	public static void blockUser(int id, Map<Integer, User> tableUsers) {
+		getUserById(id, tableUsers).setBlocked(true);
+	}
+	
 	public static boolean saveClient(String fileName, User client) throws Exception {
 		XStream stream = new XStream(new DomDriver());
 		stream.alias("Utilisateur", User.class);

@@ -118,18 +118,24 @@ public class LoginController extends HttpServlet {
 				
 			}
 			else if(action.equalsIgnoreCase(IService.TYPE_FORM2)) {
-				
-				
-				Credential user = Authentification.verificationUtilisateur(request.getParameter("email"),request.getParameter("password"), ServiceApp.getValue("2", 2));
-				if( user != null) {
-					Map<Integer, User> collectionClients = ServiceUser.fromToXML(ServiceApp.getValue("2", 2));
-					request.setAttribute("clientActuel", ServiceUser.getUserById(user.getId(), collectionClients));
-					request.setAttribute("utilisateurActuel", user);
-					RequestDispatcher dispatcher = request.getRequestDispatcher(PAGE_COMPTE_USER);
+				String email = request.getParameter("email");
+				String password = request.getParameter("password");
+				if(email.equals(ServiceApp.getValue("2", 1)) && password.equals(ServiceApp.getValue("3", 1))) {
+					RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("4", 2));
 					dispatcher.forward(request, response);
 				}
 				else {
-					response.sendRedirect(ServiceApp.getValue("1", 2));
+					Credential user = Authentification.verificationUtilisateur(request.getParameter("email"),request.getParameter("password"), ServiceApp.getValue("2", 2));
+					if( user != null) {
+						Map<Integer, User> collectionClients = ServiceUser.fromToXML(ServiceApp.getValue("2", 2));
+						request.setAttribute("clientActuel", ServiceUser.getUserById(user.getId(), collectionClients));
+						request.setAttribute("utilisateurActuel", user);
+						RequestDispatcher dispatcher = request.getRequestDispatcher(PAGE_COMPTE_USER);
+						dispatcher.forward(request, response);
+					}
+					else {
+						response.sendRedirect(ServiceApp.getValue("1", 2));
+					}
 				}
 			}
 			

@@ -1,0 +1,258 @@
+html{
+    background: #f5f5f5;
+    font-size: 1.25em;
+    line-height: 1.4;
+    color: #333;
+    height: 100%;
+}
+
+.container-fluid {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+body{
+	font: 400 20px Lato, sans-serif !important;
+    line-height: 1.8;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+	/*background: #BBD2C5;  
+	background: -webkit-linear-gradient(to bottom, #536976, #BBD2C5); 
+	background: linear-gradient(to bottom, #536976, #BBD2C5); */
+}
+
+header {
+  background-color: #e52d27;
+  padding: 8px;
+  font-weight: 800;
+  color: white;
+}
+
+.container-fluid {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.bg-1{
+	background:url(http://www.patternwall.net/bundles/patternwall/images/patterns/52501e74082ce.png) left top;}
+}
+
+/*-------------------------------*/
+/*       Sidebar-nav         */
+/*-------------------------------*/
+/*.sidebar-nav {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 220px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: black;
+}
+
+.sidebar-nav li {
+    position: relative; 
+    line-height: 20px;
+    display: inline-block;
+    width: 100%;
+}
+
+.sidebar-nav li:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    height: 100%;
+    width: 3px;
+    background-color: #1c1c1c;
+    transition: width .2s ease-in;
+
+}
+.sidebar-nav li:first-child a {
+    color: #fff;
+    background-color: #1c1c1c;
+}
+.sidebar-nav li:nth-child(2):before {
+    background-color: #e52d27 !important;   
+}
+.sidebar-nav li:nth-child(3):before {
+    background-color: #e52d27;   
+}
+.sidebar-nav li:nth-child(4):before {
+    background-color: #e52d270;   
+}
+.sidebar-nav li:nth-child(5):before {
+    background-color: #e52d27;   
+}
+
+.sidebar-nav li:hover:before{
+    width: 100%;
+   	transition: width .2s ease-in;
+}
+
+.sidebar-nav li a {
+    color: #dddddd;
+    display: block;
+    padding: 10px 15px 10px 30px;
+    text-decoration: none;
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus{
+    color: #fff;
+    text-decoration: none;
+    background-color: transparent;
+}*/
+
+/*.sidebar-nav li a {
+    display: block;
+    color: #ddd;
+    text-decoration: none;
+    padding: 10px 15px 10px 30px;    
+}*/
+
+/*.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 20px;
+    line-height: 44px;
+}*/
+/*           FIN                    */
+.icon{
+	font-family:FontAwesome;
+	font-weight:normal;
+	font-style:normal;
+	text-decoration:inherit;
+	-webkit-font-smoothing:antialiased;
+}
+
+.iconUser:before{
+	content:"\f007";
+	margin-right:6px;
+}
+
+.iconAdd{
+  color:gray;
+  cursor:pointer;
+  float:right;
+  font-size:28px;
+  margin-top:6px;
+  text-shadow: 0 0 2px black;
+  transition:all .2s linear; 
+}
+
+.iconAdd:before{content: "\f067";}
+
+.iconAdd:before{color:lighten(gray,10%);}
+
+.iconRemove{
+  cursor:pointer;
+  color:gray;
+  opacity:.5;
+  transition:all .2s linear;
+}
+
+.iconRemove:hover{ opacity:1;}
+.iconRemove:before{content:"\f00d";}
+*{ box-sizing:border-box;outline:none;}
+
+.patternwall{
+   color:#e6e6e6;
+  text-decoration:none;
+  position: absolute;bottom: 20px;right: 20px;}
+  
+.clear{clear:both;}
+
+.permissionWrapper{
+  width:600px;
+  margin:50px auto;
+}
+
+.listFilterLabel{
+  color:gray;
+  text-shadow:0 0 1px black;
+}
+.listFilterInput{
+  margin:0 0 20px 10px;
+  height:28px;
+  line-height:28px;
+  color:gray;
+  padding: 0 10px;
+  background-color:darken(gray, 32%);
+  border:solid 1px darken(gray, 30%);
+  box-shadow:0 0 6px rgba(0,0,0,.2); 
+  border-radius:3px;
+}
+
+.listFilterInput:focus{outline:none;}
+.permissionsTable{
+  width:100%;
+  color:darken(gray, 15%);
+  border-radius:2px;
+  box-shadow:0 0 5px black;
+}
+.permissionsTable > tr{background-color:darken(white, 10%);}
+
+.permissionsTable > th, td{
+    height:42px;
+    font-size:14px;
+    font-weight:normal;
+    padding:0 5px;
+}
+
+.permissionsTablelast-child{
+      width:25px !important;
+}
+.permissionsTable:not():first-child){width:60px;}
+
+.permissionsTable:first-child{
+   text-align:left;
+   padding:4px 10px;
+}
+  
+  thead{
+    th{border-bottom:solid 3px darken(gray, 32%);}
+  }
+  tbody{
+    tr{
+      @include transition(all .4s linear);
+      td:first-child{font-style:italic;}
+      &:hover{background-color:darken(white, 14%);}
+      &.focused{background-color:darken(white, 18%);}
+      &.removeState{
+        @include opacity(0);
+        @include translate(200px, 0);
+      }
+      &.addState{
+        @include opacity(0);
+        @include translate(-200px, 0);
+      }
+    }
+    .userName{display:inline-block;width:90%;}
+  }
+}
+.permissionTag{
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  cursor:pointer;
+  text-align:center;
+  font-size:12px;
+  @include border-radius(3px);
+  @each $perm in view, edit, delete, owner, admin{
+    &[data-perm=#{$perm}]{
+      &.multi{background-color:#c1c1c1;}
+
+      &.active{
+        color:white;
+
+        @if($perm == "view"){background-color: #8DCA35;}
+        @if(($perm == "edit") or ($perm == "delete")){background-color: #FFAB00;}
+        @if(($perm == "owner") or ($perm == "admin")){background-color: #FF702A;}
+      }
+    }
+  }
+}

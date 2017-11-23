@@ -51,9 +51,5 @@ public class ServiceApp {
 		return props;
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(ServiceApp.getValue("3", 2));
-		System.out.println(!(ServiceUser.fromToXML(ServiceApp.getValue("3",2))!= null));
-	}
 
 }
