@@ -15,6 +15,7 @@ $(document).ready(function(){
 	var errorPrenomInscript = false;
 	var errorPasswordInscript = false;
 	var errorPasswordConfirmInscript = false;
+	var errorAnneeNaissance = false;
 	
 	$("#email").focusout(function() {
 		validateEmailLogin();
@@ -47,6 +48,24 @@ $(document).ready(function(){
 	$("email-inscription").focusout(function() {
 		validateEmail();
 	});
+	
+	$("error-date-incript").focusout(function(){
+		validateBirthDate();
+	});
+	
+	function validateBirthDate(){
+		var str = $("#date").val();
+		var age = Math.abs((new Date(Date.now() - (new Date(str)).getTime())).getUTCFullYear() - 1970);
+		errorAnneeNaissance = ( age > 120 || age < 13)? true:false;
+		if(errorAnneeNaissance){
+			$("#error-date-incript").html("<h5 class=\"errormsg\">Vous devez être agé entre 13 et 120 ans.</h5>");
+			$("#error-date-incript").show();
+			$("#date").css({"border-color":"#dd4b39"});
+		}else{
+			$("#date").css({"border-color":""});
+			$("#error-date-incript").hide();
+		}
+	}
 	
 	function validateEmailLogin() {
 		var email_length = $("#email").val().length;
@@ -131,13 +150,15 @@ $(document).ready(function(){
 		errorEmailInscript = false;
 		errorPrenomInscript = false;
 		errorPasswordInscript = false;
+		errorAnneeNaissance = false;
 		
 		validateNom();
 		validatePrenom();
 		validateEmail();
 		validatePassword();
+		validateBirthDate();
 		
-		if(!errorNomInscript && !errorEmailInscript && !errorPrenomInscript && !errorPasswordInscript)
+		if(!errorNomInscript && !errorEmailInscript && !errorPrenomInscript && !errorPasswordInscript && !errorAnneeNaissance)
 			return true;
 		else
 			return false;
