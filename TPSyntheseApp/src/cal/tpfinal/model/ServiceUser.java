@@ -6,6 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -20,9 +23,11 @@ import cal.tpfinal.bean.User;
  * des éléments d'une Map dans un fichier XML et de reconvertir ce fichier en collection Map. 
  */
 public class ServiceUser {
+	
+	private static Logger logger = LogManager.getLogger(ServiceUser.class.getName());
 
 	/**
-	 * Cette méthode permet d'ajouter un objet Client dans une collection de type Map.
+	 * Cette méthode permet d'ajouter un objet User dans une collection de type Map.
 	 * @param user object user à ajouter dans la collection.
 	 * @param tableUsers table de type Map.
 	 * @return boolean true si le client est bien ajouté à la collection.
@@ -35,7 +40,7 @@ public class ServiceUser {
 	}
 
 	/**
-	 * Cette méthode permet de supprimer un objet Client dans une collection de type Map.
+	 * Cette méthode permet de supprimer un objet User dans une collection de type Map.
 	 * @param user object client à supprimer dans la collection.
 	 * @param tableUsers collection de type Map.
 	 * @return boolean true si le client est bien supprimé de la collection.
@@ -48,7 +53,7 @@ public class ServiceUser {
 	}
 
 	/**
-	 * Cette méthode permet de modifier un objet Client dans une collection de type Map.
+	 * Cette méthode permet de modifier un objet User dans une collection de type Map.
 	 * @param user object client à modifier dans la collection.
 	 * @param tableUsers collection de type Map.
 	 * @return Client objet client modifié.
@@ -62,7 +67,7 @@ public class ServiceUser {
 
 	
 	/**
-	 * Cette méthode permet de supprimer un objet Client dans une collection de type Map.
+	 * Cette méthode permet de supprimer un objet User dans une collection de type Map.
 	 * @param idx position  dans la collection de l'objet recherché.
 	 * @param tableUsers collection de type Map.
 	 * @return User utilisateur qui est recherché.
@@ -75,14 +80,18 @@ public class ServiceUser {
 		getUserById(id, tableUsers).setBlocked(true);
 	}
 	
-	public static boolean saveClient(String fileName, User client) throws Exception {
-		XStream stream = new XStream(new DomDriver());
-		stream.alias("Utilisateur", User.class);
-		stream.alias("Credential", Credential.class);
-		Map<Integer, User> tmp = fromToXML(fileName);
-		tmp.put(client.getCredential().getId(),client);
-		stream.toXML(tmp, new FileOutputStream(fileName));
-		
+	public static boolean saveClient(String fileName, User client) {
+		try {
+			XStream stream = new XStream(new DomDriver());
+			stream.alias("Utilisateur", User.class);
+			stream.alias("Credential", Credential.class);
+			Map<Integer, User> tmp = fromToXML(fileName);
+			tmp.put(client.getCredential().getId(),client);
+			stream.toXML(tmp, new FileOutputStream(fileName));
+		}catch (Exception e) {
+			logger.error(ServiceUser.class.getName() +" Probleme dans la fonction saveClient()");
+			logger.debug(e.getMessage() +" "+e.getLocalizedMessage());
+		}
 		return (getUserById(client.getCredential().getId(), fromToXML(fileName))).getCredential().getId() == client.getCredential().getId();
 	}
 	
@@ -101,7 +110,8 @@ public class ServiceUser {
 			return new File(fileName).exists();
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			logger.error(ServiceUser.class.getName() +" Probleme dans la fonction saveToXML()");
+			logger.debug(e.getMessage() +" "+e.getLocalizedMessage());
 		}
 		
 		return false;
@@ -121,7 +131,8 @@ public class ServiceUser {
 			return (Map<Integer, User>)stream.fromXML(new FileInputStream(fileName));
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			logger.error(ServiceUser.class.getName() +" Probleme dans la fonction fromToXML()");
+			logger.debug(e.getMessage() +" "+e.getLocalizedMessage());
 		}
 		
 		return null;

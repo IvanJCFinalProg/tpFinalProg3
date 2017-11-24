@@ -24,10 +24,8 @@ header {
   color: white;
 }
 
-.bg-1 {
-  	background: #232526;  
-	background: -webkit-linear-gradient(to right, #414345, #232526);  
-	background: linear-gradient(to right, #414345, #232526); 
+.bg-3 {
+  	color:balck;
 }
 
 .container-fluid {
@@ -39,84 +37,7 @@ header {
 /*-------------------------------*/
 /*       Sidebar-nav         */
 /*-------------------------------*/
-/*.sidebar-nav {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 220px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    background-color: black;
-}
 
-.sidebar-nav li {
-    position: relative; 
-    line-height: 20px;
-    display: inline-block;
-    width: 100%;
-}
 
-.sidebar-nav li:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    height: 100%;
-    width: 3px;
-    background-color: #1c1c1c;
-    transition: width .2s ease-in;
-
-}
-.sidebar-nav li:first-child a {
-    color: #fff;
-    background-color: #1c1c1c;
-}
-.sidebar-nav li:nth-child(2):before {
-    background-color: #e52d27 !important;   
-}
-.sidebar-nav li:nth-child(3):before {
-    background-color: #e52d27;   
-}
-.sidebar-nav li:nth-child(4):before {
-    background-color: #e52d270;   
-}
-.sidebar-nav li:nth-child(5):before {
-    background-color: #e52d27;   
-}
-
-.sidebar-nav li:hover:before{
-    width: 100%;
-   	transition: width .2s ease-in;
-}
-
-.sidebar-nav li a {
-    color: #dddddd;
-    display: block;
-    padding: 10px 15px 10px 30px;
-    text-decoration: none;
-}
-
-.sidebar-nav li a:hover,
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus{
-    color: #fff;
-    text-decoration: none;
-    background-color: transparent;
-}*/
-
-/*.sidebar-nav li a {
-    display: block;
-    color: #ddd;
-    text-decoration: none;
-    padding: 10px 15px 10px 30px;    
-}*/
-
-/*.sidebar-nav > .sidebar-brand {
-    height: 65px;
-    font-size: 20px;
-    line-height: 44px;
-}*/
 /*           FIN                    */
 

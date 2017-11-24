@@ -34,7 +34,6 @@ import cal.tpfinal.util.IService;
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LogManager.getLogger(LoginController.class);
-	private static final String PAGE_COMPTE_USER = "AchatActions.jsp";
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -87,10 +86,10 @@ public class LoginController extends HttpServlet {
 					User user = new User();
 					logger.info(LoginController.class.getName()+" | Id User Creation "+user.getCredential().getId());
 					user.setNom((nom.trim()).substring(0, 1).toUpperCase()+(nom.trim()).substring(1).toLowerCase());
-					user.setPrenom(prenom);
+					user.setPrenom((prenom.trim()).substring(0, 1).toUpperCase()+(prenom.trim()).substring(1).toLowerCase());
 					user.setPhoneNumber("");
 					user.setSexe(sexe);
-					user.setDateInscription(new DateTime());
+					user.setDateInscription(DateTime.now());
 					user.setBirthDate(DateTime.parse(dateBirth));
 					user.getCredential().setEmail(email);
 					user.getCredential().setPassword(ServicePassword.encryptPassword(passwordConfirm));
@@ -120,16 +119,15 @@ public class LoginController extends HttpServlet {
 				String password = request.getParameter("password");
 				
 				if(email.equals(ServiceApp.getValue("2", 1)) && password.equals(ServiceApp.getValue("3", 1))) {
+					request.setAttribute("mapUsers", ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 					RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("4", 2));
 					dispatcher.forward(request, response);
 				}
 				else {
 					Credential user = Authentification.verificationUtilisateur(request.getParameter("email"),request.getParameter("password"), ServiceApp.getValue("2", 2));
 					if( user != null) {
-						Map<Integer, User> collectionClients = ServiceUser.fromToXML(ServiceApp.getValue("2", 2));
-						request.setAttribute("clientActuel", ServiceUser.getUserById(user.getId(), collectionClients));
-						request.setAttribute("utilisateurActuel", user);
-						RequestDispatcher dispatcher = request.getRequestDispatcher(PAGE_COMPTE_USER);
+						request.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+						RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
 						dispatcher.forward(request, response);
 					}
 					else {

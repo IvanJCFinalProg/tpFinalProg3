@@ -36,7 +36,6 @@ public class ServiceApp {
 		try {
 			switch (option) {
 			case 1:
-				System.out.println("Entre props File Data");
 				props.load(new FileInputStream(IService.FILE1));
 				break;
 
