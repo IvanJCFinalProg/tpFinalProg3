@@ -9,6 +9,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,8 @@ import cal.tpfinal.util.IService;
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LogManager.getLogger(LoginController.class);
+	private static final String PAGE_COMPTE_USER = "AchatActions.jsp";
+	private static final int DUREE_VIE_COOKIE = 60*60*24*7;
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -46,7 +49,7 @@ public class LoginController extends HttpServlet {
 				User.setCompteur(Integer.valueOf(ServiceApp.getValue("1", 1))+1);
 			}	
 		} catch (Exception e) {
-			logger.error("Problême - Function init(LoginControler) - Initialisation des données");
+			logger.error("Problï¿½me - Function init(LoginControler) - Initialisation des donnï¿½es");
 			logger.debug(e.getMessage() +" "+e.getLocalizedMessage());
 		}finally {
 			logger.info("Fin de l'initialisation");
@@ -93,7 +96,7 @@ public class LoginController extends HttpServlet {
 					user.setBirthDate(DateTime.parse(dateBirth));
 					user.getCredential().setEmail(email);
 					user.getCredential().setPassword(ServicePassword.encryptPassword(passwordConfirm));
-					// set le dernier id du user crée dans le file properties
+					// set le dernier id du user crï¿½e dans le file properties
 					ServiceApp.setValue("1", String.valueOf(user.getCredential().getId()), 1);
 					
 					Map<Integer, User> tableUsers = ServiceUser.fromToXML(ServiceApp.getValue("2", 2));
@@ -129,6 +132,19 @@ public class LoginController extends HttpServlet {
 						request.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 						RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
 						dispatcher.forward(request, response);
+						Map<Integer, User> collectionClients = ServiceUser.fromToXML(ServiceApp.getValue("2", 2));
+						request.setAttribute("clientActuel", ServiceUser.getUserById(user.getId(), collectionClients));
+						request.setAttribute("utilisateurActuel", user);
+						if(request.getParameter("checkbox") != null) {
+							 Cookie cookie = new Cookie( "email", request.getParameter("email") );
+							    cookie.setMaxAge( DUREE_VIE_COOKIE );
+							    response.addCookie( cookie );
+						}else {
+							Cookie cookie = new Cookie(request.getParameter("email"), "");
+							cookie.setMaxAge(0);
+							response.addCookie(cookie);
+						}
+						request.getRequestDispatcher(PAGE_COMPTE_USER).forward(request, response);
 					}
 					else {
 						response.sendRedirect(ServiceApp.getValue("1", 2));

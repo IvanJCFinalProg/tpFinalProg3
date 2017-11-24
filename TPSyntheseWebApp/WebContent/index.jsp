@@ -26,14 +26,21 @@
 			            <li class="active tabs"><a data-toggle="tab" href="#connexion">Connexion</a></li>
 			            <li class="tabs"><a data-toggle="tab" href="#inscription">S'inscrire</a></li>
 			        </ul>
-			        
+			        <% String email ="";
+			        	Cookie[] cookies = request.getCookies();
+		               for ( Cookie cookie : cookies ){
+			              if ( cookie != null && "email".equals( cookie.getName() ) ){
+			               	email = cookie.getValue();
+			               	} 
+			            } 
+			        %>
 					<div class="contenu tab-content">
 		            	<div id="connexion" class="tab-pane fade in active">
 		                	<form id="leFormulaire" name="formLogin" action="LoginController?action=loginMembre" method="post" >
 		                		<div class="col-md-1"></div>
 		                	 	<div class="col-md-8">
 		                	 		<h2 class="text-left titre-form">Connexion</h2>
-		                	 		<input type="text" name="email" id="email" class="form-control email" required="required" placeholder="Email" autocomplete="on">
+		                	 		<input type="text" name="email" id="email" class="form-control email" required="required" placeholder="Email" autocomplete="on" value='<%=email%>'>
 				                    <i class="fa fa-at"></i>
 				                    <div id="error-email"></div>
 				                    <input type="password" name="password" id="password" class="form-control password" required="required" placeholder="Mot de passe">
@@ -41,7 +48,7 @@
 		            				<div id="error-password"></div>
 								  	<hr>
 				                    <input type="checkbox" id="checkbox"/>
-         							<label for="checkbox" ><span class="ui"></span>Se rappeler</label>
+         							<label for="checkbox"><span class="ui"></span>Se rappeler</label>
 				                    <div class="submit-wrap">
 			                       		<input type="submit" value="Se connecter" class="submit">
 			                    	</div>
