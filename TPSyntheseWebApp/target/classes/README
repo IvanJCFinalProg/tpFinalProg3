@@ -1,8 +1,12 @@
 ---- Informations pour le bon fonctionnement de l'application! ----
 
-1. Créer un dossier au nom de << appBasesDonnees >> sous le répertoire votre lecteur C:
-2. À l'intérieur du dossier << appBasesDonnees >>, un dossier au nom de de << appRessources >>
+Vous avez reçu un répertoire au nom de << appBasesDonnees >> avec l'application.
 
---- Création de fichiers Properties sous le répertoire << appRessources >>  ---
-1. Créer un fichier properties sous le nom << appRessourcesData.properties >> 
-1. Créer un fichier properties sous le nom << appRessourcesFiles.properties >> 
+Veuiller s'il vous plaît suivre les informations suivantes :
+1. Placer le dossier << appBasesDonnees >>  sous le répertoire votre lecteur C:
+2. À l'intérieur du dossier << appBasesDonnees >>, un dossier au nom de de << appRessources >> a été crée
+
+--- contenu du répertoire << appRessources >>  ---
+1. Ce répertoire contient les noms de fichiers et données nécessaires au bon fonctionnement de l'application (NE PAS MODIFIER)
+
+Si vous éprouvez des difficultés techniques, s'il vous plaît, veuillez-nous contacter par Mio.(Disponibilité infini) 
