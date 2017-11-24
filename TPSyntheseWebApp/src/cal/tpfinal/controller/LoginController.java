@@ -35,7 +35,6 @@ import cal.tpfinal.util.IService;
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LogManager.getLogger(LoginController.class);
-	private static final String PAGE_COMPTE_USER = "AchatActions.jsp";
 	private static final int DUREE_VIE_COOKIE = 60*60*24*7;
 
 	/**
@@ -130,11 +129,6 @@ public class LoginController extends HttpServlet {
 					Credential user = Authentification.verificationUtilisateur(request.getParameter("email"),request.getParameter("password"), ServiceApp.getValue("2", 2));
 					if( user != null) {
 						request.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
-						RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
-						dispatcher.forward(request, response);
-						Map<Integer, User> collectionClients = ServiceUser.fromToXML(ServiceApp.getValue("2", 2));
-						request.setAttribute("clientActuel", ServiceUser.getUserById(user.getId(), collectionClients));
-						request.setAttribute("utilisateurActuel", user);
 						if(request.getParameter("checkbox") != null) {
 							 Cookie cookie = new Cookie( "email", request.getParameter("email") );
 							    cookie.setMaxAge( DUREE_VIE_COOKIE );
@@ -144,7 +138,8 @@ public class LoginController extends HttpServlet {
 							cookie.setMaxAge(0);
 							response.addCookie(cookie);
 						}
-						request.getRequestDispatcher(PAGE_COMPTE_USER).forward(request, response);
+						RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
+						dispatcher.forward(request, response);
 					}
 					else {
 						response.sendRedirect(ServiceApp.getValue("1", 2));

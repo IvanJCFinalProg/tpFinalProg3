@@ -1,0 +1,185 @@
+<map>
+  <entry>
+    <int>1</int>
+    <Utilisateur>
+      <nom>Jojo</nom>
+      <prenom>Julien</prenom>
+      <age>0</age>
+      <phoneNumber></phoneNumber>
+      <sexe>Homme</sexe>
+      <birthDate>
+        <iMillis>1127188800000</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" resolves-to="org.joda.time.chrono.ISOChronology$Stub" serialization="custom">
+          <org.joda.time.chrono.ISOChronology_-Stub>
+            <org.joda.time.tz.CachedDateTimeZone resolves-to="org.joda.time.DateTimeZone$Stub" serialization="custom">
+              <org.joda.time.DateTimeZone_-Stub>
+                <string>America/New_York</string>
+              </org.joda.time.DateTimeZone_-Stub>
+            </org.joda.time.tz.CachedDateTimeZone>
+          </org.joda.time.chrono.ISOChronology_-Stub>
+        </iChronology>
+      </birthDate>
+      <dateInscription>
+        <iMillis>1511200390203</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../birthDate/iChronology"/>
+      </dateInscription>
+      <connected>false</connected>
+      <blocked>false</blocked>
+      <credential>
+        <idUser>1</idUser>
+        <email>julien@hotmail.ca</email>
+        <password>MTIzNDU2Nzg=</password>
+      </credential>
+    </Utilisateur>
+  </entry>
+  <entry>
+    <int>2</int>
+    <Utilisateur>
+      <nom>Desloriers</nom>
+      <prenom>Annie</prenom>
+      <age>0</age>
+      <phoneNumber></phoneNumber>
+      <sexe>Homme</sexe>
+      <birthDate>
+        <iMillis>1242100800000</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </birthDate>
+      <dateInscription>
+        <iMillis>1511199841855</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </dateInscription>
+      <connected>false</connected>
+      <blocked>false</blocked>
+      <credential>
+        <idUser>2</idUser>
+        <email>coco@gmail.ca</email>
+        <password>MTIzNDU2Nzg=</password>
+      </credential>
+    </Utilisateur>
+  </entry>
+  <entry>
+    <int>3</int>
+    <Utilisateur>
+      <nom>Deloriers</nom>
+      <prenom>Darell</prenom>
+      <age>0</age>
+      <phoneNumber></phoneNumber>
+      <sexe>Homme</sexe>
+      <birthDate>
+        <iMillis>32505339600000</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </birthDate>
+      <dateInscription>
+        <iMillis>1511199434153</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </dateInscription>
+      <connected>false</connected>
+      <blocked>false</blocked>
+      <credential>
+        <idUser>3</idUser>
+        <email>Ddg@gmail.ca</email>
+        <password>ODc2NTQzMjE=</password>
+      </credential>
+    </Utilisateur>
+  </entry>
+  <entry>
+    <int>4</int>
+    <Utilisateur>
+      <nom>Java</nom>
+      <prenom>Annie</prenom>
+      <age>0</age>
+      <phoneNumber></phoneNumber>
+      <sexe>Homme</sexe>
+      <birthDate>
+        <iMillis>323931600000</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </birthDate>
+      <dateInscription>
+        <iMillis>1511199505376</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </dateInscription>
+      <connected>false</connected>
+      <blocked>false</blocked>
+      <credential>
+        <idUser>4</idUser>
+        <email>test@test.com</email>
+        <password>MTIzNDU2Nzg=</password>
+      </credential>
+    </Utilisateur>
+  </entry>
+  <entry>
+    <int>5</int>
+    <Utilisateur>
+      <nom>Jojo</nom>
+      <prenom>Julien</prenom>
+      <age>0</age>
+      <phoneNumber></phoneNumber>
+      <sexe>Homme</sexe>
+      <birthDate>
+        <iMillis>1729929412800000</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </birthDate>
+      <dateInscription>
+        <iMillis>1511228684821</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </dateInscription>
+      <connected>false</connected>
+      <blocked>false</blocked>
+      <credential>
+        <idUser>5</idUser>
+        <email>julien@hotmail.ca</email>
+        <password>MTIzNDU2Nzg=</password>
+      </credential>
+    </Utilisateur>
+  </entry>
+  <entry>
+    <int>6</int>
+    <Utilisateur>
+      <nom>Jojo</nom>
+      <prenom>Julien</prenom>
+      <age>0</age>
+      <phoneNumber></phoneNumber>
+      <sexe>Homme</sexe>
+      <birthDate>
+        <iMillis>7958404800000</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </birthDate>
+      <dateInscription>
+        <iMillis>1511228754680</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </dateInscription>
+      <connected>false</connected>
+      <blocked>false</blocked>
+      <credential>
+        <idUser>6</idUser>
+        <email>julien@hotmail.ca</email>
+        <password>MTIzNDU2Nzg=</password>
+      </credential>
+    </Utilisateur>
+  </entry>
+  <entry>
+    <int>7</int>
+    <Utilisateur>
+      <nom>12</nom>
+      <prenom>23</prenom>
+      <age>0</age>
+      <phoneNumber></phoneNumber>
+      <sexe>Homme</sexe>
+      <birthDate>
+        <iMillis>78078056400000</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </birthDate>
+      <dateInscription>
+        <iMillis>1511242953111</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </dateInscription>
+      <connected>false</connected>
+      <blocked>false</blocked>
+      <credential>
+        <idUser>7</idUser>
+        <email>julien@hotmail.ca</email>
+        <password>ZA==</password>
+      </credential>
+    </Utilisateur>
+  </entry>
+</map>

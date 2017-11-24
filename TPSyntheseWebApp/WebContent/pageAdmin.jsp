@@ -51,7 +51,13 @@
 								     <td><%=user.getNom()%>, <%=user.getPrenom()%></td>
 								     <td><%=user.getCredential().getEmail()%></td>
 								     <td><%=user.getPhoneNumber()%></td>
-								     <td><a>Bloquer</a></td>
+								     <td>
+								     	<span>supprimer</span>
+								     	<div class="icon">
+											<i class="fa fa-remove"></i>
+											<i class="fa fa-check"></i>
+										</div>
+								     </td>
 								     <td><a>Supprimer</a></td>
 								     <td><a>Voir profil</a></td>
 								</tr>
