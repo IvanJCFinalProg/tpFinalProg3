@@ -21,6 +21,7 @@ public class ServiceApp {
 	public static void setValue(String key, String value, int option){
 		try {
 			Properties propertiesFile = new Properties();
+			propertiesFile.load(new FileInputStream(IService.FILE1));
 			propertiesFile.setProperty(key, value);
 			propertiesFile.store(new FileOutputStream(IService.FILE1), "");
 			

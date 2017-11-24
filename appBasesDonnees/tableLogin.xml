@@ -1,0 +1,18 @@
+<collectionUtilisateurs>
+  <entry>
+    <int>1</int>
+    <utilisateur>
+      <idUser>1</idUser>
+      <email>julien@hotmail.ca</email>
+      <password>MTIzNDU2Nzg=</password>
+    </utilisateur>
+  </entry>
+  <entry>
+    <int>2</int>
+    <utilisateur>
+      <idUser>2</idUser>
+      <email>Nutella@gmail.ca</email>
+      <password>MTIzNDU2Nzg=</password>
+    </utilisateur>
+  </entry>
+</collectionUtilisateurs>

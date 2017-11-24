@@ -1,0 +1,62 @@
+<map>
+  <entry>
+    <int>1</int>
+    <Utilisateur>
+      <nom>Deloriers</nom>
+      <prenom>Julien</prenom>
+      <age>0</age>
+      <phoneNumber></phoneNumber>
+      <sexe>Homme</sexe>
+      <birthDate>
+        <iMillis>914130000000</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" resolves-to="org.joda.time.chrono.ISOChronology$Stub" serialization="custom">
+          <org.joda.time.chrono.ISOChronology_-Stub>
+            <org.joda.time.tz.CachedDateTimeZone resolves-to="org.joda.time.DateTimeZone$Stub" serialization="custom">
+              <org.joda.time.DateTimeZone_-Stub>
+                <string>America/New_York</string>
+              </org.joda.time.DateTimeZone_-Stub>
+            </org.joda.time.tz.CachedDateTimeZone>
+          </org.joda.time.chrono.ISOChronology_-Stub>
+        </iChronology>
+      </birthDate>
+      <dateInscription>
+        <iMillis>1511561074068</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../birthDate/iChronology"/>
+      </dateInscription>
+      <connected>false</connected>
+      <blocked>false</blocked>
+      <credential>
+        <idUser>1</idUser>
+        <email>julien@hotmail.ca</email>
+        <password>MTIzNDU2Nzg=</password>
+      </credential>
+      <feed/>
+    </Utilisateur>
+  </entry>
+  <entry>
+    <int>2</int>
+    <Utilisateur>
+      <nom>Choco</nom>
+      <prenom>Nutella</prenom>
+      <age>0</age>
+      <phoneNumber></phoneNumber>
+      <sexe>Homme</sexe>
+      <birthDate>
+        <iMillis>919486800000</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </birthDate>
+      <dateInscription>
+        <iMillis>1511561682824</iMillis>
+        <iChronology class="org.joda.time.chrono.ISOChronology" reference="../../../../entry/Utilisateur/birthDate/iChronology"/>
+      </dateInscription>
+      <connected>false</connected>
+      <blocked>false</blocked>
+      <credential>
+        <idUser>2</idUser>
+        <email>Nutella@gmail.ca</email>
+        <password>MTIzNDU2Nzg=</password>
+      </credential>
+      <feed/>
+    </Utilisateur>
+  </entry>
+</map>
