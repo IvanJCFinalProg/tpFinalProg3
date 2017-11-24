@@ -4,6 +4,7 @@ import java.util.Map;
 
 import cal.tpfinal.bean.Credential;
 import cal.tpfinal.model.ServiceConnection;
+import cal.tpfinal.model.ServicePassword;
 
 public class Authentification {
 	
@@ -11,7 +12,7 @@ public class Authentification {
 		if(email.equals("") || password.equals("")) 
 			return null;
 		Map<Integer, Credential> collectionUtilisateurs = ServiceConnection.loadCollectionMap(fileName);
-		return (getUtilisateur(email, password, fileName, collectionUtilisateurs));
+		return (getUtilisateur(email, ServicePassword.encryptPassword(password), fileName, collectionUtilisateurs));
 	}
 	
 	public static Credential getUtilisateur(String email, String password,String fileName, Map<Integer, Credential> collectionUtilisateurs) {
@@ -31,6 +32,7 @@ public class Authentification {
 		return false;
 	}
 	
+	/* En développement */
 	/*public static boolean isPasswordIsCorrect(, String fileName, Map<Integer, Credential> collectionUtilisateurs) {
 		for (Credential utilisateur : collectionUtilisateurs.values()) 
 			if(utilisateur.getPassword().equals(password))

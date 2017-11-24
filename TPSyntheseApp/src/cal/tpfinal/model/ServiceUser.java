@@ -80,33 +80,33 @@ public class ServiceUser {
 		getUserById(id, tableUsers).setBlocked(true);
 	}
 	
-	public static boolean saveClient(String fileName, User client) {
+	public static boolean saveClient(String fileName, User user) {
 		try {
 			XStream stream = new XStream(new DomDriver());
 			stream.alias("Utilisateur", User.class);
 			stream.alias("Credential", Credential.class);
 			Map<Integer, User> tmp = fromToXML(fileName);
-			tmp.put(client.getCredential().getId(),client);
+			tmp.put(user.getCredential().getId(),user);
 			stream.toXML(tmp, new FileOutputStream(fileName));
 		}catch (Exception e) {
 			logger.error(ServiceUser.class.getName() +" Probleme dans la fonction saveClient()");
 			logger.debug(e.getMessage() +" "+e.getLocalizedMessage());
 		}
-		return (getUserById(client.getCredential().getId(), fromToXML(fileName))).getCredential().getId() == client.getCredential().getId();
+		return (getUserById(user.getCredential().getId(), fromToXML(fileName))).getCredential().getId() == user.getCredential().getId();
 	}
 	
 	/**
 	 * Cette méthode permet de sauvegarder des objects contenues dans une Map dans un fichier XML.
-	 * @param collectionClient collection de type Map à sauvegarder.
+	 * @param tableUsers collection de type Map à sauvegarder.
 	 * @param fileName nom du fichier pour la sauvegarde.
 	 * @return boolean true si le fichier existe.
 	 */
-	public static boolean saveToXML(Map<Integer, User> collectionClient, String fileName) {
+	public static boolean saveToXML(Map<Integer, User> tableUsers, String fileName) {
 		try {
 			XStream stream = new XStream(new DomDriver());
 			stream.alias("Utilisateur", User.class);
 			stream.alias("Credential", Credential.class);
-			stream.toXML(collectionClient, new FileOutputStream(fileName));
+			stream.toXML(tableUsers, new FileOutputStream(fileName));
 			return new File(fileName).exists();
 			
 		} catch (Exception e) {

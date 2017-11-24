@@ -44,7 +44,6 @@ public class LoginController extends HttpServlet {
 		logger.info("Initialisation de l'application");
 		try {
 			if(!(ServiceUser.fromToXML(ServiceApp.getValue("3",2))!= null)) {
-				//new User().getCredential().setId(Integer.valueOf(ServiceApp.getValue("1", 1)));
 				User.setCompteur(Integer.valueOf(ServiceApp.getValue("1", 1))+1);
 			}	
 		} catch (Exception e) {
@@ -119,25 +118,27 @@ public class LoginController extends HttpServlet {
 				HttpSession session = request.getSession();
 				String email = request.getParameter("email");
 				String password = request.getParameter("password");
-				
-				if(email.equals(ServiceApp.getValue("2", 1)) && password.equals(ServiceApp.getValue("3", 1))) {
-					request.setAttribute("mapUsers", ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-					RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("4", 2));
-					dispatcher.forward(request, response);
+				if(email.substring(0,email.indexOf("@")).equals(ServiceApp.getValue("4", 1))) {
+					if(email.equals(ServiceApp.getValue("2", 1)) && password.equals(ServiceApp.getValue("3", 1))) {
+						request.setAttribute("mapUsers", ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+						RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("4", 2));
+						dispatcher.forward(request, response);
+					}
 				}
 				else {
-					Credential user = Authentification.verificationUtilisateur(request.getParameter("email"),request.getParameter("password"), ServiceApp.getValue("2", 2));
+					Credential user = Authentification.verificationUtilisateur(request.getParameter("email"),request.getParameter("password"), ServiceApp.getValue("3", 2));
 					if( user != null) {
 						request.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
-						if(request.getParameter("checkbox") != null) {
-							 Cookie cookie = new Cookie( "email", request.getParameter("email") );
+						/* En développement */
+						/*if(request.getParameter("checkbox") != null) {
+							 Cookie cookie = new Cookie( "email", email );
 							    cookie.setMaxAge( DUREE_VIE_COOKIE );
 							    response.addCookie( cookie );
 						}else {
 							Cookie cookie = new Cookie(request.getParameter("email"), "");
 							cookie.setMaxAge(0);
 							response.addCookie(cookie);
-						}
+						}*/
 						RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
 						dispatcher.forward(request, response);
 					}

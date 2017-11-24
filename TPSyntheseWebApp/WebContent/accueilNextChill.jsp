@@ -1,3 +1,4 @@
+<%@page import="cal.tpfinal.bean.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -6,6 +7,8 @@
 		<title>Bienvenue NextChill</title>
 	</head>
 	<body>
+		<%User user = (User)request.getAttribute("user"); %>
+		<h1>Boujour <%=user.getNom() %> <%=user.getPrenom()%></h1>
 	
 	</body>
 </html>

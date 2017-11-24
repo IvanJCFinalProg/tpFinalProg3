@@ -25,7 +25,7 @@ header {
 }
 
 .bg-3 {
-  	color:balck;
+  	color:black;
 }
 
 .container-fluid {
@@ -35,7 +35,7 @@ header {
 
 .button {
 	display: block;
-	background-color: $color;
+	background-color: #c0392b;
 	width: 300px;
 	height: 100px;
 	line-height: 100px;
@@ -50,7 +50,7 @@ header {
 	overflow: hidden;
 	border-radius: 5px;
 	box-shadow: 0 0 20px 0 rgba(0,0,0,.3);
-	transition: $transition;
+	transition: all 3s;
 }
 
 

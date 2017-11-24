@@ -52,13 +52,11 @@
 								     <td><%=user.getCredential().getEmail()%></td>
 								     <td><%=user.getPhoneNumber()%></td>
 								     <td>
-								     	<span>supprimer</span>
-								     	<div class="icon">
-											<i class="fa fa-remove"></i>
-											<i class="fa fa-check"></i>
-										</div>
+								     	<span>Bloquer</span>
 								     </td>
-								     <td><a>Supprimer</a></td>
+									 <td>
+								     	<span>Supprimer</span>
+								     </td>
 								     <td><a>Voir profil</a></td>
 								</tr>
 				  				
