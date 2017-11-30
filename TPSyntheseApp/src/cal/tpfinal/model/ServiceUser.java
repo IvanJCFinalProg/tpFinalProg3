@@ -12,7 +12,9 @@ import org.apache.logging.log4j.Logger;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
+import cal.tpfinal.bean.Commentaire;
 import cal.tpfinal.bean.Credential;
+import cal.tpfinal.bean.Publication;
 import cal.tpfinal.bean.User;
 
 /**
@@ -85,6 +87,8 @@ public class ServiceUser {
 			XStream stream = new XStream(new DomDriver());
 			stream.alias("Utilisateur", User.class);
 			stream.alias("Credential", Credential.class);
+			stream.alias("publication", Publication.class);
+			stream.alias("commentaire", Commentaire.class);
 			Map<Integer, User> tmp = fromToXML(fileName);
 			tmp.put(user.getCredential().getId(),user);
 			stream.toXML(tmp, new FileOutputStream(fileName));
@@ -106,6 +110,8 @@ public class ServiceUser {
 			XStream stream = new XStream(new DomDriver());
 			stream.alias("Utilisateur", User.class);
 			stream.alias("Credential", Credential.class);
+			stream.alias("publication", Publication.class);
+			stream.alias("commentaire", Commentaire.class);
 			stream.toXML(tableUsers, new FileOutputStream(fileName));
 			return new File(fileName).exists();
 			
@@ -128,6 +134,8 @@ public class ServiceUser {
 			XStream stream = new XStream(new DomDriver());
 			stream.alias("Utilisateur", User.class);
 			stream.alias("Credential", Credential.class);
+			stream.alias("publication", Publication.class);
+			stream.alias("commentaire", Commentaire.class);
 			return (Map<Integer, User>)stream.fromXML(new FileInputStream(fileName));
 			
 		} catch (Exception e) {

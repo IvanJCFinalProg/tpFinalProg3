@@ -177,6 +177,15 @@ public class User {
 	}
 
 
+	public List<Publication> getFeed() {
+		return feed;
+	}
+
+	public void setFeed(List<Publication> feed) {
+		this.feed = feed;
+	}
+	
+
 	public String toString() {
 		return "User [nom=" + nom + ", prenom=" + prenom + ", age=" + age + ", phoneNumber=" + phoneNumber + ", sexe="
 				+ sexe + ", birthDate=" + birthDate + ", dateInscription=" + dateInscription + ", connected="

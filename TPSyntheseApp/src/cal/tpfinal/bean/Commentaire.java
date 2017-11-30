@@ -16,6 +16,7 @@ public class Commentaire {
 	public Commentaire(String content, int id_User, int id_publication) {
 		this.id = compteur;
 		compteur++;
+		this.content = content;
 		this.date_publication = DF.format(Calendar.getInstance().getTime());
 		this.id_User = id_User;
 		this.id_Publication = id_publication;

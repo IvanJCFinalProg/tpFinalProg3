@@ -23,6 +23,7 @@ public class Publication {
 	public Publication(String content, int id_User) {
 		this.id = compteur;
 		compteur++;
+		this.content = content;
 		this.listeCommentaires = new ArrayList<Commentaire>();
 		this.date_publication = DF.format(Calendar.getInstance().getTime());
 		this.id_User = id_User;

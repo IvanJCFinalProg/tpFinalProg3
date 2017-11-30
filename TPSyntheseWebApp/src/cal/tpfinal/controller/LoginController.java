@@ -3,6 +3,7 @@ package cal.tpfinal.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -19,11 +20,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
+import cal.tpfinal.bean.Commentaire;
 import cal.tpfinal.bean.Credential;
+import cal.tpfinal.bean.Publication;
 import cal.tpfinal.bean.User;
 import cal.tpfinal.model.ServiceApp;
+import cal.tpfinal.model.ServiceCommentaire;
 import cal.tpfinal.model.ServiceConnection;
 import cal.tpfinal.model.ServicePassword;
+import cal.tpfinal.model.ServicePublication;
 import cal.tpfinal.model.ServiceUser;
 import cal.tpfinal.util.Authentification;
 import cal.tpfinal.util.IService;
@@ -124,8 +129,7 @@ public class LoginController extends HttpServlet {
 						RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("4", 2));
 						dispatcher.forward(request, response);
 					}
-				}
-				else {
+				}else {
 					Credential user = Authentification.verificationUtilisateur(request.getParameter("email"),request.getParameter("password"), ServiceApp.getValue("3", 2));
 					if( user != null) {
 						request.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
@@ -146,6 +150,40 @@ public class LoginController extends HttpServlet {
 						response.sendRedirect(ServiceApp.getValue("1", 2));
 					}
 				}
+			}else if(action.equalsIgnoreCase("publier")) {
+				int id = Integer.valueOf(request.getParameter("idUser"));
+				User user = ServiceUser.getUserById(id, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+				String texte_publier = request.getParameter("publication");
+				List<Publication> liste = user.getFeed();
+				logger.info(texte_publier);
+				ServicePublication.addPublication(liste, new Publication(texte_publier, id));
+				user.setFeed(liste);
+				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
+				
+				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
+				dispatcher.forward(request, response);
+				
+			}else if(action.equalsIgnoreCase("commenter")) {
+				int idPublication = Integer.valueOf(request.getParameter("idPublication"));
+				int idUser = Integer.valueOf(request.getParameter("idUser"));
+				int idUserPublication = Integer.valueOf(request.getParameter("idUserPublication"));
+				String content = request.getParameter("commentaire");
+				User user = ServiceUser.getUserById(idUserPublication, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+				List<Publication> feed = user.getFeed();
+				Publication p = ServicePublication.getPublicationById(feed, idPublication);
+				ServiceCommentaire.addCommentaire(p.getListeCommentaires(), new Commentaire(content, idUser, idPublication));
+				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
+				
+				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
+				dispatcher.forward(request, response);
+			}else if(action.equalsIgnoreCase("accueil")) {
+				User user = (User)request.getAttribute("user");
+				logger.info(user);
+				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
+				dispatcher.forward(request, response);
+				
 			}
 			
 			
