@@ -146,6 +146,13 @@ public class ServiceUser {
 		return null;
 	}
 
-	
+	public static void main(String[] args) {
+		System.out.println(new File("C:\\xml/listClassifications.xml").exists());
+		Map<Integer, User> liste  = ServiceUser.fromToXML("C:\\appBasesDonnees/tableUsers.xml");
+		System.out.println(liste!=null);
+		for (User user : liste.values()) {
+			System.out.println(user.toString());
+		}
+	}
 
 }
