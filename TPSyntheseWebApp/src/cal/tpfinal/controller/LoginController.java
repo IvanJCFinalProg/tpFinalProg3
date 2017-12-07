@@ -2,6 +2,7 @@ package cal.tpfinal.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,13 +155,22 @@ public class LoginController extends HttpServlet {
 				int id = Integer.valueOf(request.getParameter("idUser"));
 				User user = ServiceUser.getUserById(id, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				String texte_publier = request.getParameter("publication");
-				List<Publication> liste = user.getFeed();
-				logger.info(texte_publier);
-				ServicePublication.addPublication(liste, new Publication(texte_publier, id));
-				user.setFeed(liste);
-				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
-				
+				if(request.getParameter("publi")!=null) {
+					List<Publication> liste = user.getFeed();
+					
+					Enumeration<String> enumNames = request.getParameterNames();
+					while(enumNames.hasMoreElements()) {
+						String paramName = enumNames.nextElement();
+						String paramValues = request.getParameter(paramName);
+							logger.info(paramName+ " " + paramValues);
+						}
+					//logger.info(texte_publier);
+					ServicePublication.addPublication(liste, new Publication(texte_publier, id));
+					user.setFeed(liste);
+					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
+				}
 				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				//response.sendRedirect(ServiceApp.getValue("5", 2));
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
 				dispatcher.forward(request, response);
 				
@@ -174,21 +184,26 @@ public class LoginController extends HttpServlet {
 				Publication p = ServicePublication.getPublicationById(feed, idPublication);
 				ServiceCommentaire.addCommentaire(p.getListeCommentaires(), new Commentaire(content, idUser, idPublication));
 				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
-				
 				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
-				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
+				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
 			}else if(action.equalsIgnoreCase("accueil")) {
 				User user = (User)request.getAttribute("user");
 				logger.info(user);
+				request.setAttribute("user", user);
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
 				dispatcher.forward(request, response);
 				
+			}else if(action.equalsIgnoreCase("supprimer")) {
+				int id = Integer.parseInt(request.getParameter("idPubli"));
+				int idUser=Integer.parseInt(request.getParameter("idUser"));
+				User user = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+				//user.getFeed();
 			}
 			
 			
 		}catch (Exception e) {
-			logger.error(LoginController.class.getName()+" Erreur dans le fonction processRequest()");
+			logger.error(LoginController.class.getName()+" Erreur dans la fonction processRequest()");
 			logger.debug(e.getMessage());
 		}
 	}

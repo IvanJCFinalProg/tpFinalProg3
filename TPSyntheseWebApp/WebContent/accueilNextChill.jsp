@@ -47,13 +47,13 @@
 		  </div>
 		</nav>
 		<%User user = (User)request.getAttribute("user"); 
-			request.setAttribute("user", user);		
+			request.setAttribute("user", user);
 		%>
 		<h1>Bonjour <%=user.getPrenom()%> <%=user.getNom() %></h1>
 		<form id="publiForm" name="formPublication" action="LoginController?action=publier" method="post">
-			<textarea name="publication" rows=4 cols=40></textarea>
+			<textarea name="publication" rows=4 cols=40 value=""></textarea>
 			<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
-			<button type="submit">Publier</button>
+			<button type="submit" name="publi" value="Publier">Publier</button>
 		</form>
 		<%
 		for(Publication publication : user.getFeed()){
@@ -63,6 +63,20 @@
 				<p>Publie le : <%=publication.getDate_publication()%></p>
 				<p>Id user ayant publie : <%= publication.getId_User()%> </p>
 				<p>Id de la publication : <%= publication.getId()%> </p>
+			</div>
+			<div>
+				<%
+					if(user.getCredential().getId() == publication.getId_User()){
+				%>
+				<form id="delPubliForm" name="delPublication[<%=publication.getId()%>]" action="LoginController?action=supprimer" method="post">
+					<button type="submit">Supprimer publication</button>
+					<input type="hidden" name="idPubli" value="<%=publication.getId()%>"></input>
+					<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
+				</form>
+				<%
+					}
+				%>
+			
 			</div>
 			<div>
 				<form id="publiForm" name="formPublication[<%=publication.getId()%>]" action="LoginController?action=commenter" method="post">
