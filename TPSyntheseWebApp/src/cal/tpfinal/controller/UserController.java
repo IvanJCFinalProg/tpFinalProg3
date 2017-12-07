@@ -5,11 +5,15 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import cal.tpfinal.bean.Commentaire;
 import cal.tpfinal.bean.Publication;
@@ -25,7 +29,22 @@ import cal.tpfinal.model.ServiceUser;
 @WebServlet("/UserController")
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = LogManager.getLogger(UserController.class);
 	
+	/*public void init(ServletConfig config) throws ServletException {
+		logger.info("Initialisation de l'application");
+		try {
+			if(!(ServiceUser.fromToXML(ServiceApp.getValue("3",2))!= null)) {
+				User.setCompteur(Integer.valueOf(ServiceApp.getValue("1", 1))+1);
+			}	
+		} catch (Exception e) {
+			logger.error("Probl�me - Function init(LoginControler) - Initialisation des donn�es");
+			logger.debug(e.getMessage() +" "+e.getLocalizedMessage());
+		}finally {
+			logger.info("Fin de l'initialisation");
+		}
+		
+	}*/
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
@@ -33,14 +52,20 @@ public class UserController extends HttpServlet {
 		
 		try {
 			if(action.equalsIgnoreCase("publier")) {
-				int id = Integer.valueOf(request.getParameter("idUser"));
-				User user = ServiceUser.getUserById(id, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+				int id = Integer.valueOf(request.getParameter("idUser"));	
+				int idFeed = Integer.valueOf(request.getParameter("idProfil"));
+				User user;
+				if(id == idFeed) {
+					user =ServiceUser.getUserById(id, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+				}else {
+					user =ServiceUser.getUserById(idFeed, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+				}
 				String texte_publier = request.getParameter("publication");
 				if(request.getParameter("publi")!=null && !texte_publier.isEmpty()) {
 					List<Publication> liste = user.getFeed();
 					
 					//logger.info(texte_publier);
-					ServicePublication.addPublication(liste, new Publication(texte_publier, id));
+					ServicePublication.addPublication(liste, new Publication(texte_publier, (id!=idFeed)? id:idFeed));
 					user.setFeed(liste);
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
@@ -92,6 +117,14 @@ public class UserController extends HttpServlet {
 				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
+			}else if(action.equalsIgnoreCase("afficherProfil")) {
+				logger.info(""+request.getParameter("idAfficher"));
+				/*
+				 * 
+				 * Faire page de profil
+				 * 
+				 * 
+				 */
 			}
 			
 			

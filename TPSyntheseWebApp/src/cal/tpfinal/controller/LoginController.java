@@ -2,9 +2,7 @@ package cal.tpfinal.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -21,15 +19,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
-import cal.tpfinal.bean.Commentaire;
 import cal.tpfinal.bean.Credential;
-import cal.tpfinal.bean.Publication;
 import cal.tpfinal.bean.User;
 import cal.tpfinal.model.ServiceApp;
-import cal.tpfinal.model.ServiceCommentaire;
 import cal.tpfinal.model.ServiceConnection;
 import cal.tpfinal.model.ServicePassword;
-import cal.tpfinal.model.ServicePublication;
 import cal.tpfinal.model.ServiceUser;
 import cal.tpfinal.util.Authentification;
 import cal.tpfinal.util.IService;
