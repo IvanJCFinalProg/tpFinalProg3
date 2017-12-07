@@ -2,7 +2,6 @@ package cal.tpfinal.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -19,7 +18,6 @@ import cal.tpfinal.model.ServiceApp;
 import cal.tpfinal.model.ServiceCommentaire;
 import cal.tpfinal.model.ServicePublication;
 import cal.tpfinal.model.ServiceUser;
-import cal.tpfinal.util.IService;
 
 /**
  * Servlet implementation class UserController
@@ -38,7 +36,7 @@ public class UserController extends HttpServlet {
 				int id = Integer.valueOf(request.getParameter("idUser"));
 				User user = ServiceUser.getUserById(id, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				String texte_publier = request.getParameter("publication");
-				if(request.getParameter("publi")!=null) {
+				if(request.getParameter("publi")!=null && !texte_publier.isEmpty()) {
 					List<Publication> liste = user.getFeed();
 					
 					//logger.info(texte_publier);
@@ -57,10 +55,15 @@ public class UserController extends HttpServlet {
 				int idUserPublication = Integer.valueOf(request.getParameter("idUserPublication"));
 				String content = request.getParameter("commentaire");
 				User user = ServiceUser.getUserById(idUserPublication, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-				List<Publication> feed = user.getFeed();
-				Publication p = ServicePublication.getPublicationById(feed, idPublication);
-				ServiceCommentaire.addCommentaire(p.getListeCommentaires(), new Commentaire(content, idUser, idPublication));
-				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
+				
+				if(request.getParameter("commentaire")!=null && !content.isEmpty()) {
+					List<Publication> feed = user.getFeed();
+					Publication p = ServicePublication.getPublicationById(feed, idPublication);
+					
+					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), new Commentaire(content, idUser, idPublication));
+					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
+				}
+				
 				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);

@@ -38,7 +38,7 @@
       	</nav> 
      
    	 	<h1></h1> 
-   		<form id="publiForm" name="formPublication" action="LoginController?action=publier" method="post"> 
+   		<form id="publiForm" name="formPublication" action="UserController?action=publier" method="post"> 
 			<textarea name="publication" rows=4 cols=40 value=""></textarea>
 			<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
 			<button type="submit" name="publi" value="Publier">Publier</button>
@@ -99,8 +99,6 @@
 			<%
 				}
 			%>
-			</div>
-			<div>
 			</div>
 			<br><br>
 		<%
