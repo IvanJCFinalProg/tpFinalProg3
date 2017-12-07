@@ -76,7 +76,7 @@
 							</div>
 							<div>
 								<%
-									if(user.getCredential().getId() == publication.getId_User() || user.getCredential().getId() == profil.getCredential().getId()){
+									if(user.getCredential().getId() == publication.getId_User() || user.getCredential().getId() == user.getCredential().getId()){
 								%>
 								<form id="delPubliForm" name="delPublication" action="UserController?action=supprimerPublication" method="post">
 									<button type="submit">Supprimer publication</button>
