@@ -18,7 +18,11 @@
 		<script src="js/libs/bootstrap/bootstrap.js"></script>
 	</head>
 	<body>
-		<%User user = (User)request.getAttribute("user"); request.setAttribute("user", user);%>
+		<%
+			User profil = ServiceUser.getUserById(10, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+			User user = ServiceUser.getUserById(9, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+			request.setAttribute("user", profil);
+			//User user = (User)request.getAttribute("user"); request.setAttribute("user", user);%>
 		<nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
               <div class="navbar-header">
@@ -49,25 +53,33 @@
 				</div>
 				<div class="col-md-10">
 					<section class="container-fluid">
-						<form id="publiForm" name="formPublication" action="LoginController?action=publier" method="post">
+						<form id="publiForm" name="formPublication" action="UserController?action=publier" method="post">
 							<textarea name="publication" rows=4 cols=40 value=""></textarea>
 							<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
+							<input type="hidden" name="idProfil" value="<%=profil.getCredential().getId()%>"/>
 							<button type="submit" name="publi" value="Publier">Publier</button>
 						</form>
 						<%
-						for(Publication publication : user.getFeed()){
+						for(Publication publication : profil.getFeed()){
 							%>
 							<div>
+								<%
+									User publicateur = ServiceUser.getUserById(publication.getId_User(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+								
+								%>
+								<p><%="#"+publication.getId()+"-"%>
+									<form id="affichForm" name="affichUser" action="UserController?action=afficherProfil" method="post">
+										<button type="submit"><%=publicateur.getPrenom()+" "+publicateur.getNom()%></button>
+										<input type="hidden" name="idAfficher" value="<%=publicateur.getCredential().getId()%>">
+									</form>
+									<%="("+publication.getId_User()+")"+"-"+"\t"+publication.getDate_publication()%></p>
 								<p><%=publication.getContent()%></p>
-								<p>Publie le : <%=publication.getDate_publication()%></p>
-								<p>Id user ayant publie : <%= publication.getId_User()%> </p>
-								<p>Id de la publication : <%= publication.getId()%> </p>
 							</div>
 							<div>
 								<%
-									if(user.getCredential().getId() == publication.getId_User()){
+									if(user.getCredential().getId() == publication.getId_User() || user.getCredential().getId() == profil.getCredential().getId()){
 								%>
-								<form id="delPubliForm" name="delPublication[<%=publication.getId()%>]" action="LoginController?action=supprimer" method="post">
+								<form id="delPubliForm" name="delPublication" action="UserController?action=supprimerPublication" method="post">
 									<button type="submit">Supprimer publication</button>
 									<input type="hidden" name="idPubli" value="<%=publication.getId()%>"></input>
 									<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
@@ -78,7 +90,7 @@
 							
 							</div>
 							<div>
-								<form id="publiForm" name="formPublication[<%=publication.getId()%>]" action="LoginController?action=commenter" method="post">
+								<form id="publiForm" name="formPublication" action="UserController?action=commenter" method="post">
 									<input type="text" name="commentaire"></input>
 									<input type="hidden" name="idUserPublication" value="<%=publication.getId_User()%>"></input>
 									<input type="hidden" name="idPublication" value="<%=publication.getId()%>"></input>
@@ -88,25 +100,42 @@
 							</div>
 							<div>
 								<%
-								for(Commentaire commentaire : publication.getListeCommentaires()){
+									for(Commentaire commentaire : publication.getListeCommentaires()){
+										User commenteur = ServiceUser.getUserById(commentaire.getId_User(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 								%>
-									<p>Commentaire #<%=commentaire.getId() %> : <%=commentaire.getContent() %>,
-									<%=commentaire.getDate_publication() %>
-									(Publication #<%=commentaire.getId_Publication() %>,
-									User #<%=commentaire.getId_User() %>)</p>
-								<%
-								}
+										<br>
+										<p>#<%=commentaire.getId()%>-
+											<form id="affichForm" name="affichUser" action="UserController?action=afficherProfil" method="post">
+												<button type="submit"><%=commenteur.getPrenom()+" "+commenteur.getNom()%></button>
+												<input type="hidden" name="idAfficher" value="<%=commenteur.getCredential().getId()%>">
+											</form>
+											(<%=commenteur.getCredential().getId()%>)- <%=commentaire.getDate_publication()%>
+											<br>
+											<%=commentaire.getContent() %>
+										</p>
+										
+									<%
+										if(user.getCredential().getId() == publication.getId_User() || user.getCredential().getId() == commentaire.getId_User()){
+									%>
+										<form id="delCommentForm" name="delComment" action="UserController?action=supprimerCommentaire" method="post">
+											<button type="submit">Supprimer Commentaire</button>
+											<input type="hidden" name="idPubli" value="<%=commentaire.getId_Publication()%>"></input>
+											<input type="hidden" name="idCommentaire" value="<%=commentaire.getId()%>"></input>
+											<input type="hidden" name="idUserPublication" value="<%= publication.getId_User()%>"></input>
+										</form>
+									<%
+										}
+									}
 								%>
-							</div>
-							<br><br>
-						<%
-							
+						</div>
+						<br><br>
+					<%
+												
 						}
-						
-						
-						%>
-						
-						</table>
+											
+											
+					%>
+											
 					</section>
 				</div>
 			</div>
