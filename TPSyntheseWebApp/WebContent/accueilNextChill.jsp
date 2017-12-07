@@ -19,9 +19,6 @@
 	</head>
 	<body>
 		<%
-			//User profil = ServiceUser.getUserById(10, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-			//User user = ServiceUser.getUserById(9, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-			//request.setAttribute("user", profil);
 			User user = (User)request.getAttribute("user"); request.setAttribute("user", user);%>
 		<nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
@@ -69,14 +66,16 @@
 								<p><%="#"+publication.getId()+"-"%>
 									<form id="affichForm" name="affichUser" action="UserController?action=afficherProfil" method="post">
 										<button type="submit"><%=publicateur.getPrenom()+" "+publicateur.getNom()%></button>
-										<input type="hidden" name="idAfficher" value="<%=publicateur.getCredential().getId()%>">
+										<input type="hidden" name="idAfficher" value="<%=publicateur.getCredential().getId()%>"/>
+										<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"/>
 									</form>
-									<%="("+publication.getId_User()+")"+"-"+"\t"+publication.getDate_publication()%></p>
+									<%="("+publication.getId_User()+")"+"-"+"\t"+publication.getDate_publication()%>
+								</p>
 								<p><%=publication.getContent()%></p>
 							</div>
 							<div>
 								<%
-									if(user.getCredential().getId() == publication.getId_User() || user.getCredential().getId() == user.getCredential().getId()){
+									if(user.getCredential().getId() == publication.getId_User()){
 								%>
 								<form id="delPubliForm" name="delPublication" action="UserController?action=supprimerPublication" method="post">
 									<button type="submit">Supprimer publication</button>
@@ -106,7 +105,8 @@
 										<p>#<%=commentaire.getId()%>-
 											<form id="affichForm" name="affichUser" action="UserController?action=afficherProfil" method="post">
 												<button type="submit"><%=commenteur.getPrenom()+" "+commenteur.getNom()%></button>
-												<input type="hidden" name="idAfficher" value="<%=commenteur.getCredential().getId()%>">
+												<input type="hidden" name="idAfficher" value="<%=commenteur.getCredential().getId()%>"/>
+												<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"/>
 											</form>
 											(<%=commenteur.getCredential().getId()%>)- <%=commentaire.getDate_publication()%>
 											<br>
@@ -139,9 +139,5 @@
 				</div>
 			</div>
 		</section>
-		
-		
-		
-		
 	</body>
 </html>

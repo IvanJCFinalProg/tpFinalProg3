@@ -56,10 +56,10 @@
 				<div class="col-md-10">
 					<section class="container-fluid">
 						<h2>Profil de :<%=profil.getPrenom()%> <%=profil.getNom()%></h2>
-						<form id="publiForm" name="formPublication" action="UserController?action=publier" method="post">
+						<form id="publiForm" name="formPublication" action="ProfilController?action=publier" method="post">
 							<textarea name="publication" rows=4 cols=40 value=""></textarea>
 							<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
-							<input type="hidden" name="idProfil" value="<%=profil.getCredential().getId()%>"/>
+							<input type="hidden" name="idAfficher" value="<%=profil.getCredential().getId()%>"/>
 							<button type="submit" name="publi" value="Publier">Publier</button>
 						</form>
 						<%
@@ -73,7 +73,8 @@
 								<p><%="#"+publication.getId()+"-"%>
 									<form id="affichForm" name="affichUser" action="UserController?action=afficherProfil" method="post">
 										<button type="submit"><%=publicateur.getPrenom()+" "+publicateur.getNom()%></button>
-										<input type="hidden" name="idAfficher" value="<%=publicateur.getCredential().getId()%>">
+										<input type="hidden" name="idAfficher" value="<%=publicateur.getCredential().getId()%>"/>
+										<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"/>
 									</form>
 									<%="("+publication.getId_User()+")"+"-"+"\t"+publication.getDate_publication()%></p>
 								<p><%=publication.getContent()%></p>
@@ -82,10 +83,11 @@
 								<%
 									if(user.getCredential().getId() == publication.getId_User() || user.getCredential().getId() == profil.getCredential().getId()){
 								%>
-								<form id="delPubliForm" name="delPublication" action="UserController?action=supprimerPublication" method="post">
+								<form id="delPubliForm" name="delPublication" action="ProfilController?action=supprimerPublication" method="post">
 									<button type="submit">Supprimer publication</button>
-									<input type="hidden" name="idPubli" value="<%=publication.getId()%>"></input>
-									<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
+									<input type="hidden" name="idPubli" value="<%=publication.getId()%>"/>
+									<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"/>
+									<input type="hidden" name="idAfficher" value="<%=profil.getCredential().getId()%>"/>
 								</form>
 								<%
 									}
@@ -93,11 +95,12 @@
 							
 							</div>
 							<div>
-								<form id="publiForm" name="formPublication" action="UserController?action=commenter" method="post">
+								<form id="publiForm" name="formPublication" action="ProfilController?action=commenter" method="post">
 									<input type="text" name="commentaire"></input>
 									<input type="hidden" name="idUserPublication" value="<%=publication.getId_User()%>"></input>
 									<input type="hidden" name="idPublication" value="<%=publication.getId()%>"></input>
 									<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
+									<input type="hidden" name="idAfficher" value="<%=profil.getCredential().getId()%>"/>
 									<button type="submit">Commenter</button>
 								</form>
 							</div>
@@ -110,7 +113,8 @@
 										<p>#<%=commentaire.getId()%>-
 											<form id="affichForm" name="affichUser" action="UserController?action=afficherProfil" method="post">
 												<button type="submit"><%=commenteur.getPrenom()+" "+commenteur.getNom()%></button>
-												<input type="hidden" name="idAfficher" value="<%=commenteur.getCredential().getId()%>">
+												<input type="hidden" name="idAfficher" value="<%=commenteur.getCredential().getId()%>"/>
+												<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"/>
 											</form>
 											(<%=commenteur.getCredential().getId()%>)- <%=commentaire.getDate_publication()%>
 											<br>
@@ -120,11 +124,13 @@
 									<%
 										if(user.getCredential().getId() == publication.getId_User() || user.getCredential().getId() == commentaire.getId_User()){
 									%>
-										<form id="delCommentForm" name="delComment" action="UserController?action=supprimerCommentaire" method="post">
+										<form id="delCommentForm" name="delComment" action="ProfilController?action=supprimerCommentaire" method="post">
 											<button type="submit">Supprimer Commentaire</button>
 											<input type="hidden" name="idPubli" value="<%=commentaire.getId_Publication()%>"></input>
+											<input type="hidden" name="idUser" value="<%=user.getCredential().getId() %>"/>
+											<input type="hidden" name="idAfficher" value="<%=profil.getCredential().getId() %>"/>
 											<input type="hidden" name="idCommentaire" value="<%=commentaire.getId()%>"></input>
-											<input type="hidden" name="idUserPublication" value="<%= publication.getId_User()%>"></input>
+											
 										</form>
 									<%
 										}
@@ -143,9 +149,5 @@
 				</div>
 			</div>
 		</section>
-		
-		
-		
-		
 	</body>
 </html>
