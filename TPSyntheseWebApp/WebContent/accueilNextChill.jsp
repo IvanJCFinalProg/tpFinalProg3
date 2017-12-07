@@ -18,7 +18,10 @@
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		  <a class="navbar-brand" href="#">Navbar</a>
+			<%User user = (User)request.getAttribute("user"); 
+				request.setAttribute("user", user);		
+			%>
+		  <a class="navbar-brand" >Bonjour <%=user.getPrenom()%> <%=user.getNom() %></a>
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
 		  </button>
@@ -46,10 +49,8 @@
 		    </ul>
 		  </div>
 		</nav>
-		<%User user = (User)request.getAttribute("user"); 
-			request.setAttribute("user", user);
-		%>
-		<h1>Bonjour <%=user.getPrenom()%> <%=user.getNom() %></h1>
+		
+		<h1></h1>
 		<form id="publiForm" name="formPublication" action="LoginController?action=publier" method="post">
 			<textarea name="publication" rows=4 cols=40 value=""></textarea>
 			<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
