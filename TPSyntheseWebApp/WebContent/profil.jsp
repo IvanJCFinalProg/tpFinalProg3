@@ -19,10 +19,12 @@
 	</head>
 	<body>
 		<%
-			User profil = ServiceUser.getUserById(10, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-			User user = ServiceUser.getUserById(9, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-			request.setAttribute("user", profil);
-			//User user = (User)request.getAttribute("user"); request.setAttribute("user", user);%>
+			User profil = (User)request.getAttribute("profil");
+			request.setAttribute("profil", profil);
+			User user = (User)request.getAttribute("user"); 
+			request.setAttribute("user", user);
+			
+			%>
 		<nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
               <div class="navbar-header">

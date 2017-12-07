@@ -53,19 +53,19 @@ public class UserController extends HttpServlet {
 		try {
 			if(action.equalsIgnoreCase("publier")) {
 				int id = Integer.valueOf(request.getParameter("idUser"));	
-				int idFeed = Integer.valueOf(request.getParameter("idProfil"));
+				//int idFeed = Integer.valueOf(request.getParameter("idProfil"));
 				User user;
-				if(id == idFeed) {
+				//if( id == idFeed) {
 					user =ServiceUser.getUserById(id, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-				}else {
+				/*}else {
 					user =ServiceUser.getUserById(idFeed, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-				}
+				}*/
 				String texte_publier = request.getParameter("publication");
 				if(request.getParameter("publi")!=null && !texte_publier.isEmpty()) {
 					List<Publication> liste = user.getFeed();
 					
 					//logger.info(texte_publier);
-					ServicePublication.addPublication(liste, new Publication(texte_publier, (id!=idFeed)? id:idFeed));
+					ServicePublication.addPublication(liste, new Publication(texte_publier, id));//(id!=idFeed)? id:idFeed));
 					user.setFeed(liste);
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
@@ -118,13 +118,14 @@ public class UserController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
 			}else if(action.equalsIgnoreCase("afficherProfil")) {
-				logger.info(""+request.getParameter("idAfficher"));
-				/*
-				 * 
-				 * Faire page de profil
-				 * 
-				 * 
-				 */
+				int idProfil = Integer.parseInt(request.getParameter("idAfficher"));
+				int idUser = 10;
+				User profil = ServiceUser.getUserById(idProfil, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+				User user = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+				request.setAttribute("user", user);
+				request.setAttribute("profil", profil);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("profil.jsp");
+				dispatcher.forward(request, response);
 			}
 			
 			
