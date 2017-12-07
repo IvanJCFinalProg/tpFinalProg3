@@ -19,10 +19,10 @@
 	</head>
 	<body>
 		<%
-			//User profil = ServiceUser.getUserById(10, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-			//User user = ServiceUser.getUserById(9, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-			//request.setAttribute("user", profil);
-			User user = (User)request.getAttribute("user"); request.setAttribute("user", user);%>
+			User profil = ServiceUser.getUserById(10, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+			User user = ServiceUser.getUserById(9, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+			request.setAttribute("user", profil);
+			//User user = (User)request.getAttribute("user"); request.setAttribute("user", user);%>
 		<nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
               <div class="navbar-header">
@@ -53,13 +53,15 @@
 				</div>
 				<div class="col-md-10">
 					<section class="container-fluid">
+						<h2>Profil de :<%=profil.getPrenom()%> <%=profil.getNom()%></h2>
 						<form id="publiForm" name="formPublication" action="UserController?action=publier" method="post">
 							<textarea name="publication" rows=4 cols=40 value=""></textarea>
 							<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
+							<input type="hidden" name="idProfil" value="<%=profil.getCredential().getId()%>"/>
 							<button type="submit" name="publi" value="Publier">Publier</button>
 						</form>
 						<%
-						for(Publication publication : user.getFeed()){
+						for(Publication publication : profil.getFeed()){
 							%>
 							<div>
 								<%
