@@ -42,7 +42,7 @@
 				  <tbody>
 				  	<% 
 				  		Map<Integer,User> mapUsers = (Map<Integer,User>)request.getAttribute("mapUsers");
-				  		if(mapUsers!=null){
+				  		if(mapUsers!=null || !mapUsers.isEmpty()){
 				  			for(User user : mapUsers.values()){
 				  				%>
 								<tr>
@@ -56,21 +56,21 @@
 								     		<input name="idUser" value="<%=user.getCredential().getId()%>" class="hidden"/>
 								     		<input name="submit" type="submit" value="Bloquer"/>
 								     	</form>-->
-								     	<span><a href="/AdminController?action=Bloquer&idUser=<%=user.getCredential().getId()%>">Bloquer</a></span>
+								     	<span><a href="AdminController?action=Bloquer&idUser=<%=user.getCredential().getId()%>">Bloquer</a></span>
 								     </td>
 									 <td>
 									 	<!--  <form id="suprimmeUser" action="/AdminController?action=Suppresion">
 									 		<input name="idUser" value="<%=user.getCredential().getId()%>" class="hidden"/>
 									 		<input name="submit" type="submit" value="Supprimer"/>
 								     	</form>-->
-								     	<a href="/AdminController?action=Supprimer&idUser=<%=user.getCredential().getId()%>">Supprimer</a>
+								     	<a href="AdminController?action=Supprimer&idUser=<%=user.getCredential().getId()%>">Supprimer</a>
 								     </td>
 								     <td>
 								    	<!--<form id="profilUser" action="/AdminController?action=Profil">
 								    		<input name="idUser" value="<%=user.getCredential().getId()%>" class="hidden"/>
 								    		<input name="submit" type="submit" value="Voir profil"/>
 								     	</form>-->
-								     	<a href="/AdminController?action=Profil&idUser=<%=user.getCredential().getId()%>">Voir profil</a>
+								     	<a href="AdminController?action=Profil&idUser=<%=user.getCredential().getId()%>">Voir profil</a>
 								     </td>
 								</tr>
 				  				

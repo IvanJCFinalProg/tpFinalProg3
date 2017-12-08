@@ -152,6 +152,7 @@ public class LoginController extends HttpServlet {
 				}
 			}else if(action.equalsIgnoreCase("accueil")) {
 				User user = (User)request.getAttribute("user");
+				/* En développement */
 				//logger.info(user);
 				//session.setAttribute("user", user);
 				//request.setAttribute("user", user);
@@ -161,6 +162,7 @@ public class LoginController extends HttpServlet {
 				
 			}else if(action.equalsIgnoreCase("deconnexion")) {
 				response.sendRedirect(ServiceApp.getValue("1", 2));
+				/* En développement */
 				//RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("1", 2));
 				//dispatcher.forward(request, response);
 			}

@@ -39,7 +39,7 @@ public class UserController extends HttpServlet {
 				User.setCompteur(Integer.valueOf(ServiceApp.getValue("1", 1))+1);
 			}	
 		} catch (Exception e) {
-			logger.error("Probl�me - Function init(LoginControler) - Initialisation des donn�es");
+			logger.error("Probleme - Function init(LoginControler) - Initialisation des donneees");
 			logger.debug(e.getMessage() +" "+e.getLocalizedMessage());
 		}finally {
 			logger.info("Fin de l'initialisation");
