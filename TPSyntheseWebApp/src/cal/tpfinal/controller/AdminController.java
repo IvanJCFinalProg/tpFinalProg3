@@ -8,25 +8,45 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import cal.tpfinal.model.ServiceApp;
+
 /**
  * Servlet implementation class AdminController
  */
 @WebServlet("/AdminController")
 public class AdminController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private static Logger logger = LogManager.getLogger(AdminController.class);
     
 	
 	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
+		
 	}
 	
 	public void destroy() {
-		// TODO Auto-generated method stub
+		
 	}
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		String action = request.getParameter(ServiceApp.getValue("1", 3));
+		try {
+			if(action.equals(ServiceApp.getValue("2", 3))) {
+				System.out.println("entrée1");
+				response.sendRedirect(ServiceApp.getValue("4", 2));
+			}
+			else if(action.equals(ServiceApp.getValue("3", 3))) {
+				
+			}
+			else if(action.equals(ServiceApp.getValue("4", 3))) {
+				
+			}
+		} catch (Exception e) {
+			logger.error(AdminController.class.getName()+" Erreur dans la fonction processRequest()");
+			logger.debug(e.getMessage());
+		}
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,7 +58,7 @@ public class AdminController extends HttpServlet {
 	}
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 	}
 
 }

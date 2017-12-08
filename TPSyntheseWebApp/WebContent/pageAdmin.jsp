@@ -16,7 +16,7 @@
 	</head>
 	<body>
 		<header class="container-fluid" >
-			<h1>Logo Nm</h1>
+			<h1>Bienvenue Admin,</h1>
 		</header>	
 		
 		<!-- Ajouter un side nav  -->
@@ -52,12 +52,26 @@
 								     <td><%=user.getCredential().getEmail()%></td>
 								     <td><%=user.getPhoneNumber()%></td>
 								     <td>
-								     	<span>Bloquer</span>
+								     	<!--  <form id="bloqueUser" action="/AdminController?action=Bloquer">
+								     		<input name="idUser" value="<%=user.getCredential().getId()%>" class="hidden"/>
+								     		<input name="submit" type="submit" value="Bloquer"/>
+								     	</form>-->
+								     	<span><a href="/AdminController?action=Bloquer&idUser=<%=user.getCredential().getId()%>">Bloquer</a></span>
 								     </td>
 									 <td>
-								     	<span>Supprimer</span>
+									 	<!--  <form id="suprimmeUser" action="/AdminController?action=Suppresion">
+									 		<input name="idUser" value="<%=user.getCredential().getId()%>" class="hidden"/>
+									 		<input name="submit" type="submit" value="Supprimer"/>
+								     	</form>-->
+								     	<a href="/AdminController?action=Supprimer&idUser=<%=user.getCredential().getId()%>">Supprimer</a>
 								     </td>
-								     <td><a>Voir profil</a></td>
+								     <td>
+								    	<!--<form id="profilUser" action="/AdminController?action=Profil">
+								    		<input name="idUser" value="<%=user.getCredential().getId()%>" class="hidden"/>
+								    		<input name="submit" type="submit" value="Voir profil"/>
+								     	</form>-->
+								     	<a href="/AdminController?action=Profil&idUser=<%=user.getCredential().getId()%>">Voir profil</a>
+								     </td>
 								</tr>
 				  				
 				  				<% 
