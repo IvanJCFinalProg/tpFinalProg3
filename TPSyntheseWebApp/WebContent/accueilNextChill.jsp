@@ -49,13 +49,25 @@
 			        </nav>
 				</div>
 				<div class="col-md-10">
-					<section class="container-fluid">
-						<form id="publiForm" name="formPublication" action="UserController?action=publier" method="post">
-							<textarea name="publication" rows=4 cols=40 value=""></textarea>
-							<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
-							<button type="submit" name="publi" value="Publier">Publier</button>
-						</form>
-						<%
+					<section class="">
+						<div class="container">
+						  <div class="row">
+						    <div class="col-md-offset-3 col-md-6 col-xs-12">
+						    	<div class="well well-sm well-social-post">
+							        <form id="publiForm" name="formPublication" action="UserController?action=publier" method="post">
+							          <ul class="list-inline" id='list_PostActions'>
+							            <li class='active'>Publier<a href='#'></a></li>
+							          </ul>
+							          <textarea class="form-control" name="publication" placeholder="Exprimez-vous ?"></textarea>
+							          <ul class='list-inline post-actions'>
+							            <li><a href="#"><span class="fa fa-user"></span></a></li>
+							            <li><a href="#" class='fa fa-map-marker'></a></li>
+							            <li class='pull-right'><button type="submit" name="publi" value="Publier">Publier</button></li>
+							          </ul>
+							          <input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
+							        </form>
+						      	</div>
+						      	<%
 						for(Publication publication : user.getFeed()){
 							%>
 							<div>
@@ -86,55 +98,54 @@
 									}
 								%>
 							
-							</div>
-							<div>
-								<form id="publiForm" name="formPublication" action="UserController?action=commenter" method="post">
-									<input type="text" name="commentaire"></input>
-									<input type="hidden" name="idUserPublication" value="<%=publication.getId_User()%>"></input>
-									<input type="hidden" name="idPublication" value="<%=publication.getId()%>"></input>
-									<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
-									<button type="submit">Commenter</button>
-								</form>
-							</div>
-							<div>
-								<%
-									for(Commentaire commentaire : publication.getListeCommentaires()){
-										User commenteur = ServiceUser.getUserById(commentaire.getId_User(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-								%>
-										<br>
-										<p>#<%=commentaire.getId()%>-
-											<form id="affichForm" name="affichUser" action="UserController?action=afficherProfil" method="post">
-												<button type="submit"><%=commenteur.getPrenom()+" "+commenteur.getNom()%></button>
-												<input type="hidden" name="idAfficher" value="<%=commenteur.getCredential().getId()%>"/>
-												<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"/>
-											</form>
-											(<%=commenteur.getCredential().getId()%>)- <%=commentaire.getDate_publication()%>
-											<br>
-											<%=commentaire.getContent() %>
-										</p>
-										
+								</div>
+								<div>
+									<form id="publiForm" name="formPublication" action="UserController?action=commenter" method="post">
+										<input type="text" name="commentaire"></input>
+										<input type="hidden" name="idUserPublication" value="<%=publication.getId_User()%>"></input>
+										<input type="hidden" name="idPublication" value="<%=publication.getId()%>"></input>
+										<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
+										<button type="submit">Commenter</button>
+									</form>
+								</div>
+								<div>
 									<%
-										if(user.getCredential().getId() == publication.getId_User() || user.getCredential().getId() == commentaire.getId_User()){
+										for(Commentaire commentaire : publication.getListeCommentaires()){
+											User commenteur = ServiceUser.getUserById(commentaire.getId_User(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 									%>
-										<form id="delCommentForm" name="delComment" action="UserController?action=supprimerCommentaire" method="post">
-											<button type="submit">Supprimer Commentaire</button>
-											<input type="hidden" name="idPubli" value="<%=commentaire.getId_Publication()%>"></input>
-											<input type="hidden" name="idCommentaire" value="<%=commentaire.getId()%>"></input>
-											<input type="hidden" name="idUserPublication" value="<%= publication.getId_User()%>"></input>
-										</form>
-									<%
+											<br>
+											<p>#<%=commentaire.getId()%>-
+												<form id="affichForm" name="affichUser" action="UserController?action=afficherProfil" method="post">
+													<button type="submit"><%=commenteur.getPrenom()+" "+commenteur.getNom()%></button>
+													<input type="hidden" name="idAfficher" value="<%=commenteur.getCredential().getId()%>">
+												</form>
+												(<%=commenteur.getCredential().getId()%>)- <%=commentaire.getDate_publication()%>
+												<br>
+												<%=commentaire.getContent() %>
+											</p>
+											
+										<%
+											if(user.getCredential().getId() == publication.getId_User() || user.getCredential().getId() == commentaire.getId_User()){
+										%>
+											<form id="delCommentForm" name="delComment" action="UserController?action=supprimerCommentaire" method="post">
+												<button type="submit">Supprimer Commentaire</button>
+												<input type="hidden" name="idPubli" value="<%=commentaire.getId_Publication()%>"></input>
+												<input type="hidden" name="idCommentaire" value="<%=commentaire.getId()%>"></input>
+												<input type="hidden" name="idUserPublication" value="<%= publication.getId_User()%>"></input>
+											</form>
+										<%
+											}
 										}
-									}
-								%>
-						</div>
-						<br><br>
-					<%
-												
-						}
-											
-											
-					%>
-											
+										%>
+								</div>
+								<br><br>
+								<%
+															
+									}					
+								%> 	
+						    </div>
+						  </div>
+						</div>  				
 					</section>
 				</div>
 			</div>
