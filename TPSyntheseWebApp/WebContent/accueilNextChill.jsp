@@ -32,7 +32,7 @@
               </div>
               <div class="collapse navbar-collapse" id="myNavbar">
                   <ul class="nav navbar-nav navbar-right">
-                  	<li><a href="UserController?action=afficherProfil"><span class="fa fa-user fa-2x"></span> Profil</a></li>
+                  	<li><a href="UserController?action=afficherProfil&idAfficher=<%= user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-user fa-2x"></span> Profil</a></li>
                   	<li><a href="#"><span class="fa fa-cog fa-2x"></span> Paramètres</a></li>
                     <li><a href="LoginController?action=deconnexion"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
 	            </ul>
@@ -81,11 +81,8 @@
 								
 								%>
 								<p><%="#"+publication.getId()+"-"%>
-									<form id="affichForm" name="affichUser" action="UserController?action=afficherProfil" method="post">
-										<button type="submit"><%=publicateur.getPrenom()+" "+publicateur.getNom()%></button>
-										<input type="hidden" name="idAfficher" value="<%=publicateur.getCredential().getId()%>"/>
-										<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"/>
-									</form>
+									<a href="UserController?action=afficherProfil&idAfficher=<%= publicateur.getCredential().getId()%>
+									&idUser=<%=user.getCredential().getId()%>"><%=publicateur.getPrenom()+" "+publicateur.getNom()%></a>
 									<%="("+publication.getId_User()+")"+"-"+"\t"+publication.getDate_publication()%>
 								</p>
 								<p><%=publication.getContent()%></p>
@@ -120,10 +117,8 @@
 									%>
 											<br>
 											<p>#<%=commentaire.getId()%>-
-												<form id="affichForm" name="affichUser" action="UserController?action=afficherProfil" method="post">
-													<button type="submit"><%=commenteur.getPrenom()+" "+commenteur.getNom()%></button>
-													<input type="hidden" name="idAfficher" value="<%=commenteur.getCredential().getId()%>">
-												</form>
+												<a href="UserController?action=afficherProfil&idAfficher=<%= commenteur.getCredential().getId()%>
+												&idUser=<%=user.getCredential().getId()%>"><%=commenteur.getPrenom()+" "+commenteur.getNom()%></a>
 												(<%=commenteur.getCredential().getId()%>)- <%=commentaire.getDate_publication()%>
 												<br>
 												<%=commentaire.getContent() %>

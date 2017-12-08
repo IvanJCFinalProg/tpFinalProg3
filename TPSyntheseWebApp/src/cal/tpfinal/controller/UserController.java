@@ -127,13 +127,13 @@ public class UserController extends HttpServlet {
 			}else if(action.equalsIgnoreCase("afficherProfil")) {
 				int idProfil;
 				int idUser;
-				if(request.getParameter("idAfficher") == null) {
+				/*if(request.getParameter("idAfficher") == null) {
 					idProfil = (Integer)(session.getAttribute("idAfficher"));
-					idUser = (Integer)(session.getAttribute("idUser"));
-				}else {
+					idUser = (Integer)(session.getAttribute("idUser"));*/
+				//}else {
 					idProfil = Integer.parseInt(request.getParameter("idAfficher"));
 					idUser = Integer.parseInt(request.getParameter("idUser"));
-				}
+				/*}*/
 				
 				
 				User profil = ServiceUser.getUserById(idProfil, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
