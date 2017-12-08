@@ -62,7 +62,7 @@
 						    <div class="col-md-offset-3 col-md-6 col-xs-12">
 						    	<div class="well well-sm well-social-post">
 						    		<h2>Profil de :<%=profil.getPrenom()%> <%=profil.getNom()%></h2>
-							        <form id="publiForm" name="formPublication" action="UserController?action=publier" method="post">
+							        <form id="publiForm" name="formPublication" action="ProfilController?action=publier" method="post">
 							          <ul class="list-inline" id='list_PostActions'>
 							            <li class='active'>Publier<a href='#'></a></li>
 							          </ul>

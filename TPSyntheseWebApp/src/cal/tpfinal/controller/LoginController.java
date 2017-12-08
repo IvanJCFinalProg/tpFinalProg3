@@ -2,6 +2,7 @@ package cal.tpfinal.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.Years;
 
 import cal.tpfinal.bean.Credential;
 import cal.tpfinal.bean.User;
@@ -68,7 +71,8 @@ public class LoginController extends HttpServlet {
 				String passwordConfirm = request.getParameter("passwordInscriptConfirm") ;
 				String sexe = request.getParameter("sexe");
 				String dateBirth = request.getParameter("dateBirth");
-				
+				int age = Years.yearsBetween(LocalDate.parse(dateBirth), new LocalDate()).getYears();
+				//System.out.println("age:"+age);
 				if(nom.equals("") && nom.isEmpty()) {
 					response.setContentType("text/html");
 					RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("1",2));
@@ -94,6 +98,7 @@ public class LoginController extends HttpServlet {
 					user.setBirthDate(DateTime.parse(dateBirth));
 					user.getCredential().setEmail(email);
 					user.getCredential().setPassword(ServicePassword.encryptPassword(passwordConfirm));
+					user.setAge(age);
 					// set le dernier id du user cr�e dans le file properties
 					ServiceApp.setValue("1", String.valueOf(user.getCredential().getId()), 1);
 					
