@@ -30,6 +30,7 @@ public class ProfilController extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		PrintWriter writer = response.getWriter();
+		HttpSession session = request.getSession();
 		
 		try {
 			if(action.equalsIgnoreCase("publier")) {
@@ -53,7 +54,7 @@ public class ProfilController extends HttpServlet {
 			
 				request.setAttribute("idAfficher", idProfil);
 				request.setAttribute("idUser", idUser);
-				
+				//response.sendRedirect("UserController?action=afficherProfil");
 				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
 				dispatcher.forward(request, response);
 				
@@ -107,7 +108,6 @@ public class ProfilController extends HttpServlet {
 				
 				request.setAttribute("idUser", idUser);
 				request.setAttribute("idAfficher", idProfil);
-				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
 				dispatcher.forward(request, response);
 			}

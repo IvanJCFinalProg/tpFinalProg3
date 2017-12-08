@@ -19,11 +19,13 @@
 	</head>
 	<body>
 		<%
-			User profil = (User)request.getAttribute("profil");
-			request.setAttribute("profil", profil);
-			User user = (User)request.getAttribute("user"); 
-			request.setAttribute("user", user);
+			User profil = (User)session.getAttribute("profil");
+			session.setAttribute("profil", profil);
+			User user = (User)session.getAttribute("user"); 
+			session.setAttribute("user", user);
 			
+			session.setAttribute("idAfficher", user.getCredential().getId());
+			session.setAttribute("idUser", user.getCredential().getId());
 			%>
 		<nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
@@ -32,9 +34,9 @@
               </div>
               <div class="collapse navbar-collapse" id="myNavbar">
                   <ul class="nav navbar-nav navbar-right">
-                  	<li><a href="#"><span class="fa fa-user fa-2x"></span> Profil</a></li>
+                  	<li><a href="UserController?action=afficherProfil"><span class="fa fa-user fa-2x"></span> Profil</a></li>
                   	<li><a href="#"><span class="fa fa-cog fa-2x"></span> Paramètres</a></li>
-                    <li><a href="#"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
+                    <li><a href="LoginController?action=deconnexion"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
 	            </ul>
 		        </div>
 		    </div>

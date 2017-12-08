@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,7 +50,7 @@ public class UserController extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		PrintWriter writer = response.getWriter();
-		
+		HttpSession session = request.getSession();
 		try {
 			if(action.equalsIgnoreCase("publier")) {
 				int id = Integer.valueOf(request.getParameter("idUser"));	
@@ -69,9 +70,10 @@ public class UserController extends HttpServlet {
 					user.setFeed(liste);
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
+				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				//response.sendRedirect(ServiceApp.getValue("5", 2));
-				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
+				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("commenter")) {
@@ -88,7 +90,7 @@ public class UserController extends HttpServlet {
 					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), new Commentaire(content, idUser, idPublication));
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
-				
+				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
@@ -100,7 +102,9 @@ public class UserController extends HttpServlet {
 				ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), id));
 				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				
+				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
 				
@@ -114,18 +118,35 @@ public class UserController extends HttpServlet {
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));
 				
 				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
+				
+				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
 			}else if(action.equalsIgnoreCase("afficherProfil")) {
-				int idProfil = Integer.parseInt(request.getParameter("idAfficher"));
-				int idUser = Integer.parseInt(request.getParameter("idUser"));
+				int idProfil;
+				int idUser;
+				if(request.getParameter("idAfficher") == null) {
+					idProfil = (Integer)(session.getAttribute("idAfficher"));
+					idUser = (Integer)(session.getAttribute("idUser"));
+				}else {
+					idProfil = Integer.parseInt(request.getParameter("idAfficher"));
+					idUser = Integer.parseInt(request.getParameter("idUser"));
+				}
+				
+				
 				User profil = ServiceUser.getUserById(idProfil, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				User user = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-				request.setAttribute("user", user);
-				request.setAttribute("profil", profil);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("profil.jsp");
-				dispatcher.forward(request, response);
+				
+				session.setAttribute("user", user);
+				session.setAttribute("profil", profil);
+				//request.setAttribute("user", user);
+				//request.setAttribute("profil", profil);
+				
+				response.sendRedirect("profil.jsp");
+				//RequestDispatcher dispatcher = request.getRequestDispatcher("profil.jsp");
+				//dispatcher.forward(request, response);
 			}
 			
 			

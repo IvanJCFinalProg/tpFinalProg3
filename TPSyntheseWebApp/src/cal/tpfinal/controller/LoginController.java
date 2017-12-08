@@ -58,7 +58,7 @@ public class LoginController extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		PrintWriter writer = response.getWriter();
-		
+		HttpSession session = request.getSession();
 		try {
 			if(action.equalsIgnoreCase(IService.TYPE_FORM1)) {
 				String nom = request.getParameter("nomInscript") ;
@@ -115,7 +115,6 @@ public class LoginController extends HttpServlet {
 				
 			}
 			else if(action.equalsIgnoreCase(IService.TYPE_FORM2)) {
-				HttpSession session = request.getSession();
 				String email = request.getParameter("email");
 				String password = request.getParameter("password");
 				if(email.substring(0,email.indexOf("@")).equals(ServiceApp.getValue("4", 1))) {
@@ -127,7 +126,8 @@ public class LoginController extends HttpServlet {
 				}else {
 					Credential user = Authentification.verificationUtilisateur(request.getParameter("email"),request.getParameter("password"), ServiceApp.getValue("3", 2));
 					if( user != null) {
-						request.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+						session.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+						//request.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 						/* En développement */
 						/*if(request.getParameter("checkbox") != null) {
 							 Cookie cookie = new Cookie( "email", email );
@@ -148,10 +148,16 @@ public class LoginController extends HttpServlet {
 			}else if(action.equalsIgnoreCase("accueil")) {
 				User user = (User)request.getAttribute("user");
 				//logger.info(user);
-				request.setAttribute("user", user);
-				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
-				dispatcher.forward(request, response);
+				//session.setAttribute("user", user);
+				//request.setAttribute("user", user);
+				response.sendRedirect(ServiceApp.getValue("5", 2));
+				//RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
+				//dispatcher.forward(request, response);
 				
+			}else if(action.equalsIgnoreCase("deconnexion")) {
+				response.sendRedirect(ServiceApp.getValue("1", 2));
+				//RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("1", 2));
+				//dispatcher.forward(request, response);
 			}
 		}catch (Exception e) {
 			logger.error(LoginController.class.getName()+" Erreur dans la fonction processRequest()");
