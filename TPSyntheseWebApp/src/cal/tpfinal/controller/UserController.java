@@ -53,26 +53,17 @@ public class UserController extends HttpServlet {
 		HttpSession session = request.getSession();
 		try {
 			if(action.equalsIgnoreCase("publier")) {
-				int id = Integer.valueOf(request.getParameter("idUser"));	
-				//int idFeed = Integer.valueOf(request.getParameter("idProfil"));
-				User user;
-				//if( id == idFeed) {
-					user =ServiceUser.getUserById(id, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-				/*}else {
-					user =ServiceUser.getUserById(idFeed, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-				}*/
-				String texte_publier = request.getParameter("publication");
-				if(request.getParameter("publi")!=null && !texte_publier.isEmpty()) {
-					List<Publication> liste = user.getFeed();
-					
-					//logger.info(texte_publier);
-					ServicePublication.addPublication(liste, new Publication(texte_publier, id));//(id!=idFeed)? id:idFeed));
-					user.setFeed(liste);
+				int idUser = Integer.valueOf(request.getParameter("idUser"));	
+				User user=ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+				String content = request.getParameter("publication");
+				
+				if(!content.isEmpty()) {
+					ServicePublication.addPublication(user.getFeed(), new Publication(content, idUser));//(id!=idFeed)? id:idFeed));
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
 				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
-				//response.sendRedirect(ServiceApp.getValue("5", 2));
+				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
 				
@@ -81,19 +72,19 @@ public class UserController extends HttpServlet {
 				int idUser = Integer.valueOf(request.getParameter("idUser"));
 				int idUserPublication = Integer.valueOf(request.getParameter("idUserPublication"));
 				String content = request.getParameter("commentaire");
-				User user = ServiceUser.getUserById(idUserPublication, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+				User user = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));//Publication, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				
 				if(request.getParameter("commentaire")!=null && !content.isEmpty()) {
-					List<Publication> feed = user.getFeed();
-					Publication p = ServicePublication.getPublicationById(feed, idPublication);
-					
+					Publication p = ServicePublication.getPublicationById(user.getFeed(), idPublication);
 					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), new Commentaire(content, idUser, idPublication));
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
-				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
-				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				session.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				request.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
+				
 			}else if(action.equalsIgnoreCase("supprimerPublication")) {
 				int id = Integer.parseInt(request.getParameter("idPubli"));
 				int idUser=Integer.parseInt(request.getParameter("idUser"));
@@ -108,33 +99,25 @@ public class UserController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("supprimerCommentaire")) {
+			}else if(action.equalsIgnoreCase("supprimerCommentaire")) {//A modifier!!
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
-				int idUser = Integer.parseInt(request.getParameter("idUserPublication"));
+				int idUser = Integer.parseInt(request.getParameter("idUser"));//Publication"));
 				int idCommentaire = Integer.parseInt(request.getParameter("idCommentaire"));
 				
 				User user = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				Publication publi = ServicePublication.getPublicationById(user.getFeed(), idPublication);
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));
-				
 				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				
-				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
-				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				session.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				request.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
-			}else if(action.equalsIgnoreCase("afficherProfil")) {
-				int idProfil;
-				int idUser;
-				/*if(request.getParameter("idAfficher") == null) {
-					idProfil = (Integer)(session.getAttribute("idAfficher"));
-					idUser = (Integer)(session.getAttribute("idUser"));*/
-				//}else {
-					idProfil = Integer.parseInt(request.getParameter("idAfficher"));
-					idUser = Integer.parseInt(request.getParameter("idUser"));
-				/*}*/
 				
+			}else if(action.equalsIgnoreCase("afficherProfil")) {
+				int idProfil = Integer.parseInt(request.getParameter("idAfficher"));
+				int idUser = Integer.parseInt(request.getParameter("idUser"));
 				
 				User profil = ServiceUser.getUserById(idProfil, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				User user = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
@@ -145,8 +128,6 @@ public class UserController extends HttpServlet {
 				//request.setAttribute("profil", profil);
 				
 				response.sendRedirect("profil.jsp");
-				//RequestDispatcher dispatcher = request.getRequestDispatcher("profil.jsp");
-				//dispatcher.forward(request, response);
 			}
 			
 			

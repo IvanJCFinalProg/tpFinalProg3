@@ -20,7 +20,8 @@
 	<body>
 		<%
 			//System.out.println(request.getSession().getAttribute("user"));
-			User user = (User)session.getAttribute("user"); session.setAttribute("user", user);
+			User user = (User)session.getAttribute("user"); 
+			session.setAttribute("user", user);
 			session.setAttribute("idAfficher", user.getCredential().getId());
 			session.setAttribute("idUser", user.getCredential().getId());
 			
@@ -91,10 +92,9 @@
 								<%
 									if(user.getCredential().getId() == publication.getId_User()){
 								%>
-								<form id="delPubliForm" name="delPublication" action="UserController?action=supprimerPublication" method="post">
+								<form id="delPubliForm" name="delPublication" action="UserController?action=supprimerPublication&idPubli=<%=
+								publication.getId()%>&idUser=<%=user.getCredential().getId() %>" method="post">
 									<button type="submit">Supprimer publication</button>
-									<input type="hidden" name="idPubli" value="<%=publication.getId()%>"></input>
-									<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
 								</form>
 								<%
 									}
@@ -131,7 +131,8 @@
 												<button type="submit">Supprimer Commentaire</button>
 												<input type="hidden" name="idPubli" value="<%=commentaire.getId_Publication()%>"></input>
 												<input type="hidden" name="idCommentaire" value="<%=commentaire.getId()%>"></input>
-												<input type="hidden" name="idUserPublication" value="<%= publication.getId_User()%>"></input>
+												<!--<input type="hidden" name="idUserPublication" value="<%= publication.getId_User()%>"></input>-->
+												<input type="hidden" name="idUser" value="<%= user.getCredential().getId()%>"/>
 											</form>
 										<%
 											}
