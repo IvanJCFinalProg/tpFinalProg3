@@ -47,6 +47,7 @@ public class LoginController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		logger.info("Initialisation de l'application");
 		try {
+			ServiceValidation.getMapErreurs().clear();
 			if(!(ServiceUser.fromToXML(ServiceApp.getValue("3",2))!= null)) {
 				User.setCompteur(Integer.valueOf(ServiceApp.getValue("1", 1))+1);
 			}	
@@ -64,6 +65,7 @@ public class LoginController extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
 		try {
+			System.out.println("entrer DONNEES");
 			if(action.equalsIgnoreCase(IService.TYPE_FORM1)) {
 				String nom = request.getParameter("nomInscript") ;
 				String prenom = request.getParameter("prenomInscript") ;
@@ -73,13 +75,17 @@ public class LoginController extends HttpServlet {
 				String sexe = request.getParameter("sexe");
 				String dateBirth = request.getParameter("dateBirth");
 				int age = Years.yearsBetween(LocalDate.parse(dateBirth), new LocalDate()).getYears();
-				//System.out.println("age:"+age);
+				
+				System.out.println("entrer dONNEES SET");
+				
 				if(!ServiceValidation.isValideDonneesInputs(nom, prenom, email, dateBirth)) {
 					request.setAttribute("mapErreurs",ServiceValidation.getMapErreurs());
+					System.out.println(ServiceValidation.getMapErreurs());
 					RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("1",2));
 					dispatcher.forward(request, response);
 				}
 				else{
+					System.out.println("entrer dONNEES Get");
 					User user = new User();
 					logger.info(LoginController.class.getName()+" | Id User Creation "+user.getCredential().getId());
 					user.setNom((nom.trim()).substring(0, 1).toUpperCase()+(nom.trim()).substring(1).toLowerCase());

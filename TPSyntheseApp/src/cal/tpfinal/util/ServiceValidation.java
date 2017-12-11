@@ -1,5 +1,6 @@
 package cal.tpfinal.util;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +11,7 @@ import cal.tpfinal.model.ServiceApp;
 public final class ServiceValidation {
 	
 	private static final Logger logger = LogManager.getLogger(ServiceValidation.class.getName());
-	private static Map<String, String> mapErreurs;
+	private static Map<String, String> mapErreurs = new HashMap<>();
 	// Controle du domaine de deuxieme niveau
 	// Pour plus de sécuriter | permet de controler les noms de domaine
 	private static final String[] tabNomDomaine = {".ca",".com",".us","fr"};
@@ -22,7 +23,7 @@ public final class ServiceValidation {
 	
 	private static boolean valideEmail(String email) {
 		if(Authentification.isEmailExist(email, ServiceApp.getValue("3",2))) {
-			mapErreurs.put("errorEmail", "<h5 class=\"errormsg\">"+email+"est déjà utilisé pour un compte<h5>");
+			mapErreurs.put("errorEmail", "<h5 class=\"errormsg\">"+email+" est déjà utilisé pour un compte<h5>");
 			return false;
 		}
 		return true;

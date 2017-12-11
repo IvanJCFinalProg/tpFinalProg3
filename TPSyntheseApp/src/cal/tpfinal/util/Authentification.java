@@ -23,10 +23,10 @@ public class Authentification {
 	}
 	
 	public static boolean isEmailExist(String email,String fileName) {
-		Map<Integer, Credential> tableUsers = ServiceConnection.loadMapCredentials(fileName);
-		if(tableUsers==null)
+		Map<Integer, Credential> tableLogins = ServiceConnection.loadMapCredentials(fileName);
+		if(tableLogins==null)
 			return false;
-		for (Credential utilisateur : tableUsers.values()) 
+		for (Credential utilisateur : tableLogins.values()) 
 			if(utilisateur.getEmail().equalsIgnoreCase(email))
 				return true;
 		return false;

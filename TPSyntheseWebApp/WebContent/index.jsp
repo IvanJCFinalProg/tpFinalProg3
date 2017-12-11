@@ -27,7 +27,7 @@
 			        	<% 
 			        		Map<String, String> mapErreurs = null;
 			        		if(request.getAttribute("mapErreurs")!=null){
-			        			mapErreurs = (Map<String, String>)request.getAttribute("mapErreurs"); 
+			        			mapErreurs = (Map<String, String>)request.getAttribute("mapErreurs");
 			        		}
 			        		else
 			        			mapErreurs = null;
@@ -44,7 +44,7 @@
 			            } 
 			        %>
 					<div class="contenu tab-content">
-		            	<div id="connexion" class="tab-pane fade in active">
+		            	<div id="connexion" class="tab-pane fade <%if(mapErreurs==null){out.print("in active");}%>">
 		                	<form id="leFormulaire" name="formLogin" action="LoginController?action=loginMembre" method="post" >
 		                		<div class="col-md-1"></div>
 		                	 	<div class="col-md-8">
@@ -66,7 +66,7 @@
 	    					</form>
 	 				    </div>
 	 				    
-			    		<div id="inscription" class="tab-pane fade">
+			    		<div id="inscription" class="tab-pane fade <%if(mapErreurs==null){out.print("in active");}%>">
 			                <form id="leFormulaire2" name="formInscription" action="LoginController?action=inscriptionMembre" method="post">
 			                	<div class="col-md-1"></div>
 			                	<div class="col-md-10">
@@ -85,7 +85,7 @@
 			                		</div>    
 				                    <input type="email" name="emailInscript" id="email-inscription" class="form-control email" required="required" placeholder="Email">
 				                    <i class="fa fa-at"></i>
-				                    <div id="error-email-incript"></div>
+				                    <div id="error-email-incript"><%if(mapErreurs!=null){out.print(mapErreurs.get("errorEmail"));}%></div>
 				                    <input type="password" name="passwordInscript" id="password-inscription" class="form-control password" required="required" placeholder="Mot de passe">
 		            				<i class="fa fa-lock"></i>
 		            				<div id="error-password-incript"></div>
