@@ -31,9 +31,10 @@ public class ProfilController extends HttpServlet {
 		String action = request.getParameter("action");
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
-		int idUser = Integer.valueOf(request.getParameter("idUser"));	
-		int idProfil = Integer.valueOf(request.getParameter("idAfficher"));
+		int idUser = (Integer)(session.getAttribute("idUser"));	
+		int idProfil = (Integer)(session.getAttribute("idAfficher"));
 		User user = ServiceUser.getUserById(idProfil, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+		User userAuth = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 		request.setAttribute("idUser", idUser);
 		request.setAttribute("idAfficher", idProfil);
 		
@@ -41,7 +42,7 @@ public class ProfilController extends HttpServlet {
 			if(action.equalsIgnoreCase("publier")) {
 				String content = request.getParameter("publication");
 				if(!content.isEmpty()) {
-					ServicePublication.addPublication(user.getFeed(), new Publication(content, idUser));
+					ServicePublication.addPublication(user.getFeed(), new Publication(content, userAuth));
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
 				
@@ -55,7 +56,7 @@ public class ProfilController extends HttpServlet {
 				if(content!=null && !content.isEmpty()) {
 					List<Publication> feed = user.getFeed();
 					Publication p = ServicePublication.getPublicationById(feed, idPublication);
-					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), new Commentaire(content, idUser, idPublication));
+					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), new Commentaire(content, userAuth, idPublication));
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
 				

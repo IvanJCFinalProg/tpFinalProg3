@@ -78,8 +78,8 @@
 							%>
 							<div>
 								<%
-									User publicateur = ServiceUser.getUserById(publication.getId_User(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-								
+									//User publicateur = ServiceUser.getUserById(publication.getId_User(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+									User publicateur = publication.getUser();
 								%>
 								<p><%="#"+publication.getId()+"-"%>
 									<a href="UserController?action=afficherProfil&idAfficher=<%= publicateur.getCredential().getId()%>
@@ -90,7 +90,7 @@
 							</div>
 							<div>
 								<%
-									if(user.getCredential().getId() == publication.getId_User()){
+									if(user.getCredential().getId() == publicateur.getCredential().getId()){
 								%>
 								<form id="delPubliForm" name="delPublication" action="UserController?action=supprimerPublication&idPubli=<%=
 								publication.getId()%>&idUser=<%=user.getCredential().getId() %>" method="post">
@@ -104,7 +104,7 @@
 								<div>
 									<form id="publiForm" name="formPublication" action="UserController?action=commenter" method="post">
 										<input type="text" name="commentaire"></input>
-										<input type="hidden" name="idUserPublication" value="<%=publication.getId_User()%>"></input>
+										<input type="hidden" name="idUserPublication" value="<%=publication.getUser().getCredential().getId()%>"></input>
 										<input type="hidden" name="idPublication" value="<%=publication.getId()%>"></input>
 										<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
 										<button type="submit">Commenter</button>
@@ -113,7 +113,8 @@
 								<div>
 									<%
 										for(Commentaire commentaire : publication.getListeCommentaires()){
-											User commenteur = ServiceUser.getUserById(commentaire.getId_User(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+											//User commenteur = ServiceUser.getUserById(commentaire.getId_User(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+											User commenteur = commentaire.getUser();
 									%>
 											<br>
 											<p>#<%=commentaire.getId()%>-
@@ -125,7 +126,8 @@
 											</p>
 											
 										<%
-											if(user.getCredential().getId() == publication.getId_User() || user.getCredential().getId() == commentaire.getId_User()){
+											if(user.getCredential().getId() == publicateur.getCredential().getId()
+											|| user.getCredential().getId() == commenteur.getCredential().getId()){
 										%>
 											<form id="delCommentForm" name="delComment" action="UserController?action=supprimerCommentaire" method="post">
 												<button type="submit">Supprimer Commentaire</button>

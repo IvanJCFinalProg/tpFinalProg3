@@ -56,7 +56,7 @@ public class UserController extends HttpServlet {
 				String content = request.getParameter("publication");
 				
 				if(!content.isEmpty()) {
-					ServicePublication.addPublication(user.getFeed(), new Publication(content, idUser));//(id!=idFeed)? id:idFeed));
+					ServicePublication.addPublication(user.getFeed(), new Publication(content, user));//(id!=idFeed)? id:idFeed));
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
 				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
@@ -74,7 +74,7 @@ public class UserController extends HttpServlet {
 				
 				if(request.getParameter("commentaire")!=null && !content.isEmpty()) {
 					Publication p = ServicePublication.getPublicationById(user.getFeed(), idPublication);
-					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), new Commentaire(content, idUser, idPublication));
+					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), new Commentaire(content, user, idPublication));
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
 				session.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));

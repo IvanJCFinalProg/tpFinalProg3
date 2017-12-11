@@ -19,6 +19,7 @@ public class Publication {
 	private String date_modification;
 	private int id;
 	private int id_User;
+	private User user;
 	
 	public Publication(String content, int id_User) {
 		this.id = compteur;
@@ -28,7 +29,20 @@ public class Publication {
 		this.date_publication = DF.format(Calendar.getInstance().getTime());
 		this.id_User = id_User;
 	}
-
+	
+	public Publication(String content, User user) {
+		this.id = compteur;
+		compteur++;
+		this.content = content;
+		this.listeCommentaires = new ArrayList<Commentaire>();
+		this.date_publication = DF.format(Calendar.getInstance().getTime());
+		this.user = user;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
 	public List<Commentaire> getListeCommentaires() {
 		return listeCommentaires;
 	}
