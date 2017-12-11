@@ -64,7 +64,7 @@ public class UserController extends HttpServlet {
 					ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
-				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
@@ -124,7 +124,7 @@ public class UserController extends HttpServlet {
 				
 			}else if(action.equalsIgnoreCase("afficherProfil")) {
 				int idProfil = Integer.parseInt(request.getParameter("idAfficher"));
-				User profil = ServiceUser.getUserById(idProfil, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+				User profil = ServiceUser.getUserById(idProfil, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 				
 				session.setAttribute("user", user);
 				session.setAttribute("profil", profil);

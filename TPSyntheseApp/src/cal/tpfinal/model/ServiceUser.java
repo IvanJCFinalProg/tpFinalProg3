@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.joda.time.DateTime;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -82,21 +84,24 @@ public class ServiceUser {
 		getUserById(id, tableUsers).setBlocked(true);
 	}
 	
-	public static boolean saveClient(String fileName, User user) {
+	public static boolean saveUser(String fileName, User user) {
 		try {
 			XStream stream = new XStream(new DomDriver());
+			stream.alias("tableUsers", Map.class);
+			stream.alias("User", Entry.class);
 			stream.alias("Utilisateur", User.class);
 			stream.alias("Credential", Credential.class);
 			stream.alias("publication", Publication.class);
 			stream.alias("commentaire", Commentaire.class);
-			Map<Integer, User> tmp = fromToXML(fileName);
+			stream.alias("Date", DateTime.class);
+			Map<Integer, User> tmp = loadMapUserFromXML(fileName);
 			tmp.put(user.getCredential().getId(),user);
 			stream.toXML(tmp, new FileOutputStream(fileName));
 		}catch (Exception e) {
 			logger.error(ServiceUser.class.getName() +" Probleme dans la fonction saveClient()");
 			logger.debug(e.getMessage() +" "+e.getLocalizedMessage());
 		}
-		return (getUserById(user.getCredential().getId(), fromToXML(fileName))).getCredential().getId() == user.getCredential().getId();
+		return (getUserById(user.getCredential().getId(), loadMapUserFromXML(fileName))).getCredential().getId() == user.getCredential().getId();
 	}
 	
 	/**
@@ -108,10 +113,13 @@ public class ServiceUser {
 	public static boolean saveToXML(Map<Integer, User> tableUsers, String fileName) {
 		try {
 			XStream stream = new XStream(new DomDriver());
+			stream.alias("tableUsers", Map.class);
+			stream.alias("User", Entry.class);
 			stream.alias("Utilisateur", User.class);
 			stream.alias("Credential", Credential.class);
 			stream.alias("publication", Publication.class);
 			stream.alias("commentaire", Commentaire.class);
+			stream.alias("Date", DateTime.class);
 			stream.toXML(tableUsers, new FileOutputStream(fileName));
 			return new File(fileName).exists();
 			
@@ -129,13 +137,16 @@ public class ServiceUser {
 	 * @return Object Map ou List contenant des objets Client ou Transaction.
 	 */
 	@SuppressWarnings("unchecked")
-	public static Map<Integer, User> fromToXML(String fileName) {
+	public static Map<Integer, User> loadMapUserFromXML(String fileName) {
 		try {
 			XStream stream = new XStream(new DomDriver());
+			stream.alias("tableUsers", Map.class);
+			stream.alias("User", Entry.class);
 			stream.alias("Utilisateur", User.class);
 			stream.alias("Credential", Credential.class);
 			stream.alias("publication", Publication.class);
 			stream.alias("commentaire", Commentaire.class);
+			stream.alias("Date", DateTime.class);
 			return (Map<Integer, User>)stream.fromXML(new FileInputStream(fileName));
 			
 		} catch (Exception e) {

@@ -48,12 +48,12 @@
 				<div class="col-md-2">
 					<!-- Barre de navigation de côté qui permet de naviguer dans le contenu de la page -->
 			        <nav id="navigCote" class="sidenav">
-			            <a href="#logo"><span class="ion-earth"></span>Logo</a>
-			            <a href="#solde"><span class="ion-arrow-graph-down-right"></span>Soldes</a>
-			            <a href="#innov"><span class="ion-power"></span>Innovation</a>
-			            <a href="#propos"><span class="ion-person"></span>À propos</a>
-			            <a href="#qualites"><span class="ion-clipboard"></span>Nos qualités</a>
-			            <a href="#map"><span class="ion-map"></span>Emplacement</a>
+			            <a href="#"><span class="ion-earth"></span></a>
+			            <a href="#"><span class="ion-arrow-graph-down-right"></span>Soldes</a>
+			            <a href="#"><span class="ion-power"></span>Innovation</a>
+			            <a href="#"><span class="ion-person"></span>À propos</a>
+			            <a href="#"><span class="ion-clipboard"></span>Nos qualités</a>
+			            <a href="#"><span class="ion-map"></span>Emplacement</a>
 			        </nav>
 				</div>
 				<div class="col-md-10">

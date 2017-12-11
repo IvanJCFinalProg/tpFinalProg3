@@ -43,7 +43,7 @@ public class AdminController extends HttpServlet {
 		try {
 			Map<Integer, User> mapUsers = null; int idUser = -1;
 			if(request.getParameter(ServiceApp.getValue("5", 3))!=null) {
-				mapUsers = ServiceUser.fromToXML(ServiceApp.getValue("2", 2));
+				mapUsers = ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2));
 				idUser = Integer.valueOf(request.getParameter(ServiceApp.getValue("5", 3)));
 			}
 			if(action.equals(ServiceApp.getValue("2", 3))) {

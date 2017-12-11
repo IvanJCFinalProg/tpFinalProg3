@@ -51,7 +51,7 @@ public class LoginController extends HttpServlet {
 		logger.info("Initialisation de l'application");
 		try {
 			ServiceValidation.getMapErreurs().clear();
-			if(!(ServiceUser.fromToXML(ServiceApp.getValue("3",2))!= null)) {
+			if(!(ServiceUser.loadMapUserFromXML(ServiceApp.getValue("3",2))!= null)) {
 				User.setCompteur(Integer.valueOf(ServiceApp.getValue("1", 1))+1);
 			}	
 		} catch (Exception e) {
@@ -100,7 +100,7 @@ public class LoginController extends HttpServlet {
 					// set le dernier id du user cree dans le file properties
 					ServiceApp.setValue("1", String.valueOf(user.getCredential().getId()), 1);
 					
-					Map<Integer, User> tableUsers = ServiceUser.fromToXML(ServiceApp.getValue("2", 2));
+					Map<Integer, User> tableUsers = ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2));
 					if(tableUsers == null) {
 						tableUsers = new HashMap<>();
 						Map<Integer, Credential> tableLogins = new HashMap<>();
@@ -110,7 +110,7 @@ public class LoginController extends HttpServlet {
 						ServiceUser.saveToXML(tableUsers, ServiceApp.getValue("2", 2));
 					}
 					else {
-						ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
+						ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 						ServiceConnection.saveCredential(ServiceApp.getValue("3", 2), user.getCredential());
 					}
 					response.sendRedirect(ServiceApp.getValue("1", 2));
@@ -123,14 +123,14 @@ public class LoginController extends HttpServlet {
 				String password = request.getParameter("password");
 				if(email.substring(0,email.indexOf("@")).equals(ServiceApp.getValue("4", 1))) {
 					if(email.equals(ServiceApp.getValue("2", 1)) && password.equals(ServiceApp.getValue("3", 1))) {
-						request.setAttribute("mapUsers", ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+						request.setAttribute("mapUsers", ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 						RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("4", 2));
 						dispatcher.forward(request, response);
 					}
 				}else {
 					Credential user = Authentification.verificationUtilisateur(request.getParameter("email"),request.getParameter("password"), ServiceApp.getValue("3", 2));
 					if( user != null) {
-						session.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+						session.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
 						//request.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 						/* En développement */
 						/*if(request.getParameter("checkbox") != null) {

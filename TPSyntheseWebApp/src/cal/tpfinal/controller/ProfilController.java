@@ -33,8 +33,8 @@ public class ProfilController extends HttpServlet {
 		HttpSession session = request.getSession();
 		int idUser = (Integer)(session.getAttribute("idUser"));	
 		int idProfil = (Integer)(session.getAttribute("idAfficher"));
-		User user = ServiceUser.getUserById(idProfil, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-		User userAuth = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+		User user = ServiceUser.getUserById(idProfil, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
+		User userAuth = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 		request.setAttribute("idUser", idUser);
 		request.setAttribute("idAfficher", idProfil);
 		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
