@@ -2,6 +2,7 @@ package cal.tpfinal.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -50,13 +51,17 @@ public class UserController extends HttpServlet {
 		HttpSession session = request.getSession();
 		int idUser = Integer.valueOf(request.getParameter("idUser"));
 		User user = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
 		
 		try {
 			if(action.equalsIgnoreCase("publier")) {
 				String content = request.getParameter("publication");
 				
 				if(!content.isEmpty()) {
-					ServicePublication.addPublication(user.getFeed(), new Publication(content, user));//(id!=idFeed)? id:idFeed));
+					Publication p = new Publication(content, user);
+					ServicePublication.addPublication(user.getFeed(), p);
+					ServicePublication.addPublication(feedAccueil, p);
+					ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
 				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
@@ -67,13 +72,20 @@ public class UserController extends HttpServlet {
 			}else if(action.equalsIgnoreCase("commenter")) {
 				int idPublication = Integer.valueOf(request.getParameter("idPublication"));
 				int idUserPublication = Integer.valueOf(request.getParameter("idUserPublication"));
+				User publicateur = ServiceUser.getUserById(idUserPublication, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				String content = request.getParameter("commentaire");
 				
 				if(request.getParameter("commentaire")!=null && !content.isEmpty()) {
-					Publication p = ServicePublication.getPublicationById(user.getFeed(), idPublication);
-					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), new Commentaire(content, user, idPublication));
-					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
+					Publication p = ServicePublication.getPublicationById(publicateur.getFeed(), idPublication);
+					Commentaire c = new Commentaire(content, user, idPublication);
+					
+					ServiceCommentaire.addCommentaire(ServicePublication.getPublicationById(feedAccueil, idPublication).getListeCommentaires(), c);
+					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), c);
+					ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+					
+					ServiceUser.saveClient(ServiceApp.getValue("2", 2), publicateur);
 				}
+				session.setAttribute("feedAccueil", (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml"));
 				session.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 			//	request.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
@@ -81,11 +93,12 @@ public class UserController extends HttpServlet {
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("supprimerPublication")) {
-				int id = Integer.parseInt(request.getParameter("idPubli"));
+				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				
-				ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), id));
+				ServicePublication.removePublication(feedAccueil, ServicePublication.getPublicationById(feedAccueil, idPublication));
+				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+				ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), idPublication));
 				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
-				
 				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 			//	request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
@@ -96,10 +109,13 @@ public class UserController extends HttpServlet {
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				int idCommentaire = Integer.parseInt(request.getParameter("idCommentaire"));
 				
+				Publication publiFeed = ServicePublication.getPublicationById(feedAccueil, idPublication);
+				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(feedAccueil, idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publiFeed.getListeCommentaires(), idCommentaire));
+				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+				
 				Publication publi = ServicePublication.getPublicationById(user.getFeed(), idPublication);
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));
 				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
-				
 				session.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 			//	request.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				

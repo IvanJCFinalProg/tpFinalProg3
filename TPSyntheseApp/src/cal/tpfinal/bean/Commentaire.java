@@ -14,14 +14,6 @@ public class Commentaire {
 	private int id_User;
 	private User user;
 	
-	public Commentaire(String content, int id_User, int id_publication) {
-		this.id = compteur;
-		compteur++;
-		this.content = content;
-		this.date_publication = DF.format(Calendar.getInstance().getTime());
-		this.id_User = id_User;
-		this.id_Publication = id_publication;
-	}
 	public Commentaire(String content, User user, int id_publication) {
 		this.id = compteur;
 		compteur++;
@@ -29,6 +21,7 @@ public class Commentaire {
 		this.date_publication = DF.format(Calendar.getInstance().getTime());
 		this.user = user;
 		this.id_Publication = id_publication;
+		this.id_User = user.getCredential().getId();
 	}
 
 	public User getUser() {

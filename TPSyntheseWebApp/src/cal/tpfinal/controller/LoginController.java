@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -23,10 +24,12 @@ import org.joda.time.LocalDate;
 import org.joda.time.Years;
 
 import cal.tpfinal.bean.Credential;
+import cal.tpfinal.bean.Publication;
 import cal.tpfinal.bean.User;
 import cal.tpfinal.model.ServiceApp;
 import cal.tpfinal.model.ServiceConnection;
 import cal.tpfinal.model.ServicePassword;
+import cal.tpfinal.model.ServicePublication;
 import cal.tpfinal.model.ServiceUser;
 import cal.tpfinal.util.Authentification;
 import cal.tpfinal.util.IServiceUtils;
@@ -64,6 +67,7 @@ public class LoginController extends HttpServlet {
 		String action = request.getParameter("action");
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
+		session.setAttribute("feedAccueil", (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml"));
 		try {
 			if(action.equalsIgnoreCase(IServiceUtils.TYPE_FORM1)) {
 				String nom = request.getParameter("nomInscript") ;
@@ -148,7 +152,6 @@ public class LoginController extends HttpServlet {
 				}
 			}else if(action.equalsIgnoreCase("accueil")) {
 				User user= (User)session.getAttribute("user");
-				
 				/* En développement */
 				session.setAttribute("user", user);
 				response.sendRedirect(ServiceApp.getValue("5", 2));

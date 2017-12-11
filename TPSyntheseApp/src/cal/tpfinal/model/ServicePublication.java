@@ -9,7 +9,9 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import cal.tpfinal.bean.Commentaire;
+import cal.tpfinal.bean.Credential;
 import cal.tpfinal.bean.Publication;
+import cal.tpfinal.bean.User;
 
 public class ServicePublication {
 	
@@ -37,10 +39,11 @@ public class ServicePublication {
 	public static boolean saveListePublication(String fileName, List<Publication> liste) throws Exception {
 
 		XStream stream = new XStream(new DomDriver());
-		stream.alias("Commentaire", Commentaire.class);
-		stream.alias("Publication", Publication.class);
-		stream.alias("Publications", List.class);
-		
+		stream.alias("commentaire", Commentaire.class);
+		stream.alias("publication", Publication.class);
+		stream.alias("user", User.class);
+		stream.alias("credential", Credential.class);
+		stream.alias("feed", List.class);
 		stream.toXML(liste, new FileOutputStream(fileName));
 		return new File(fileName).exists();
 	}
@@ -51,9 +54,11 @@ public class ServicePublication {
 		List<Publication> temp = null;
 		try {
 			XStream stream = new XStream(new DomDriver());
-			stream.alias("Commentaire", Commentaire.class);
-			stream.alias("Publication", Publication.class);
-			stream.alias("Publications", List.class);
+			stream.alias("commentaire", Commentaire.class);
+			stream.alias("publication", Publication.class);
+			stream.alias("user", User.class);
+			stream.alias("credential", Credential.class);
+			stream.alias("feed", List.class);
 			temp = (List<Publication>) stream.fromXML(new FileInputStream(fileName));
 		}catch (Exception e) {
 			e.printStackTrace();

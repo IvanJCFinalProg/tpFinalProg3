@@ -3,6 +3,7 @@
 <%@page import="cal.tpfinal.bean.Commentaire"%>
 <%@page import="cal.tpfinal.bean.Publication"%>
 <%@page import="cal.tpfinal.bean.User"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -24,7 +25,8 @@
 			session.setAttribute("user", user);
 			session.setAttribute("idAfficher", user.getCredential().getId());
 			session.setAttribute("idUser", user.getCredential().getId());
-			
+			List<Publication> feedAccueil = (List<Publication>)session.getAttribute("feedAccueil");
+			session.setAttribute("feedAccueil",feedAccueil);
 			%>
 		<nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
@@ -74,7 +76,7 @@
 							        </form>
 						      	</div>
 						      	<%
-						for(Publication publication : user.getFeed()){
+						for(Publication publication : feedAccueil){
 							%>
 							<div>
 								<%

@@ -37,12 +37,16 @@ public class ProfilController extends HttpServlet {
 		User userAuth = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 		request.setAttribute("idUser", idUser);
 		request.setAttribute("idAfficher", idProfil);
+		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
 		
 		try {
 			if(action.equalsIgnoreCase("publier")) {
 				String content = request.getParameter("publication");
 				if(!content.isEmpty()) {
-					ServicePublication.addPublication(user.getFeed(), new Publication(content, userAuth));
+					Publication p = new Publication(content, userAuth);
+					ServicePublication.addPublication(user.getFeed(), p);
+					ServicePublication.addPublication(feedAccueil, p);
+					ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
 				
@@ -54,9 +58,12 @@ public class ProfilController extends HttpServlet {
 				String content = request.getParameter("commentaire");
 				
 				if(content!=null && !content.isEmpty()) {
-					List<Publication> feed = user.getFeed();
-					Publication p = ServicePublication.getPublicationById(feed, idPublication);
-					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), new Commentaire(content, userAuth, idPublication));
+					Publication p = ServicePublication.getPublicationById(user.getFeed(), idPublication);
+					Commentaire c = new Commentaire(content, userAuth, idPublication);
+					
+					ServiceCommentaire.addCommentaire(ServicePublication.getPublicationById(feedAccueil, idPublication).getListeCommentaires(), c);
+					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), c);
+					ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
 				
@@ -67,6 +74,8 @@ public class ProfilController extends HttpServlet {
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				
 				ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), idPublication));
+				ServicePublication.removePublication(feedAccueil, ServicePublication.getPublicationById(feedAccueil, idPublication));
+				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
 				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
@@ -76,9 +85,12 @@ public class ProfilController extends HttpServlet {
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				int idCommentaire = Integer.parseInt(request.getParameter("idCommentaire"));
 				
+				Publication publiFeed = ServicePublication.getPublicationById(feedAccueil, idPublication);
+				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(feedAccueil, idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publiFeed.getListeCommentaires(), idCommentaire));
+				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+				
 				Publication publi = ServicePublication.getPublicationById(user.getFeed(), idPublication);
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));
-				
 				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 
 				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");

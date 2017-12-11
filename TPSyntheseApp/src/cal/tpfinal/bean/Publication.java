@@ -21,15 +21,6 @@ public class Publication {
 	private int id_User;
 	private User user;
 	
-	public Publication(String content, int id_User) {
-		this.id = compteur;
-		compteur++;
-		this.content = content;
-		this.listeCommentaires = new ArrayList<Commentaire>();
-		this.date_publication = DF.format(Calendar.getInstance().getTime());
-		this.id_User = id_User;
-	}
-	
 	public Publication(String content, User user) {
 		this.id = compteur;
 		compteur++;
@@ -37,6 +28,7 @@ public class Publication {
 		this.listeCommentaires = new ArrayList<Commentaire>();
 		this.date_publication = DF.format(Calendar.getInstance().getTime());
 		this.user = user;
+		this.id_User = user.getCredential().getId();
 	}
 	
 	public User getUser() {
@@ -76,13 +68,13 @@ public class Publication {
 		return date_modification;
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		Publication p = new Publication("Potato", 0);
 		System.out.println(p.getDate_publication());
 		 DateTime dt = new DateTime();
 		 DateTimeFormatter fmt = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
 		 String str = fmt.print(dt);
 		 System.out.println(str);
-	}
+	}*/
 }
 
