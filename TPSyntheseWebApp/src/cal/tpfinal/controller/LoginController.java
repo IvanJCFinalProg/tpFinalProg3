@@ -29,7 +29,7 @@ import cal.tpfinal.model.ServiceConnection;
 import cal.tpfinal.model.ServicePassword;
 import cal.tpfinal.model.ServiceUser;
 import cal.tpfinal.util.Authentification;
-import cal.tpfinal.util.IService;
+import cal.tpfinal.util.IServiceUtils;
 import cal.tpfinal.util.ServiceValidation;
 
 /**
@@ -52,7 +52,7 @@ public class LoginController extends HttpServlet {
 				User.setCompteur(Integer.valueOf(ServiceApp.getValue("1", 1))+1);
 			}	
 		} catch (Exception e) {
-			logger.error("Probl�me - Function init(LoginControler) - Initialisation des donn�es");
+			logger.error(LoginController.class.getName()+" | Probleme - Function init(LoginControler) - Initialisation des donnees");
 			logger.debug(e.getMessage() +" "+e.getLocalizedMessage());
 		}finally {
 			logger.info("Fin de l'initialisation");
@@ -65,8 +65,7 @@ public class LoginController extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
 		try {
-			System.out.println("entrer DONNEES");
-			if(action.equalsIgnoreCase(IService.TYPE_FORM1)) {
+			if(action.equalsIgnoreCase(IServiceUtils.TYPE_FORM1)) {
 				String nom = request.getParameter("nomInscript") ;
 				String prenom = request.getParameter("prenomInscript") ;
 				String email = request.getParameter("emailInscript") ;
@@ -76,8 +75,6 @@ public class LoginController extends HttpServlet {
 				String dateBirth = request.getParameter("dateBirth");
 				int age = Years.yearsBetween(LocalDate.parse(dateBirth), new LocalDate()).getYears();
 				
-				System.out.println("entrer dONNEES SET");
-				
 				if(!ServiceValidation.isValideDonneesInputs(nom, prenom, email)) {
 					request.setAttribute("mapErreurs",ServiceValidation.getMapErreurs());
 					System.out.println(ServiceValidation.getMapErreurs());
@@ -85,7 +82,6 @@ public class LoginController extends HttpServlet {
 					dispatcher.forward(request, response);
 				}
 				else{
-					System.out.println("entrer dONNEES Get");
 					User user = new User();
 					logger.info(LoginController.class.getName()+" | Id User Creation "+user.getCredential().getId());
 					user.setNom((nom.trim()).substring(0, 1).toUpperCase()+(nom.trim()).substring(1).toLowerCase());
@@ -97,7 +93,7 @@ public class LoginController extends HttpServlet {
 					user.getCredential().setEmail(email);
 					user.getCredential().setPassword(ServicePassword.encryptPassword(passwordConfirm));
 					user.setAge(age);
-					// set le dernier id du user cr�e dans le file properties
+					// set le dernier id du user cree dans le file properties
 					ServiceApp.setValue("1", String.valueOf(user.getCredential().getId()), 1);
 					
 					Map<Integer, User> tableUsers = ServiceUser.fromToXML(ServiceApp.getValue("2", 2));
@@ -117,7 +113,8 @@ public class LoginController extends HttpServlet {
 				}
 				
 			}
-			else if(action.equalsIgnoreCase(IService.TYPE_FORM2)) {
+			else if(action.equalsIgnoreCase(IServiceUtils.TYPE_FORM2)) {
+				if(request.getAttribute("notUser")!=null)request.removeAttribute("notUser");
 				String email = request.getParameter("email");
 				String password = request.getParameter("password");
 				if(email.substring(0,email.indexOf("@")).equals(ServiceApp.getValue("4", 1))) {
@@ -145,7 +142,8 @@ public class LoginController extends HttpServlet {
 						dispatcher.forward(request, response);
 					}
 					else {
-						response.sendRedirect(ServiceApp.getValue("1", 2));
+						request.setAttribute("notUser", IServiceUtils.ERROR_NOT_USER);
+						request.getRequestDispatcher(ServiceApp.getValue("1",2)).forward(request, response);
 					}
 				}
 			}else if(action.equalsIgnoreCase("accueil")) {

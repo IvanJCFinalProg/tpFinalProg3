@@ -7,7 +7,7 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cal.tpfinal.util.IService;
+import cal.tpfinal.util.IServiceUtils;
 
 public class ServiceApp {
 	
@@ -21,9 +21,9 @@ public class ServiceApp {
 	public static void setValue(String key, String value, int option){
 		try {
 			Properties propertiesFile = new Properties();
-			propertiesFile.load(new FileInputStream(IService.FILE1));
+			propertiesFile.load(new FileInputStream(IServiceUtils.FILE1));
 			propertiesFile.setProperty(key, value);
-			propertiesFile.store(new FileOutputStream(IService.FILE1), "");
+			propertiesFile.store(new FileOutputStream(IServiceUtils.FILE1), "");
 			
 		} catch (Exception e) {
 			logger.error(ServiceApp.class.getName()+" - Function setValeur( Key : "+key+", value : "+value+" ) - Impossible de set dans le fichier properties");
@@ -37,15 +37,15 @@ public class ServiceApp {
 		try {
 			switch (option) {
 			case 1:
-				props.load(new FileInputStream(IService.FILE1));
+				props.load(new FileInputStream(IServiceUtils.FILE1));
 				break;
 
 			case 2:
-				props.load(new FileInputStream(IService.FILE2));
+				props.load(new FileInputStream(IServiceUtils.FILE2));
 				break;
 				
 			case 3:
-				props.load(new FileInputStream(IService.FILE3));
+				props.load(new FileInputStream(IServiceUtils.FILE3));
 				break;
 			}
 		} catch (Exception e) {

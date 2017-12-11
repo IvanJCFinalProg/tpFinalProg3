@@ -3,11 +3,6 @@
  */
 $(document).ready(function(){
 	
-	/*$("#error-name-incript").hide();
-	$("#error-email-incript").hide();
-	$("#error-password-incript").hide();
-	$("#error-passwordConfirm-incript").hide();*/
-	//$("").hide();
 	var errorEmail = false;
 	var errorPassword = false;
 	var errorNomInscript = false;
@@ -48,6 +43,12 @@ $(document).ready(function(){
 	$("#date-inscription").focusout(function(){
 		validateBirthDate();
 	});
+	
+	// Erreur de user
+	$("#email").focusout(function(){
+		$("#error-user").hide();
+	});
+	
 	
 	function validateBirthDate(){
 		var str = $("#date-inscription").val();

@@ -19,7 +19,7 @@ import cal.tpfinal.bean.User;
 import cal.tpfinal.model.ServiceApp;
 import cal.tpfinal.model.ServiceConnection;
 import cal.tpfinal.model.ServiceUser;
-import cal.tpfinal.util.IService;
+import cal.tpfinal.util.IServiceUtils;
 
 /**
  * Servlet implementation class AdminController
@@ -49,7 +49,7 @@ public class AdminController extends HttpServlet {
 			if(action.equals(ServiceApp.getValue("2", 3))) {
 				ServiceUser.blockUser(idUser, mapUsers);
 				ServiceUser.saveToXML(mapUsers, ServiceApp.getValue("2", 2));
-				RequestDispatcher dispatcher = request.getRequestDispatcher(IService.REDIRECTION_ADMIN);
+				RequestDispatcher dispatcher = request.getRequestDispatcher(IServiceUtils.REDIRECTION_ADMIN);
 				dispatcher.forward(request, response);
 			}
 			else if(action.equals(ServiceApp.getValue("3", 3))) {
@@ -61,7 +61,7 @@ public class AdminController extends HttpServlet {
 				ServiceConnection.deleteCredential(tableLogins.get(idUser), tableLogins);
 				ServiceUser.saveToXML(mapUsers, ServiceApp.getValue("2", 2));
 				ServiceConnection.saveMapCredentials(ServiceApp.getValue("3", 2), tableLogins);
-				RequestDispatcher dispatcher = request.getRequestDispatcher(IService.REDIRECTION_ADMIN);
+				RequestDispatcher dispatcher = request.getRequestDispatcher(IServiceUtils.REDIRECTION_ADMIN);
 				dispatcher.forward(request, response);
 			}
 			else if(action.equals(ServiceApp.getValue("4", 3))) {

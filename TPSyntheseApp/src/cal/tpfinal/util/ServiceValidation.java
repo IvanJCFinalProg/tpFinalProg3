@@ -19,7 +19,15 @@ public final class ServiceValidation {
 	private static final String[] tabNomEmail = {"hotmail","gmail","yahoo"};
 	
 	public static boolean isValideDonneesInputs(String nom, String prenom, String email) {
-		return valideEmail(email);
+		return valideEmail(email) && valideNomPrenom(nom, prenom);
+	}
+	
+	private static boolean valideNomPrenom(String nom, String prenom) {
+		if(!nom.matches(IServiceUtils.REGEX_NAME) || !prenom.matches(IServiceUtils.REGEX_NAME)) {
+			mapErreurs.put("errorName", "<h5 class=\"errormsg\">Le nom ou le prénom rentré est incorrect<h5>");
+			return false;
+		}
+		return true;
 	}
 	
 	private static boolean valideEmail(String email) {
@@ -34,13 +42,4 @@ public final class ServiceValidation {
 		return mapErreurs;
 	}
 
-	public static void main(String[] args) {
-		//String email = "hotmail@gmail.ca";
-		//System.out.println(email.substring(email.indexOf("@")));
-		
-		
-		Pattern pattern = Pattern.compile("^[A-Za-z]{2,20}$");
-		String name = "Michel";
-		//System.out.println(name.matches(""));
-	}
 }

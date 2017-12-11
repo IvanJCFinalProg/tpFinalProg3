@@ -26,6 +26,10 @@
 			        <ul class="nav nav-tabs">
 			        	<% 
 			        		Map<String, String> mapErreurs = null;
+			        		String errorNotUser = null;
+			        		if(request.getAttribute("notUser")!=null){
+			        			errorNotUser = (String)request.getAttribute("notUser");
+			        		}
 			        		if(request.getAttribute("mapErreurs")!=null){
 			        			mapErreurs = (Map<String, String>)request.getAttribute("mapErreurs");
 			        		}
@@ -49,6 +53,7 @@
 		                		<div class="col-md-1"></div>
 		                	 	<div class="col-md-8">
 		                	 		<h2 class="text-left titre-form">Connexion</h2>
+		                	 		<div id="error-user"><%if(errorNotUser!=null){out.print(errorNotUser);} %></div>
 		                	 		<input type="text" name="email" id="email" class="form-control email" required="required" placeholder="Email" autocomplete="on" value='<%=email%>'>
 				                    <i class="fa fa-at"></i>
 				                    <div id="error-email"></div>
@@ -81,7 +86,7 @@
 			                				<input type="text" name="prenomInscript" id="prenom-inscription" class="form-control" required="required" placeholder="Prénom">
 				                    		<i class="fa fa-user-circle-o"></i>
 			                			</div>
-			                			<div id="error-name-incript"></div>
+			                			<div id="error-name-incript"><%if(mapErreurs!=null){out.print(mapErreurs.get("errorName"));}%></div>
 			                		</div>    
 				                    <input type="email" name="emailInscript" id="email-inscription" class="form-control email" required="required" placeholder="Email">
 				                    <i class="fa fa-at"></i>
