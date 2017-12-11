@@ -33,13 +33,12 @@ public class ProfilController extends HttpServlet {
 		HttpSession session = request.getSession();
 		int idUser = Integer.valueOf(request.getParameter("idUser"));	
 		int idProfil = Integer.valueOf(request.getParameter("idAfficher"));
+		User user = ServiceUser.getUserById(idProfil, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 		request.setAttribute("idUser", idUser);
 		request.setAttribute("idAfficher", idProfil);
 		
 		try {
 			if(action.equalsIgnoreCase("publier")) {
-				User user = ServiceUser.getUserById(idProfil, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-				
 				String content = request.getParameter("publication");
 				if(!content.isEmpty()) {
 					ServicePublication.addPublication(user.getFeed(), new Publication(content, idUser));
@@ -52,8 +51,6 @@ public class ProfilController extends HttpServlet {
 			}else if(action.equalsIgnoreCase("commenter")) {
 				int idPublication = Integer.valueOf(request.getParameter("idPublication"));
 				String content = request.getParameter("commentaire");
-				
-				User user = ServiceUser.getUserById(idProfil, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				
 				if(content!=null && !content.isEmpty()) {
 					List<Publication> feed = user.getFeed();
@@ -68,7 +65,6 @@ public class ProfilController extends HttpServlet {
 			}else if(action.equalsIgnoreCase("supprimerPublication")) {
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				
-				User user = ServiceUser.getUserById(idProfil, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), idPublication));
 				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				
@@ -79,7 +75,6 @@ public class ProfilController extends HttpServlet {
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				int idCommentaire = Integer.parseInt(request.getParameter("idCommentaire"));
 				
-				User user = ServiceUser.getUserById(idProfil, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				Publication publi = ServicePublication.getPublicationById(user.getFeed(), idPublication);
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));
 				
