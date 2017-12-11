@@ -50,7 +50,7 @@ public class UserController extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
 		int idUser = Integer.valueOf(request.getParameter("idUser"));
-		User user = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+		User user = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
 		
 		try {
@@ -62,7 +62,7 @@ public class UserController extends HttpServlet {
 					ServicePublication.addPublication(user.getFeed(), p);
 					ServicePublication.addPublication(feedAccueil, p);
 					ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
-					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
+					ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				}
 				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
 				
@@ -72,7 +72,7 @@ public class UserController extends HttpServlet {
 			}else if(action.equalsIgnoreCase("commenter")) {
 				int idPublication = Integer.valueOf(request.getParameter("idPublication"));
 				int idUserPublication = Integer.valueOf(request.getParameter("idUserPublication"));
-				User publicateur = ServiceUser.getUserById(idUserPublication, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+				User publicateur = ServiceUser.getUserById(idUserPublication, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 				String content = request.getParameter("commentaire");
 				
 				if(request.getParameter("commentaire")!=null && !content.isEmpty()) {
@@ -83,10 +83,10 @@ public class UserController extends HttpServlet {
 					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), c);
 					ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
 					
-					ServiceUser.saveClient(ServiceApp.getValue("2", 2), publicateur);
+					ServiceUser.saveUser(ServiceApp.getValue("2", 2), publicateur);
 				}
 				session.setAttribute("feedAccueil", (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml"));
-				session.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				session.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
 			//	request.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
@@ -98,8 +98,8 @@ public class UserController extends HttpServlet {
 				ServicePublication.removePublication(feedAccueil, ServicePublication.getPublicationById(feedAccueil, idPublication));
 				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
 				ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), idPublication));
-				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
-				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
+				session.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
 			//	request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
@@ -115,8 +115,8 @@ public class UserController extends HttpServlet {
 				
 				Publication publi = ServicePublication.getPublicationById(user.getFeed(), idPublication);
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));
-				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
-				session.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
+				session.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
 			//	request.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");

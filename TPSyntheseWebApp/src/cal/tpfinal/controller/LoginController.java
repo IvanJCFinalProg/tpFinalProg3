@@ -2,6 +2,7 @@ package cal.tpfinal.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +68,16 @@ public class LoginController extends HttpServlet {
 		String action = request.getParameter("action");
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
-		session.setAttribute("feedAccueil", (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml"));
+		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
+		if(feedAccueil == null) {
+			feedAccueil = new ArrayList<Publication>();
+			try {
+				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+			}catch(Exception e) {}
+		}
+		//session.setAttribute("feedAccueil", (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml"));
+		session.setAttribute("feedAccueil", feedAccueil);
+		
 		try {
 			if(action.equalsIgnoreCase(IServiceUtils.TYPE_FORM1)) {
 				String nom = request.getParameter("nomInscript") ;

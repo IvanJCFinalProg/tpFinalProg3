@@ -40,7 +40,7 @@ public class ServiceConnection {
 	public static boolean saveCredential(String fileName, Credential credential) throws Exception {
 
 		XStream stream = new XStream(new DomDriver());
-		stream.alias("Login", Credential.class);
+		stream.alias("Credential", Credential.class);
 		stream.alias("tableLogins", Map.class);
 		stream.alias("Login", Entry.class);
 		Map<Integer, Credential> tmp = loadMapCredentials(fileName);
@@ -53,7 +53,7 @@ public class ServiceConnection {
 	public static boolean saveMapCredentials(String fileName, Map<Integer, Credential> mapCredential) throws Exception {
 
 		XStream stream = new XStream(new DomDriver());
-		stream.alias("Login", Credential.class);
+		stream.alias("Credential", Credential.class);
 		stream.alias("tableLogins", Map.class);
 		stream.alias("Login", Entry.class);
 		stream.toXML(mapCredential, new FileOutputStream(fileName));
@@ -66,7 +66,7 @@ public class ServiceConnection {
 		Map<Integer, Credential> temp = null;
 		try {
 			XStream stream = new XStream(new DomDriver());
-			stream.alias("Login", Credential.class);
+			stream.alias("Credential", Credential.class);
 			stream.alias("tableLogins", Map.class);
 			stream.alias("Login", Entry.class);
 			temp = (Map<Integer, Credential>) stream.fromXML(new FileInputStream(fileName));

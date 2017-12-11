@@ -4,6 +4,7 @@ package cal.tpfinal.model;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -88,6 +89,7 @@ public class ServiceUser {
 		try {
 			XStream stream = new XStream(new DomDriver());
 			stream.alias("tableUsers", Map.class);
+			stream.alias("feed", List.class);
 			stream.alias("User", Entry.class);
 			stream.alias("Utilisateur", User.class);
 			stream.alias("Credential", Credential.class);
@@ -114,6 +116,7 @@ public class ServiceUser {
 		try {
 			XStream stream = new XStream(new DomDriver());
 			stream.alias("tableUsers", Map.class);
+			stream.alias("feed", List.class);
 			stream.alias("User", Entry.class);
 			stream.alias("Utilisateur", User.class);
 			stream.alias("Credential", Credential.class);
@@ -141,6 +144,7 @@ public class ServiceUser {
 		try {
 			XStream stream = new XStream(new DomDriver());
 			stream.alias("tableUsers", Map.class);
+			stream.alias("feed", List.class);
 			stream.alias("User", Entry.class);
 			stream.alias("Utilisateur", User.class);
 			stream.alias("Credential", Credential.class);

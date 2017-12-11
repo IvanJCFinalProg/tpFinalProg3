@@ -47,7 +47,7 @@ public class ProfilController extends HttpServlet {
 					ServicePublication.addPublication(user.getFeed(), p);
 					ServicePublication.addPublication(feedAccueil, p);
 					ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
-					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
+					ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				}
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
@@ -64,7 +64,7 @@ public class ProfilController extends HttpServlet {
 					ServiceCommentaire.addCommentaire(ServicePublication.getPublicationById(feedAccueil, idPublication).getListeCommentaires(), c);
 					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), c);
 					ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
-					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
+					ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				}
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
@@ -76,7 +76,7 @@ public class ProfilController extends HttpServlet {
 				ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), idPublication));
 				ServicePublication.removePublication(feedAccueil, ServicePublication.getPublicationById(feedAccueil, idPublication));
 				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
-				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
+				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
 				dispatcher.forward(request, response);
@@ -91,7 +91,7 @@ public class ProfilController extends HttpServlet {
 				
 				Publication publi = ServicePublication.getPublicationById(user.getFeed(), idPublication);
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));
-				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
+				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 
 				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
 				dispatcher.forward(request, response);

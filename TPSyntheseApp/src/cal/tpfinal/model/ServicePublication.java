@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.joda.time.DateTime;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -37,14 +41,19 @@ public class ServicePublication {
 	}
 	
 	public static boolean saveListePublication(String fileName, List<Publication> liste) throws Exception {
-
-		XStream stream = new XStream(new DomDriver());
-		stream.alias("commentaire", Commentaire.class);
-		stream.alias("publication", Publication.class);
-		stream.alias("user", User.class);
-		stream.alias("credential", Credential.class);
-		stream.alias("feed", List.class);
-		stream.toXML(liste, new FileOutputStream(fileName));
+		try {
+			XStream stream = new XStream(new DomDriver());
+			stream.alias("commentaire", Commentaire.class);
+			stream.alias("publication", Publication.class);
+			stream.alias("Utilisateur", User.class);
+			stream.alias("Credential", Credential.class);
+			stream.alias("feed", List.class);
+			stream.alias("User", Entry.class);
+			stream.alias("Date", DateTime.class);
+			stream.toXML(liste, new FileOutputStream(fileName));
+		}catch(Exception e) {
+			
+		}
 		return new File(fileName).exists();
 	}
 	
@@ -56,9 +65,11 @@ public class ServicePublication {
 			XStream stream = new XStream(new DomDriver());
 			stream.alias("commentaire", Commentaire.class);
 			stream.alias("publication", Publication.class);
-			stream.alias("user", User.class);
-			stream.alias("credential", Credential.class);
+			stream.alias("Utilisateur", User.class);
+			stream.alias("Credential", Credential.class);
 			stream.alias("feed", List.class);
+			stream.alias("User", Entry.class);
+			stream.alias("Date", DateTime.class);
 			temp = (List<Publication>) stream.fromXML(new FileInputStream(fileName));
 		}catch (Exception e) {
 			e.printStackTrace();
