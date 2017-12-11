@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="cal.tpfinal.model.ServiceApp"%>
 <%@page import="cal.tpfinal.model.ServiceUser"%>
 <%@page import="cal.tpfinal.bean.Commentaire"%>
@@ -21,7 +22,11 @@
 		<%
 			User profil = (User)session.getAttribute("profil");
 			session.setAttribute("profil", profil);
+			boolean ami = false;
 			User user = (User)session.getAttribute("user"); 
+			
+			ami =(boolean) session.getAttribute("amitie");
+			
 			session.setAttribute("user", user);
 			
 			session.setAttribute("idAfficher", profil.getCredential().getId());
@@ -62,6 +67,14 @@
 						    <div class="col-md-offset-3 col-md-6 col-xs-12">
 						    	<div class="well well-sm well-social-post">
 						    		<h2>Profil de :<%=profil.getPrenom()%> <%=profil.getNom()%></h2>
+						    	<%
+						    		if(user.getCredential().getId() != profil.getCredential().getId()){
+						    	%>
+						    		<a href="ProfilController?action=<%= (!ami)? "ajouterAmi":"enleverAmi"%>
+						      		"><%= (!ami)? "Ajouter ami!":"Enlever ami!"  %></a>
+						      	<%
+						    		}
+						      	%>
 							        <form id="publiForm" name="formPublication" action="ProfilController?action=publier" method="post">
 							          <ul class="list-inline" id='list_PostActions'>
 							            <li class='active'>Publier<a href='#'></a></li>

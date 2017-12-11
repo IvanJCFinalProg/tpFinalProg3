@@ -30,7 +30,27 @@ import cal.tpfinal.bean.User;
 public class ServiceUser {
 	
 	private static Logger logger = LogManager.getLogger(ServiceUser.class.getName());
-
+	
+	public static boolean addFriend(User user, List<User>listeAmi) {
+		return listeAmi.add(user);
+	}
+	
+	public static boolean removeFriend(User user, List<User>listeAmi) {
+		return listeAmi.remove(user);
+	}
+	public static User getAmiById(int id, List<User> listeAmi) {
+		for(User user : listeAmi) {
+			if(user.getCredential().getId() == id) {
+				return user;
+			}
+		}
+		return null;
+	}
+	public static List<User> getUsersByTag(String tag, Map<Integer, User> tableUsers){
+		//On recherche un utilisateur par tag, un tag est une string exemple le nom, prenom,etc...
+		return null;
+	}
+	
 	/**
 	 * Cette méthode permet d'ajouter un objet User dans une collection de type Map.
 	 * @param user object user à ajouter dans la collection.

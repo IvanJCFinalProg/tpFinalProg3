@@ -52,11 +52,14 @@ public class ProfilController extends HttpServlet {
 		String action = request.getParameter("action");
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
-		int idUser = (Integer)(session.getAttribute("idUser"));	
+		int idUser = (Integer)(session.getAttribute("idUser"));
+		
 		int idProfil = (Integer)(session.getAttribute("idAfficher"));
 		User user = ServiceUser.getUserById(idProfil, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 		User userAuth = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 		request.setAttribute("idUser", idUser);
+		session.setAttribute("idUser", idUser);
+		session.setAttribute("idAfficher", idProfil);
 		request.setAttribute("idAfficher", idProfil);
 		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
 		
@@ -117,6 +120,29 @@ public class ProfilController extends HttpServlet {
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 
 				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
+				dispatcher.forward(request, response);
+				
+			}else if(action.equalsIgnoreCase("ajouterAmi")) {
+				ServiceUser.addFriend(user, userAuth.getListeAmi());
+				ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
+				request.setAttribute("idUser", idUser);
+				request.setAttribute("idAfficher", idProfil);
+				//logger.info(idProfil+"");
+				session.setAttribute("idAfficher", idProfil);
+				session.setAttribute("idUser", idUser);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil&idUser="+idUser+"&idAfficher="+idProfil+"");
+				dispatcher.forward(request, response);
+				
+			}else if(action.equalsIgnoreCase("enleverAmi")) {
+				user = ServiceUser.getAmiById(idProfil, userAuth.getListeAmi());
+				ServiceUser.removeFriend(user, userAuth.getListeAmi());
+				ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
+				request.setAttribute("idUser", idUser);
+				request.setAttribute("idAfficher", idProfil);
+				//logger.info(idProfil+"");
+				session.setAttribute("idAfficher", idProfil);
+				session.setAttribute("idUser", idUser);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil&idUser="+idUser+"&idAfficher="+idProfil+"");
 				dispatcher.forward(request, response);
 			}
 			

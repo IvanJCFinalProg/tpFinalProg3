@@ -52,10 +52,10 @@ public class UserController extends HttpServlet {
 		String action = request.getParameter("action");
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
-		int idUser = Integer.valueOf(request.getParameter("idUser"));
+		int idUser = Integer.parseInt(request.getParameter("idUser"));
+		//logger.info(request.getParameter("idUser"));
 		User user = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
-		
 		try {
 			if(action.equalsIgnoreCase("publier")) {
 				String content = request.getParameter("publication");
@@ -128,7 +128,11 @@ public class UserController extends HttpServlet {
 			}else if(action.equalsIgnoreCase("afficherProfil")) {
 				int idProfil = Integer.parseInt(request.getParameter("idAfficher"));
 				User profil = ServiceUser.getUserById(idProfil, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
-				
+				if(ServiceUser.getAmiById(idProfil, user.getListeAmi()) == null) {
+					session.setAttribute("amitie", false);
+				}else {
+					session.setAttribute("amitie", true);
+				}
 				session.setAttribute("user", user);
 				session.setAttribute("profil", profil);
 				//request.setAttribute("user", user);

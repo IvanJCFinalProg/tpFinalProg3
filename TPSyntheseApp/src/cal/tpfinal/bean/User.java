@@ -20,13 +20,25 @@ public class User {
 	protected Credential credential;
 	private static int compteur = 1;
 	private List<Publication> feed;
+	private List<User> listeAmi;
 		
 	public User() {
 		this.credential = new Credential(compteur);
 		compteur++;
 		feed = new ArrayList<Publication>();
+		listeAmi= new ArrayList<User>();
 	}
 	
+	public List<User> getListeAmi() {
+		return listeAmi;
+	}
+
+	public void setListeAmi(List<User> listeAmi) {
+		this.listeAmi = listeAmi;
+	}
+
+
+
 	/**
 	 * @param compteur the compteur to set
 	 */
