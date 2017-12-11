@@ -32,8 +32,8 @@
 			        		else
 			        			mapErreurs = null;
 		        		%>
-			            <li class="<%if(mapErreurs==null){out.print("active");}%> tabs"><a data-toggle="tab" href="#connexion">Connexion</a></li>
-			            <li class="<%if(mapErreurs!=null){out.print("active");}%> tabs"><a data-toggle="tab" href="#inscription">S'inscrire</a></li>
+			            <li class="tabs <%if(mapErreurs==null){out.print("active");}%>"><a data-toggle="tab" href="#connexion">Connexion</a></li>
+			            <li class="tabs <%if(mapErreurs!=null){out.print("active");}%>"><a data-toggle="tab" href="#inscription">S'inscrire</a></li>
 			        </ul>
 			      	<%  String email ="";
 			        	Cookie[] cookies = request.getCookies();
@@ -44,7 +44,7 @@
 			            } 
 			        %>
 					<div class="contenu tab-content">
-		            	<div id="connexion" class="tab-pane fade <%if(mapErreurs==null){out.print("in active");}%>">
+		            	<div id="connexion" class="tab-pane fade <%if(mapErreurs==null){out.print("active in");}%>">
 		                	<form id="leFormulaire" name="formLogin" action="LoginController?action=loginMembre" method="post" >
 		                		<div class="col-md-1"></div>
 		                	 	<div class="col-md-8">
@@ -66,7 +66,7 @@
 	    					</form>
 	 				    </div>
 	 				    
-			    		<div id="inscription" class="tab-pane fade <%if(mapErreurs==null){out.print("in active");}%>">
+			    		<div id="inscription" class="tab-pane fade <%if(mapErreurs!=null){out.print("active in");}%>">
 			                <form id="leFormulaire2" name="formInscription" action="LoginController?action=inscriptionMembre" method="post">
 			                	<div class="col-md-1"></div>
 			                	<div class="col-md-10">

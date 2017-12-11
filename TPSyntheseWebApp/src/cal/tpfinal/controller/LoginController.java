@@ -78,7 +78,7 @@ public class LoginController extends HttpServlet {
 				
 				System.out.println("entrer dONNEES SET");
 				
-				if(!ServiceValidation.isValideDonneesInputs(nom, prenom, email, dateBirth)) {
+				if(!ServiceValidation.isValideDonneesInputs(nom, prenom, email)) {
 					request.setAttribute("mapErreurs",ServiceValidation.getMapErreurs());
 					System.out.println(ServiceValidation.getMapErreurs());
 					RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("1",2));

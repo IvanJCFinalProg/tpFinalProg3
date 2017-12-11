@@ -2,6 +2,7 @@ package cal.tpfinal.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,31 +18,29 @@ public final class ServiceValidation {
 	private static final String[] tabNomDomaine = {".ca",".com",".us","fr"};
 	private static final String[] tabNomEmail = {"hotmail","gmail","yahoo"};
 	
-	public static boolean isValideDonneesInputs(String nom, String prenom, String email, String dateBirth) {
+	public static boolean isValideDonneesInputs(String nom, String prenom, String email) {
 		return valideEmail(email);
 	}
 	
 	private static boolean valideEmail(String email) {
 		if(Authentification.isEmailExist(email, ServiceApp.getValue("3",2))) {
-			mapErreurs.put("errorEmail", "<h5 class=\"errormsg\">"+email+" est déjà utilisé pour un compte<h5>");
+			mapErreurs.put("errorEmail", "<h5 class=\"errormsg\">"+email+" est déjà utilisé par un autre compte<h5>");
 			return false;
 		}
 		return true;
 	}
-	
-	private static boolean valideDateBirth(String dateBirth) {
-		
-		return true;
-	}
-	
 
 	public static Map<String, String> getMapErreurs() {
 		return mapErreurs;
 	}
 
 	public static void main(String[] args) {
-		String email = "hotmail@gmail.ca";
-		System.out.println(email.substring(email.indexOf("@")));
+		//String email = "hotmail@gmail.ca";
+		//System.out.println(email.substring(email.indexOf("@")));
 		
+		
+		Pattern pattern = Pattern.compile("^[A-Za-z]{2,20}$");
+		String name = "Michel";
+		//System.out.println(name.matches(""));
 	}
 }

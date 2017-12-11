@@ -12,10 +12,10 @@ public class Authentification {
 		if(email.equals("") || password.equals("")) 
 			return null;
 		Map<Integer, Credential> collectionUtilisateurs = ServiceConnection.loadMapCredentials(fileName);
-		return (getUtilisateur(email, ServicePassword.encryptPassword(password), fileName, collectionUtilisateurs));
+		return (getUtilisateur(email, ServicePassword.encryptPassword(password), collectionUtilisateurs));
 	}
 	
-	public static Credential getUtilisateur(String email, String password,String fileName, Map<Integer, Credential> collectionUtilisateurs) {
+	public static Credential getUtilisateur(String email, String password, Map<Integer, Credential> collectionUtilisateurs) {
 		for (Credential utilisateur : collectionUtilisateurs.values()) 
 			if(utilisateur.getEmail().equalsIgnoreCase(email) && utilisateur.getPassword().equals(password))
 				return utilisateur;
@@ -32,12 +32,12 @@ public class Authentification {
 		return false;
 	}
 	
-	/* En développement */
-	/*public static boolean isPasswordIsCorrect(, String fileName, Map<Integer, Credential> collectionUtilisateurs) {
+	@SuppressWarnings("unused")
+	private static boolean isPasswordIsCorrect(String password, Map<Integer, Credential> collectionUtilisateurs) {
 		for (Credential utilisateur : collectionUtilisateurs.values()) 
 			if(utilisateur.getPassword().equals(password))
 				return true;
 		return false;
-	}*/
+	}
 
 }
