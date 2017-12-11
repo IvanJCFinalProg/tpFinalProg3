@@ -55,7 +55,7 @@ public class ServiceConnection {
 		XStream stream = new XStream(new DomDriver());
 		stream.alias("Login", Credential.class);
 		stream.alias("tableLogins", Map.class);
-		
+		stream.alias("Login", Entry.class);
 		stream.toXML(mapCredential, new FileOutputStream(fileName));
 		return new File(fileName).exists();
 	}
