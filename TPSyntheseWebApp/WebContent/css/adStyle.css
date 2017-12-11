@@ -16,9 +16,19 @@ body{
 
 header {
   background-color: #e52d27;
-  padding: 8px;
+  padding-top: 30px !important;
   font-weight: 800;
   color: white;
+}
+
+/* Message erreur*/
+.errormsg {
+    margin: .5em 0 0;
+    display: block;
+    color: #dd4b39;
+    line-height: 12px;
+    margin-bottom:6px; 
+    font-weight: bold;
 }
 
 .bg-3 {
@@ -35,7 +45,62 @@ header {
 	display: none;	
 }
 
-/* Styles | Button suppresion */
+/* Styles | dropdown */
+ button {
+  background: none;
+  border: none;
+}
 
+header > div > div> div > button > .ion{
+	margin-top: 29px;
+}
 
+.dropdown-menu {
+  background: #282828 !important;
+  margin-top: 25px !important;
+  border-radius: 2px !important;
+  padding: 0 !important; 
+  border: none !important;
+  right: 10.7em !important;
+  font-size: 18px !important;
+}
+
+.dropdown-menu:before {
+  font-family: "Ionicons";
+  content: "\f365";
+  position: absolute;
+  top: -25px;
+  right: 10px;
+  color: #282828;
+  font-size: 36px;
+}
+
+.dropdown-menu a {
+  color: #e52d27 !important;
+  transition: all 0.2s ease;
+  padding: 10px 0 10px 20px !important;
+  font-weight: bold !important;
+}
+
+.dropdown-menu a:hover {
+  color: #333 !important;
+  background: none;
+  transition: all 0.2s ease;
+}
+
+.dropdown-menu li {
+  padding: 10px;
+  margin: 0;
+  transition: all 0.2s ease;
+}
+
+.dropdown-menu li:hover {
+  background: #aaa !important;
+  transition: all 0.2s ease;
+}
+
+.dropdown-menu li:hover a {
+  color: #333 !important;
+  transition: all 0.2s ease;
+}
 

@@ -12,49 +12,49 @@ import cal.tpfinal.bean.Credential;
 
 public class ServiceConnection {
 	
-	public static boolean addUtilisateur(Credential credential, Map<Integer, Credential> collectionUtilisateur){
-		collectionUtilisateur.put(credential.getId(), credential);
-		return collectionUtilisateur.containsKey(credential.getId());
+	public static boolean addCredential(Credential credential, Map<Integer, Credential> mapCredential){
+		mapCredential.put(credential.getId(), credential);
+		return mapCredential.containsKey(credential.getId());
 	}
 	
-	public static boolean deleteUtilisateur(Credential credential, Map<Integer, Credential> collectionUtilisateur){
-		collectionUtilisateur.remove(credential.getId());
-		return collectionUtilisateur.containsKey(credential.getId());
+	public static boolean deleteCredential(Credential credential, Map<Integer, Credential> mapCredential){
+		mapCredential.remove(credential.getId());
+		return mapCredential.containsKey(credential.getId());
 	}
 	
-	public Credential updateUtilisateur(int idx, Credential credential, Map<Integer, Credential> collectionUtilisateur) {
-		collectionUtilisateur.replace(idx, collectionUtilisateur.get(idx), credential);
-		return collectionUtilisateur.get(credential.getId());
+	public Credential updateCredential(int idx, Credential credential, Map<Integer, Credential> mapCredential) {
+		mapCredential.replace(idx, mapCredential.get(idx), credential);
+		return mapCredential.get(credential.getId());
 	}
 	
-	public static Credential getUtilisateurById(int id, Map<Integer, Credential> collectionUtilisateur){
-		return collectionUtilisateur.get(id);
+	public static Credential getCredentialById(int id, Map<Integer, Credential> mapCredential){
+		return mapCredential.get(id);
 	}
 	
-	public static boolean saveUtilisateur(String fileName, Credential credential) throws Exception {
+	public static boolean saveCredential(String fileName, Credential credential) throws Exception {
 
 		XStream stream = new XStream(new DomDriver());
 		stream.alias("utilisateur", Credential.class);
 		stream.alias("collectionUtilisateurs", Map.class);
-		Map<Integer, Credential> tmp = loadCollectionMap(fileName);
+		Map<Integer, Credential> tmp = loadMapCredentials(fileName);
 		tmp.put(credential.getId(),credential);
 		stream.toXML(tmp, new FileOutputStream(fileName));
 		
-		return (getUtilisateurById(credential.getId(), loadCollectionMap(fileName))).getId() == credential.getId();
+		return (getCredentialById(credential.getId(), loadMapCredentials(fileName))).getId() == credential.getId();
 	}
 
-	public static boolean saveCollectionUtilisateurs(String fileName, Map<Integer, Credential> collectionUtilisateur) throws Exception {
+	public static boolean saveMapCredentials(String fileName, Map<Integer, Credential> mapCredential) throws Exception {
 
 		XStream stream = new XStream(new DomDriver());
 		stream.alias("utilisateur", Credential.class);
 		stream.alias("collectionUtilisateurs", Map.class);
 		
-		stream.toXML(collectionUtilisateur, new FileOutputStream(fileName));
+		stream.toXML(mapCredential, new FileOutputStream(fileName));
 		return new File(fileName).exists();
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static Map<Integer, Credential> loadCollectionMap(String fileName) {
+	public static Map<Integer, Credential> loadMapCredentials(String fileName) {
 		
 		Map<Integer, Credential> temp = null;
 		try {

@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -23,10 +24,18 @@
 				<div class="section_centrale col-md-4">
 			        
 			        <ul class="nav nav-tabs">
-			            <li class="active tabs"><a data-toggle="tab" href="#connexion">Connexion</a></li>
-			            <li class="tabs"><a data-toggle="tab" href="#inscription">S'inscrire</a></li>
+			        	<% 
+			        		Map<String, String> mapErreurs = null;
+			        		if(request.getAttribute("mapErreurs")!=null){
+			        			mapErreurs = (Map<String, String>)request.getAttribute("mapErreurs"); 
+			        		}
+			        		else
+			        			mapErreurs = null;
+		        		%>
+			            <li class="<%if(mapErreurs==null){out.print("active");}%> tabs"><a data-toggle="tab" href="#connexion">Connexion</a></li>
+			            <li class="<%if(mapErreurs!=null){out.print("active");}%> tabs"><a data-toggle="tab" href="#inscription">S'inscrire</a></li>
 			        </ul>
-			        <% String email ="";
+			      	<%  String email ="";
 			        	Cookie[] cookies = request.getCookies();
 		               for ( Cookie cookie : cookies ){
 			              if ( cookie != null && "email".equals( cookie.getName() ) ){

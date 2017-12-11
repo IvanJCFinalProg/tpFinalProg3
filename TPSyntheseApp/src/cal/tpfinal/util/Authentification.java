@@ -11,7 +11,7 @@ public class Authentification {
 	public static Credential verificationUtilisateur(String email, String password, String fileName){
 		if(email.equals("") || password.equals("")) 
 			return null;
-		Map<Integer, Credential> collectionUtilisateurs = ServiceConnection.loadCollectionMap(fileName);
+		Map<Integer, Credential> collectionUtilisateurs = ServiceConnection.loadMapCredentials(fileName);
 		return (getUtilisateur(email, ServicePassword.encryptPassword(password), fileName, collectionUtilisateurs));
 	}
 	
@@ -23,7 +23,7 @@ public class Authentification {
 	}
 	
 	public static boolean isEmailExist(String email,String fileName) {
-		Map<Integer, Credential> tableUsers = ServiceConnection.loadCollectionMap(fileName);
+		Map<Integer, Credential> tableUsers = ServiceConnection.loadMapCredentials(fileName);
 		if(tableUsers==null)
 			return false;
 		for (Credential utilisateur : tableUsers.values()) 

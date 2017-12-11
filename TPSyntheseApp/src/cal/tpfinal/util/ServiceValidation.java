@@ -14,7 +14,7 @@ public final class ServiceValidation {
 	// Controle du domaine de deuxieme niveau
 	// Pour plus de sécuriter | permet de controler les noms de domaine
 	private static final String[] tabNomDomaine = {".ca",".com",".us","fr"};
-	private static final String[] tanNomEmail = {"hotmail","gmail","yahoo"};
+	private static final String[] tabNomEmail = {"hotmail","gmail","yahoo"};
 	
 	public static boolean isValideDonneesInputs(String nom, String prenom, String email, String dateBirth) {
 		return valideEmail(email);

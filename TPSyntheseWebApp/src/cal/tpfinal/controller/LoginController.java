@@ -30,6 +30,7 @@ import cal.tpfinal.model.ServicePassword;
 import cal.tpfinal.model.ServiceUser;
 import cal.tpfinal.util.Authentification;
 import cal.tpfinal.util.IService;
+import cal.tpfinal.util.ServiceValidation;
 
 /**
  * Servlet implementation class controllerAuthentification
@@ -73,19 +74,10 @@ public class LoginController extends HttpServlet {
 				String dateBirth = request.getParameter("dateBirth");
 				int age = Years.yearsBetween(LocalDate.parse(dateBirth), new LocalDate()).getYears();
 				//System.out.println("age:"+age);
-				if(nom.equals("") && nom.isEmpty()) {
-					response.setContentType("text/html");
+				if(!ServiceValidation.isValideDonneesInputs(nom, prenom, email, dateBirth)) {
+					request.setAttribute("mapErreurs",ServiceValidation.getMapErreurs());
 					RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("1",2));
 					dispatcher.forward(request, response);
-				}
-				else if(prenom.equals("") && prenom.isEmpty()) {
-					
-				}
-				else if(email.equals("") && email.isEmpty()) {
-					
-				}
-				if(!passwordConfirm.equals(password)) {
-					
 				}
 				else{
 					User user = new User();
@@ -106,14 +98,14 @@ public class LoginController extends HttpServlet {
 					if(tableUsers == null) {
 						tableUsers = new HashMap<>();
 						Map<Integer, Credential> tableLogins = new HashMap<>();
-						ServiceConnection.addUtilisateur(user.getCredential(), tableLogins);
-						ServiceConnection.saveCollectionUtilisateurs(ServiceApp.getValue("3", 2), tableLogins);
+						ServiceConnection.addCredential(user.getCredential(), tableLogins);
+						ServiceConnection.saveMapCredentials(ServiceApp.getValue("3", 2), tableLogins);
 						ServiceUser.addUser(user, tableUsers);
 						ServiceUser.saveToXML(tableUsers, ServiceApp.getValue("2", 2));
 					}
 					else {
 						ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
-						ServiceConnection.saveUtilisateur(ServiceApp.getValue("3", 2), user.getCredential());
+						ServiceConnection.saveCredential(ServiceApp.getValue("3", 2), user.getCredential());
 					}
 					response.sendRedirect(ServiceApp.getValue("1", 2));
 				}

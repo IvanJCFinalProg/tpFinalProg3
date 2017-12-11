@@ -32,20 +32,18 @@ public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LogManager.getLogger(UserController.class);
 	
-	/*public void init(ServletConfig config) throws ServletException {
+	public void init(ServletConfig config) throws ServletException {
 		logger.info("Initialisation de l'application");
 		try {
-			if(!(ServiceUser.fromToXML(ServiceApp.getValue("3",2))!= null)) {
-				User.setCompteur(Integer.valueOf(ServiceApp.getValue("1", 1))+1);
-			}	
+			
 		} catch (Exception e) {
-			logger.error("Probleme - Function init(LoginControler) - Initialisation des donneees");
+			logger.error(UserController.class.getName()+" | Probleme - Function init(LoginControler) - Initialisation des donneees");
 			logger.debug(e.getMessage() +" "+e.getLocalizedMessage());
 		}finally {
 			logger.info("Fin de l'initialisation");
 		}
 		
-	}*/
+	}
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
@@ -132,23 +130,18 @@ public class UserController extends HttpServlet {
 			
 			
 		}catch (Exception e) {
-			//logger.error(LoginController.class.getName()+" Erreur dans la fonction processRequest()");
-			//logger.debug(e.getMessage());
+			logger.error(UserController.class.getName()+" Erreur dans la fonction processRequest()");
+			logger.debug(e.getMessage());
 		}
 		
 	}
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		processRequest(request, response);
 	}
 

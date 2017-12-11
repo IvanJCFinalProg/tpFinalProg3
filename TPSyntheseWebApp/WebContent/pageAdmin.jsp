@@ -8,6 +8,7 @@
 		<title>Accueil</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="css/ionicons-2.0.1/css/ionicons.css" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 		<link href="css/adStyle.css" rel="stylesheet">
 		<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -16,7 +17,23 @@
 	</head>
 	<body>
 		<header class="container-fluid" >
-			<h1>Bienvenue Admin,</h1>
+			<div class="row">
+				<div class="col-md-4">
+					<h2>Bienvenue Admin,</h2>
+				</div>
+				<div class="col-md-6"></div>
+				<div class="col-md-2">
+					<div class="dropdown">
+				        <button class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				          <i class="ion ion-chevron-down"></i>
+				        </button>
+				        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+				          <li><a href="#">Paramètres</a></li>
+				          <li><a href="AdminController?action=Deconnexion">Déconnexion</a></li>
+				        </ul>
+					</div>
+				</div>	
+			</div>
 		</header>	
 		
 		<!-- Ajouter un side nav  -->
@@ -27,24 +44,24 @@
 				<h1>Liste des utilisateurs</h1>
 				<div class="clear"></div>
 				<table class="table">
-				  <thead>
-				    <tr>
-			     	  <th></th>
-				      <th>Id</th>
-				      <th>Nom, Prénom</th>
-				      <th>Email</th>
-				      <th>Numéro de téléphone</th>
-				      <th>Bloquer</th>
-				      <th>Supprimer</th>
-				      <th>Voir profil</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				  	<% 
-				  		Map<Integer,User> mapUsers = (Map<Integer,User>)request.getAttribute("mapUsers");
-				  		if(mapUsers!=null || !mapUsers.isEmpty()){
-				  			for(User user : mapUsers.values()){
-				  				%>
+				<% 
+			  		Map<Integer,User> mapUsers = (Map<Integer,User>)request.getAttribute("mapUsers");
+			  		if(mapUsers!=null || !mapUsers.isEmpty()){
+			  			for(User user : mapUsers.values()){
+			  				%>
+						  <thead>
+						    <tr>
+					     	  <th></th>
+						      <th>Id</th>
+						      <th>Nom, Prénom</th>
+						      <th>Email</th>
+						      <th>Numéro de téléphone</th>
+						      <th>Bloquer</th>
+						      <th>Supprimer</th>
+						      <th>Voir profil</th>
+						    </tr>
+						  </thead>
+						  <tbody>
 								<tr>
 									 <td><span class="fa fa-user fa-1x"></span></td> 
 								     <td><%=user.getCredential().getId()%></td>
@@ -73,16 +90,14 @@
 								     	<a href="AdminController?action=Profil&idUser=<%=user.getCredential().getId()%>">Voir profil</a>
 								     </td>
 								</tr>
-				  				
+							</tbody>
 				  				<% 
 				  			}
 				  		}
 				  		else{
 				  			out.println("<div class=\"text-center error-message\"><h1> Il n'y pas d'utilisateurs inscrits!</h1><div>");
 				  		}
-				  	
 				  	%>
-				  </tbody>
 				</table>
 			</div>
 			<div class="col-md-2"></div>
