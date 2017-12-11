@@ -29,7 +29,7 @@
 		<nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
               <div class="navbar-header">
-                  <a class="navbar-brand" href="">Bonjour <%=user.getPrenom()%> <%=user.getNom() %></a>
+                  <a class="navbar-brand" href="LoginController?action=accueil">Bonjour <%=user.getPrenom()%> <%=user.getNom() %></a>
               </div>
               <div class="collapse navbar-collapse" id="myNavbar">
                   <ul class="nav navbar-nav navbar-right">
@@ -133,7 +133,6 @@
 												<button type="submit">Supprimer Commentaire</button>
 												<input type="hidden" name="idPubli" value="<%=commentaire.getId_Publication()%>"></input>
 												<input type="hidden" name="idCommentaire" value="<%=commentaire.getId()%>"></input>
-												<!--<input type="hidden" name="idUserPublication" value="<%= publication.getId_User()%>"></input>-->
 												<input type="hidden" name="idUser" value="<%= user.getCredential().getId()%>"/>
 											</form>
 										<%

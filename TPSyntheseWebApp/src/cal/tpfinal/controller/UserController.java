@@ -2,7 +2,6 @@ package cal.tpfinal.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -49,10 +48,11 @@ public class UserController extends HttpServlet {
 		String action = request.getParameter("action");
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
+		int idUser = Integer.valueOf(request.getParameter("idUser"));
+		User user = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
+		
 		try {
 			if(action.equalsIgnoreCase("publier")) {
-				int idUser = Integer.valueOf(request.getParameter("idUser"));	
-				User user=ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				String content = request.getParameter("publication");
 				
 				if(!content.isEmpty()) {
@@ -60,17 +60,14 @@ public class UserController extends HttpServlet {
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
 				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
-				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("commenter")) {
 				int idPublication = Integer.valueOf(request.getParameter("idPublication"));
-				int idUser = Integer.valueOf(request.getParameter("idUser"));
 				int idUserPublication = Integer.valueOf(request.getParameter("idUserPublication"));
 				String content = request.getParameter("commentaire");
-				User user = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));//Publication, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				
 				if(request.getParameter("commentaire")!=null && !content.isEmpty()) {
 					Publication p = ServicePublication.getPublicationById(user.getFeed(), idPublication);
@@ -78,47 +75,40 @@ public class UserController extends HttpServlet {
 					ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				}
 				session.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
-				request.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+			//	request.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("supprimerPublication")) {
 				int id = Integer.parseInt(request.getParameter("idPubli"));
-				int idUser=Integer.parseInt(request.getParameter("idUser"));
 				
-				User user = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), id));
 				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				
 				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
-				request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+			//	request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("supprimerCommentaire")) {//A modifier!!
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
-				int idUser = Integer.parseInt(request.getParameter("idUser"));//Publication"));
 				int idCommentaire = Integer.parseInt(request.getParameter("idCommentaire"));
 				
-				User user = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				Publication publi = ServicePublication.getPublicationById(user.getFeed(), idPublication);
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));
 				ServiceUser.saveClient(ServiceApp.getValue("2", 2), user);
 				
 				session.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
-				request.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
+			//	request.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("afficherProfil")) {
 				int idProfil = Integer.parseInt(request.getParameter("idAfficher"));
-				int idUser = Integer.parseInt(request.getParameter("idUser"));
-				
 				User profil = ServiceUser.getUserById(idProfil, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
-				User user = ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 				
 				session.setAttribute("user", user);
 				session.setAttribute("profil", profil);

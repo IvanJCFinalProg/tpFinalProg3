@@ -149,14 +149,11 @@ public class LoginController extends HttpServlet {
 					}
 				}
 			}else if(action.equalsIgnoreCase("accueil")) {
-				User user = (User)request.getAttribute("user");
+				User user= (User)session.getAttribute("user");
+				
 				/* En développement */
-				//logger.info(user);
-				//session.setAttribute("user", user);
-				//request.setAttribute("user", user);
+				session.setAttribute("user", user);
 				response.sendRedirect(ServiceApp.getValue("5", 2));
-				//RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
-				//dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("deconnexion")) {
 				response.sendRedirect(ServiceApp.getValue("1", 2));
