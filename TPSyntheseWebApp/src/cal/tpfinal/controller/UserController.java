@@ -35,9 +35,12 @@ public class UserController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		logger.info("Initialisation de l'application");
 		try {
-			
+			if(!(ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml")!= null)) {
+				Publication.setCompteur(Integer.valueOf(ServiceApp.getValue("5", 1))+1);
+				Commentaire.setCompteur(Integer.valueOf(ServiceApp.getValue("6", 1))+1);
+			}	
 		} catch (Exception e) {
-			logger.error(UserController.class.getName()+" | Probleme - Function init(LoginControler) - Initialisation des donneees");
+			logger.error(UserController.class.getName()+" | Probleme - Function init(UserControler) - Initialisation des donnees");
 			logger.debug(e.getMessage() +" "+e.getLocalizedMessage());
 		}finally {
 			logger.info("Fin de l'initialisation");
@@ -63,9 +66,9 @@ public class UserController extends HttpServlet {
 					ServicePublication.addPublication(feedAccueil, p);
 					ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
 					ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
+					ServiceApp.setValue("5", String.valueOf(p.getId()), 1);
 				}
 				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
-				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
 				dispatcher.forward(request, response);
 				
@@ -82,7 +85,7 @@ public class UserController extends HttpServlet {
 					ServiceCommentaire.addCommentaire(ServicePublication.getPublicationById(feedAccueil, idPublication).getListeCommentaires(), c);
 					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), c);
 					ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
-					
+					ServiceApp.setValue("6", String.valueOf(c.getId()), 1);
 					ServiceUser.saveUser(ServiceApp.getValue("2", 2), publicateur);
 				}
 				session.setAttribute("feedAccueil", (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml"));

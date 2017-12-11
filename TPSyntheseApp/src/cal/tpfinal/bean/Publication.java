@@ -31,6 +31,10 @@ public class Publication {
 		this.id_User = user.getCredential().getId();
 	}
 	
+	public static void setCompteur(int compteur) {
+		Publication.compteur= compteur;
+	}
+	
 	public User getUser() {
 		return user;
 	}

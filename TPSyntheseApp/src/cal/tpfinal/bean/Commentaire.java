@@ -23,7 +23,11 @@ public class Commentaire {
 		this.id_Publication = id_publication;
 		this.id_User = user.getCredential().getId();
 	}
-
+	
+	public static void setCompteur(int compteur) {
+		Commentaire.compteur= compteur;
+	}
+	
 	public User getUser() {
 		return user;
 	}

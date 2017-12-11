@@ -5,12 +5,16 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import cal.tpfinal.bean.Commentaire;
 import cal.tpfinal.bean.Publication;
@@ -26,7 +30,24 @@ import cal.tpfinal.model.ServiceUser;
 @WebServlet("/ProfilController")
 public class ProfilController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private static Logger logger = LogManager.getLogger(ProfilController.class);
+	
+	public void init(ServletConfig config) throws ServletException {
+		logger.info("Initialisation de l'application");
+		try {
+			if(!(ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml")!= null)) {
+				Publication.setCompteur(Integer.valueOf(ServiceApp.getValue("5", 1))+1);
+				Commentaire.setCompteur(Integer.valueOf(ServiceApp.getValue("6", 1))+1);
+			}	
+		} catch (Exception e) {
+			logger.error(ProfilController.class.getName()+" | Probleme - Function init(ProfilControler) - Initialisation des donnees");
+			logger.debug(e.getMessage() +" "+e.getLocalizedMessage());
+		}finally {
+			logger.info("Fin de l'initialisation");
+		}
+		
+	}
+	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		PrintWriter writer = response.getWriter();
@@ -48,6 +69,7 @@ public class ProfilController extends HttpServlet {
 					ServicePublication.addPublication(feedAccueil, p);
 					ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
 					ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
+					ServiceApp.setValue("5", String.valueOf(p.getId()), 1);
 				}
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
@@ -65,6 +87,7 @@ public class ProfilController extends HttpServlet {
 					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), c);
 					ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
 					ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
+					ServiceApp.setValue("6", String.valueOf(c.getId()), 1);
 				}
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
