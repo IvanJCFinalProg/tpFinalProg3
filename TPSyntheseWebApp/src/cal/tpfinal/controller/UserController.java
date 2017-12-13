@@ -128,11 +128,7 @@ public class UserController extends HttpServlet {
 			}else if(action.equalsIgnoreCase("afficherProfil")) {
 				int idProfil = Integer.parseInt(request.getParameter("idAfficher"));
 				User profil = ServiceUser.getUserById(idProfil, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
-				if(ServiceUser.getAmiById(idProfil, user.getListeAmi()) == null) {
-					session.setAttribute("amitie", false);
-				}else {
-					session.setAttribute("amitie", true);
-				}
+				session.setAttribute("amitie", (ServiceUser.getAmiById(idProfil, user.getListeAmi()) == null)? false:true);
 				session.setAttribute("user", user);
 				session.setAttribute("profil", profil);
 				//request.setAttribute("user", user);
