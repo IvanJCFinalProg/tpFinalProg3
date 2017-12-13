@@ -28,7 +28,7 @@ public class ServiceConnection {
 		return mapCredential.containsKey(credential.getId());
 	}
 	
-	public Credential updateCredential(int idx, Credential credential, Map<Integer, Credential> mapCredential) {
+	public static Credential updateCredential(int idx, Credential credential, Map<Integer, Credential> mapCredential) {
 		mapCredential.replace(idx, mapCredential.get(idx), credential);
 		return mapCredential.get(credential.getId());
 	}

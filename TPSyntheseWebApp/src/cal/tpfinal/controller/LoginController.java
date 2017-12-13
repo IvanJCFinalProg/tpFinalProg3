@@ -91,9 +91,7 @@ public class LoginController extends HttpServlet {
 				
 				if(!ServiceValidation.isValideDonneesInputs(nom, prenom, email)) {
 					request.setAttribute("mapErreurs",ServiceValidation.getMapErreurs());
-					System.out.println(ServiceValidation.getMapErreurs());
-					RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("1",2));
-					dispatcher.forward(request, response);
+					request.getRequestDispatcher(ServiceApp.getValue("1",2)).forward(request, response);
 				}
 				else{
 					User user = new User();

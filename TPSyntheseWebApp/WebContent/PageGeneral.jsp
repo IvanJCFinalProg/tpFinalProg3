@@ -1,4 +1,5 @@
 
+<%@page import="java.util.Map"%>
 <%@page import="cal.tpfinal.bean.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -13,13 +14,17 @@
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<script src="js/libs/jquery/jquery-3.2.1.min.js"></script>
 		<script src="js/libs/bootstrap/bootstrap.js"></script>
+		<script src="js/scriptVerification.js"></script>
 	</head>
 	
 	<body>
 		<%
+			Map<String, String> mapErreurs = null;
+			if(request.getAttribute("mapErreurs")!=null){
+				mapErreurs = (Map<String, String>)request.getAttribute("mapErreurs");
+			}
 			User user = (User)session.getAttribute("user"); 
-			session.setAttribute("user", user);
-		
+			request.setAttribute("idUser", user.getCredential().getId());
 		%>
 		<nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
@@ -46,11 +51,35 @@
 		    </div>
 		</nav>
 		
-		<section class="container-fluid ">
+		<section id="sectionGeneral1" class="container-fluid bg-1 ">
 			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-8"></div>
-				<div class="col-md-2"></div>
+				<div class="col-md-3"></div>
+				<div class="col-md-6">
+					<div>
+						<form id="formModif" name="formModif" action="UserController?action=saveModifs" method="post">
+							<input class="hidden" value="<%=user.getCredential().getId()%>" name="idUser">
+							<h1>Paramètres</h1>
+							<br>
+							<h2>Nom :</h2>
+							<h4>Nom actuel : <span class="infosActuels"><%=user.getNom() %></span></h4>
+							<input type="text" name="newNom" id="nom-new" class="form-control nom" placeholder="Nouveau nom" />
+							<div id="error-nom-new"></div>
+							<br>
+							<h2>Prénom :</h2>
+							<h4>Prénom actuel : <span class="infosActuels"><%=user.getPrenom() %></span></h4>
+							<input type="text" name="newPrenom" id="prenom-new" class="form-control nom" placeholder="Nouveau prénom" />
+							<div id="error-prenom-new"></div>
+							<br>
+							<h2>Email :</h2>
+							<h4>Email actuel : <span class="infosActuels"><%=user.getCredential().getEmail() %></span></h4>
+							<input type="text" name="newEmail" id="email-new" class="form-control email" placeholder="Nouvel email" />
+							<div id="error-email-new"><%if(mapErreurs!=null){out.print(mapErreurs.get("errorEmail"));}%></div>
+							<br><br>
+							<input class="center-block" type="submit" name="submitModif" >
+						</form>
+					</div>
+				</div>
+				<div class="col-md-3"></div>
 			</div>
 		</section>
 	</body>

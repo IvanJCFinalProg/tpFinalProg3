@@ -12,6 +12,10 @@ $(document).ready(function(){
 	var errorPasswordConfirmInscript = false;
 	var errorAnneeNaissance = false;
 	
+	var errorNomNew = false;
+	var errorPrenomNew = false;
+	var errorEmailNew = false;
+	
 	$("#email").focusout(function() {
 		validateEmailLogin();
 	});
@@ -49,6 +53,62 @@ $(document).ready(function(){
 		$("#error-user").hide();
 	});
 	
+	$("#nom-new").focusout(function() {
+		validateNewNom();
+	});
+	
+	$("#prenom-new").focusout(function() {
+		validateNewPrenom();
+	});
+	
+	$("#email-new").focusout(function() {
+		validateNewEmail();
+	});
+	
+	/*** VALIDATION _ NEW INFOS***/
+	function validateNewNom() {
+		var pattern = new RegExp(/^[a-z]{2,20}$/i);
+		var nom_length = $("#nom-new").val().length;
+		if(nom_length==0 || (pattern.test($("#nom-new").val())) ){
+			$("#nom-new").css({"border-color":""});
+			$("#error-nom-new").hide();
+		}else{
+			$("#error-nom-new").html("<h5 class=\"errormsg\">Votre nom doit être composé de 2-20 charactères.</h5>");
+			$("#error-nom-new").show();
+			$("#nom-new").css({"border-color":"#dd4b39"});
+			errorNomNew = true;
+			
+		}
+	}
+	
+	function validateNewPrenom() {
+		var pattern = new RegExp(/^[a-z]{2,20}$/i);
+		var prenom_length = $("#prenom-new").val().length;
+		if(prenom_length==0 || pattern.test($("#prenom-new").val()) ){
+			$("#prenom-new").css({"border-color":""});
+			$("#error-prenom-new").hide();
+		}else{	
+			$("#error-prenom-new").html("<h5 class=\"errormsg\">Votre prenom doit être composé de 2-20 charactères.</h5>");
+			$("#error-prenom-new").show();
+			$("#prenom-new").css({"border-color":"#dd4b39"});
+			errorPrenomNew = true;
+		}
+	}
+	
+	function validateNewEmail() {
+		var pattern = new RegExp(/^[a-z][\w.-]{4,20}[a-z0-9]@[a-z]*\.[a-z]{2,4}$/i);
+		var email_length = $("#email-new").val().length;
+		if(email_length==0 || pattern.test($("#email-new").val())){
+			$("#email-new").css({"border-color":""});
+			$("#error-email-new").hide();
+		}else{
+			$("#email-new").css({"border-color":"#dd4b39"});
+			$("#error-email-new").html("<h5 class=\"errormsg\">L'adresse email est invalide.</h5>");
+			$("#error-email-new").show;
+			errorEmailNew = true;
+		}
+	}
+	/*** ***/
 	
 	function validateBirthDate(){
 		var str = $("#date-inscription").val();
@@ -155,7 +215,7 @@ $(document).ready(function(){
 	}
 	
 	function validateEmail() {
-		var pattern = new RegExp(/^[a-z][\w.-]{4,20}[a-z]@[a-z]*\.[a-z]{2,4}$/i);
+		var pattern = new RegExp(/^[a-z][\w.-]{4,20}[a-z0-9]@[a-z]*\.[a-z]{2,4}$/i);
 		if(pattern.test($("#email-inscription").val())){
 			$("#email-inscription").css({"border-color":""});
 			$("#error-email-incript").hide();
@@ -196,6 +256,21 @@ $(document).ready(function(){
 		validatePasswordLogin();
 		
 		if(!errorEmail && !errorPassword)
+			return true;
+		else
+			return false;
+	});
+	
+	$("#formModif").submit(function() {
+		errorNomNew = false;
+		errorPrenomNew = false;
+		errorEmailNew = false;
+		
+		validateNewNom();
+		validateNewPrenom();
+		validateNewEmail();
+		
+		if(!errorNomNew && !errorPrenomNew && !errorEmailNew)
 			return true;
 		else
 			return false;

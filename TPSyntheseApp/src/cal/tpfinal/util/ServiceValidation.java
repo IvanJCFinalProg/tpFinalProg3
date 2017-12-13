@@ -30,7 +30,7 @@ public final class ServiceValidation {
 		return true;
 	}
 	
-	private static boolean valideEmail(String email) {
+	public static boolean valideEmail(String email) {
 		if(Authentification.isEmailExist(email, ServiceApp.getValue("3",2))) {
 			mapErreurs.put("errorEmail", "<h5 class=\"errormsg\">"+email+" est déjà utilisé par un autre compte<h5>");
 			return false;

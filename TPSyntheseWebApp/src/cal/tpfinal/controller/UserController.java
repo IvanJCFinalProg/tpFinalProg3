@@ -3,6 +3,7 @@ package cal.tpfinal.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -17,12 +18,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cal.tpfinal.bean.Commentaire;
+import cal.tpfinal.bean.Credential;
 import cal.tpfinal.bean.Publication;
 import cal.tpfinal.bean.User;
 import cal.tpfinal.model.ServiceApp;
 import cal.tpfinal.model.ServiceCommentaire;
+import cal.tpfinal.model.ServiceConnection;
 import cal.tpfinal.model.ServicePublication;
 import cal.tpfinal.model.ServiceUser;
+import cal.tpfinal.util.ServiceValidation;
 
 /**
  * Servlet implementation class UserController
@@ -35,6 +39,7 @@ public class UserController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		logger.info("Initialisation de l'application");
 		try {
+			ServiceValidation.getMapErreurs().clear();
 			if(!(ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml")!= null)) {
 				Publication.setCompteur(Integer.valueOf(ServiceApp.getValue("5", 1))+1);
 				Commentaire.setCompteur(Integer.valueOf(ServiceApp.getValue("6", 1))+1);
@@ -136,8 +141,42 @@ public class UserController extends HttpServlet {
 				
 				response.sendRedirect("profil.jsp");
 			}
-			
-			
+			else if(action.equalsIgnoreCase("modifierInfos")) {
+				session.setAttribute("user", user);
+				request.getRequestDispatcher(ServiceApp.getValue("6", 2)).forward(request, response);
+			}
+			else if (action.equalsIgnoreCase("saveModifs")) {
+				String nom = "", prenom = "", email = "";
+				if(!request.getParameter("newNom").isEmpty()) {
+					nom = request.getParameter("newNom");
+					user.setNom((nom.trim()).substring(0, 1).toUpperCase()+(nom.trim()).substring(1).toLowerCase());
+				}
+				else if(!request.getParameter("newPrenom").isEmpty()) {
+					prenom = request.getParameter("newPrenom") ;
+					user.setPrenom((prenom.trim()).substring(0, 1).toUpperCase()+(prenom.trim()).substring(1).toLowerCase());
+				}
+				else if(!request.getParameter("newEmail").isEmpty()) {
+					email = request.getParameter("newEmail") ;
+					user.getCredential().setEmail(email);
+				}
+				
+				if(!ServiceValidation.valideEmail(email)) {
+					request.setAttribute("mapErreurs",ServiceValidation.getMapErreurs());
+					request.getRequestDispatcher(ServiceApp.getValue("6",2)).forward(request, response);
+				}
+				
+				Map<Integer, User> tableUsers = ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2));
+				Map<Integer, Credential> tableLogins = ServiceConnection.loadMapCredentials(ServiceApp.getValue("3", 2));
+				
+				ServiceUser.updateUser(user.getCredential().getId(), user, tableUsers);
+				ServiceConnection.updateCredential(user.getCredential().getId(), user.getCredential(), tableLogins);
+				ServiceUser.saveToXML(tableUsers, ServiceApp.getValue("2", 2));
+				ServiceConnection.saveMapCredentials(ServiceApp.getValue("3", 2), tableLogins);
+				session.setAttribute("idAfficher", user.getCredential().getId());
+				session.setAttribute("idUser", user.getCredential().getId());
+				session.setAttribute("user", user);
+				request.getRequestDispatcher(ServiceApp.getValue("5", 2)).forward(request, response);
+			}
 		}catch (Exception e) {
 			logger.error(UserController.class.getName()+" Erreur dans la fonction processRequest()");
 			logger.debug(e.getMessage());
