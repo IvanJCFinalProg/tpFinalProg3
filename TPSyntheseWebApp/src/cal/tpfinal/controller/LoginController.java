@@ -142,7 +142,10 @@ public class LoginController extends HttpServlet {
 				}else {
 					Credential user = Authentification.verificationUtilisateur(request.getParameter("email"),request.getParameter("password"), ServiceApp.getValue("3", 2));
 					if( user != null) {
-						session.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
+						User userAuth = ServiceUser.getUserById(user.getId(), ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
+						userAuth.setConnected(true);
+						ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
+						session.setAttribute("user", userAuth);
 						//request.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 						/* En développement */
 						/*if(request.getParameter("checkbox") != null) {
@@ -169,7 +172,17 @@ public class LoginController extends HttpServlet {
 				response.sendRedirect(ServiceApp.getValue("5", 2));
 				
 			}else if(action.equalsIgnoreCase("deconnexion")) {
-				 response.sendRedirect(ServiceApp.getValue("1", 2));
+				int idUser = Integer.parseInt(request.getParameter("idUser"));
+				User userAuth = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
+				userAuth.setConnected(false);
+				ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
+				//session.setAttribute("user", userAuth);
+				/*session.invalidate();
+				response.setHeader("Cache-Control","no-cache");
+				response.setHeader("Cache-Control","no-store");
+				response.setHeader("Pragma","no-cache");				Marche pas
+				response.setDateHeader ("Expires", 0);*/
+				response.sendRedirect(ServiceApp.getValue("1", 2));
 				/* En développement */
 				//RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("1", 2));
 				//dispatcher.forward(request, response);

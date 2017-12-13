@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Bienvenue NextChill</title>
@@ -38,7 +39,7 @@
                   <ul class="nav navbar-nav navbar-right">
                   	<li><a href="UserController?action=afficherProfil&idAfficher=<%= user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-user fa-2x"></span> Profil</a></li>
                   	<li><a href="#"><span class="fa fa-cog fa-2x"></span> Paramètres</a></li>
-                    <li><a href="LoginController?action=deconnexion"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
+                    <li><a href="LoginController?action=deconnexion&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
 	            </ul>
 		        </div>
 		    </div>

@@ -8,6 +8,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<!--  <% if(true){%>
+		<script>
+		    history.forward();
+		</script>
+		<%} %>-->
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Bienvenue NextChill</title>
@@ -17,6 +22,7 @@
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<script src="js/libs/jquery/jquery-3.2.1.min.js"></script>
 		<script src="js/libs/bootstrap/bootstrap.js"></script>
+		
 	</head>
 	<body>
 		<%
@@ -47,7 +53,7 @@
 				          <li><a href="#">Sécurité</a></li>
 				        </ul>
 					</li>
-                    <li><a href="LoginController?action=deconnexion"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
+                    <li><a href="LoginController?action=deconnexion&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
 	            </ul>
 		        </div>
 		    </div>
