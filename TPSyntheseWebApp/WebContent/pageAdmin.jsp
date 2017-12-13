@@ -47,9 +47,8 @@
 				<% 
 			  		Map<Integer,User> mapUsers = (Map<Integer,User>)request.getAttribute("mapUsers");
 			  		if(mapUsers!=null || !mapUsers.isEmpty()){
-			  			for(User user : mapUsers.values()){
-			  				%>
-						  <thead>
+			  	%>
+			  			<thead>
 						    <tr>
 					     	  <th></th>
 						      <th>Id</th>
@@ -61,6 +60,9 @@
 						      <th>Voir profil</th>
 						    </tr>
 						  </thead>
+			  	<%
+			  			for(User user : mapUsers.values()){
+			  				%>
 						  <tbody>
 								<tr>
 									 <td><span class="fa fa-user fa-1x"></span></td> 

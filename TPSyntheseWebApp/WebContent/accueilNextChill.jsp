@@ -36,7 +36,17 @@
               <div class="collapse navbar-collapse" id="myNavbar">
                   <ul class="nav navbar-nav navbar-right">
                   	<li><a href="UserController?action=afficherProfil&idAfficher=<%= user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-user fa-2x"></span> Profil</a></li>
-                  	<li><a href="#"><span class="fa fa-cog fa-2x"></span> Paramètres</a></li>
+                  	<li class="dropdown" >
+				        <button class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				          <li><a href="#"><span class="fa fa-cog fa-2x"></span>Paramètres</a></li>
+				        </button>
+				        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+				          <li><a href="#">Paramètres</a></li>
+				          <li><a href="#">Amis</a></li>
+				          <li><a href="#">Général</a></li>
+				          <li><a href="#">Sécurité</a></li>
+				        </ul>
+					</li>
                     <li><a href="LoginController?action=deconnexion"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
 	            </ul>
 		        </div>
@@ -49,11 +59,11 @@
 					<!-- Barre de navigation de côté qui permet de naviguer dans le contenu de la page -->
 			        <nav id="navigCote" class="sidenav">
 			            <a href="#"><span class="ion-earth"></span></a>
-			            <a href="#"><span class="ion-arrow-graph-down-right"></span>Soldes</a>
-			            <a href="#"><span class="ion-power"></span>Innovation</a>
-			            <a href="#"><span class="ion-person"></span>À propos</a>
-			            <a href="#"><span class="ion-clipboard"></span>Nos qualités</a>
-			            <a href="#"><span class="ion-map"></span>Emplacement</a>
+			            <a href="#"><span class="ion-arrow-graph-down-right"></span></a>
+			            <a href="#"><span class="ion-power"></span></a>
+			            <a href="#"><span class="ion-person"></span></a>
+			            <a href="#"><span class="ion-clipboard"></span></a>
+			            <a href="#"><span class="ion-map"></span></a>
 			        </nav>
 				</div>
 				<div class="col-md-10">

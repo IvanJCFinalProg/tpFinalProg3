@@ -65,7 +65,7 @@ public class AdminController extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 			else if(action.equals(ServiceApp.getValue("4", 3))) {
-				
+				//request.getRequestDispatcher("UserController?action=accueil").forward(request, response);
 			}
 			else if(action.equals(ServiceApp.getValue("8", 3))) {
 				response.sendRedirect(ServiceApp.getValue("1", 2));
