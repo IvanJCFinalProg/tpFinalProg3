@@ -35,12 +35,13 @@ import cal.tpfinal.util.ServiceValidation;
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LogManager.getLogger(UserController.class);
+	private final String AFFICHER_ACCUEIL = "LoginController?action=accueil";
 	
 	public void init(ServletConfig config) throws ServletException {
 		logger.info("Initialisation de l'application");
 		try {
 			ServiceValidation.getMapErreurs().clear();
-			if(!(ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml")!= null)) {
+			if((ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml")!= null)) {
 				Publication.setCompteur(Integer.valueOf(ServiceApp.getValue("5", 1))+1);
 				Commentaire.setCompteur(Integer.valueOf(ServiceApp.getValue("6", 1))+1);
 			}	
@@ -58,7 +59,6 @@ public class UserController extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
 		int idUser = Integer.parseInt(request.getParameter("idUser"));
-		//logger.info(request.getParameter("idUser"));
 		User user = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
 		try {
@@ -74,10 +74,11 @@ public class UserController extends HttpServlet {
 					ServiceApp.setValue("5", String.valueOf(p.getId()), 1);
 				}
 				session.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
-				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
+				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_ACCUEIL);
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("commenter")) {
+				
 				int idPublication = Integer.valueOf(request.getParameter("idPublication"));
 				int idUserPublication = Integer.valueOf(request.getParameter("idUserPublication"));
 				User publicateur = ServiceUser.getUserById(idUserPublication, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
@@ -95,9 +96,8 @@ public class UserController extends HttpServlet {
 				}
 				session.setAttribute("feedAccueil", (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml"));
 				session.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
-			//	request.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
+				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_ACCUEIL);
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("supprimerPublication")) {
@@ -108,12 +108,11 @@ public class UserController extends HttpServlet {
 				ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), idPublication));
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				session.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
-			//	request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
+				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_ACCUEIL);
 				dispatcher.forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("supprimerCommentaire")) {//A modifier!!
+			}else if(action.equalsIgnoreCase("supprimerCommentaire")) {
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				int idCommentaire = Integer.parseInt(request.getParameter("idCommentaire"));
 				
@@ -125,9 +124,8 @@ public class UserController extends HttpServlet {
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				session.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
-			//	request.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("LoginController?action=accueil");
+				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_ACCUEIL);
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("afficherProfil")) {
@@ -136,8 +134,6 @@ public class UserController extends HttpServlet {
 				session.setAttribute("amitie", (ServiceUser.getAmiById(idProfil, user.getListeAmi()) == null)? false:true);
 				session.setAttribute("user", user);
 				session.setAttribute("profil", profil);
-				//request.setAttribute("user", user);
-				//request.setAttribute("profil", profil);
 				
 				response.sendRedirect("profil.jsp");
 			}

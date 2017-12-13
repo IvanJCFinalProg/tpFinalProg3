@@ -51,7 +51,7 @@ public class ServiceUser {
 		List<User> liste = new ArrayList<User>();
 		String regex = "(?i).*"+tag+".*";
 		for(User user : tableUsers.values()) {
-			if(user.getPrenom().matches(regex) || user.getNom().matches(regex) || (user.getPrenom()+" "+user.getNom()).matches(regex) ) {
+			if((user.getPrenom()+" "+user.getNom()).matches(regex) ) {
 				liste.add(user);
 			}
 		}

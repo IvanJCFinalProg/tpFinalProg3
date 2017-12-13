@@ -26,6 +26,7 @@ import cal.tpfinal.model.ServiceUser;
 public class RechercheController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LogManager.getLogger(RechercheController.class);
+	private final String AFFICHER_RECHERCHE = "RechercheController?action=afficherPageRecherche";
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
@@ -34,22 +35,22 @@ public class RechercheController extends HttpServlet {
 		int idUser = Integer.parseInt(request.getParameter("idUser"));
 		User user = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 		
-		if(action.equalsIgnoreCase("rechercher")) {
-			String tag = request.getParameter("tagRecherche");
-			List<User> listeRecherche = ServiceUser.getUsersByTag(tag, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
-			
-			session.setAttribute("listeRecherche", listeRecherche);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("RechercheController?action=afficherPageRecherche");
-			dispatcher.forward(request, response);
-			
-		}else if(action.equalsIgnoreCase("afficherPageRecherche")) {
-			
-			//List<User> listeRecherche = (List<User>)session.getAttribute("listeRecherche");
-			//logger.info(listeRecherche.size());
-			//logger.info(listeRecherche.get(0));
-			//session.setAttribute("listeRecherche", listeRecherche);
-			session.setAttribute("user", user);
-			response.sendRedirect("recherche.jsp");
+		try {
+			if(action.equalsIgnoreCase("rechercher")) {
+				String tag = request.getParameter("tagRecherche");
+				List<User> listeRecherche = ServiceUser.getUsersByTag(tag, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
+				
+				session.setAttribute("listeRecherche", listeRecherche);
+				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_RECHERCHE);
+				dispatcher.forward(request, response);
+				
+			}else if(action.equalsIgnoreCase("afficherPageRecherche")) {
+				session.setAttribute("user", user);
+				response.sendRedirect("recherche.jsp");
+			}
+		} catch (Exception e) {
+			logger.error(RechercheController.class.getName()+" Erreur dans la fonction processRequest()");
+			logger.debug(e.getMessage());
 		}
 	}
 	/**

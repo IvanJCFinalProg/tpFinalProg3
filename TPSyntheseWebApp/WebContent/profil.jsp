@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Bienvenue NextChill</title>
@@ -21,14 +22,11 @@
 	<body>
 		<%
 			User profil = (User)session.getAttribute("profil");
-			session.setAttribute("profil", profil);
-			boolean ami = false;
+			boolean ami =(boolean) session.getAttribute("amitie");
 			User user = (User)session.getAttribute("user"); 
 			
-			ami =(boolean) session.getAttribute("amitie");
-			
 			session.setAttribute("user", user);
-			
+			session.setAttribute("profil", profil);
 			session.setAttribute("idAfficher", profil.getCredential().getId());
 			session.setAttribute("idUser", user.getCredential().getId());
 			%>
@@ -41,7 +39,7 @@
                   <ul class="nav navbar-nav navbar-right">
                   	<li><a href="UserController?action=afficherProfil&idAfficher=<%= user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-user fa-2x"></span> Profil</a></li>
                   	<li><a href="#"><span class="fa fa-cog fa-2x"></span> Paramètres</a></li>
-                    <li><a href="LoginController?action=deconnexion"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
+                    <li><a href="LoginController?action=deconnexion&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
 	            </ul>
 		        </div>
 		    </div>
@@ -186,6 +184,9 @@
 							<a href="UserController?action=afficherProfil&idAfficher=<%= profilAmi.getCredential().getId()%>
 							&idUser=<%=user.getCredential().getId()%>"><%=profilAmi.getPrenom()+" "+profilAmi.getNom()%></a>
 						</div>
+						<%if(user.getCredential().getId() == profil.getCredential().getId() || profilAmi.getCredential().getId() == user.getCredential().getId()){ %>
+						<a href="ProfilController?action=enleverAmi&idRemove=<%=profilAmi.getCredential().getId()%>">Enlever ami</a>
+						<%} %>
 					<%
 					}
 					%>

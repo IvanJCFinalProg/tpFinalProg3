@@ -4,7 +4,8 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
+	<head>
+		
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Recherche NextChill</title>
@@ -17,8 +18,7 @@
 </head>
 <body>
 	<%
-			//System.out.println(request.getSession().getAttribute("user"));
-		User user = (User)session.getAttribute("user"); 
+		User user = (User)session.getAttribute("user");
 		session.setAttribute("user", user);
 		session.setAttribute("idAfficher", user.getCredential().getId());
 		session.setAttribute("idUser", user.getCredential().getId());
@@ -34,7 +34,7 @@
                   <ul class="nav navbar-nav navbar-right">
                   	<li><a href="UserController?action=afficherProfil&idAfficher=<%= user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-user fa-2x"></span> Profil</a></li>
                   	<li><a href="#"><span class="fa fa-cog fa-2x"></span> Paramètres</a></li>
-                    <li><a href="LoginController?action=deconnexion"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
+                    <li><a href="LoginController?action=deconnexion&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
 	              </ul>
 		      </div>
 		  </div>
