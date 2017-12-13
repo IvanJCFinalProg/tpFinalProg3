@@ -54,7 +54,7 @@ public class LoginController extends HttpServlet {
 			if(!(ServiceUser.loadMapUserFromXML(ServiceApp.getValue("3",2))!= null)) {
 				User.setCompteur(Integer.valueOf(ServiceApp.getValue("1", 1))+1);
 			}
-			if(!(ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml")!= null)) {
+			if((ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml")!= null)) {
 				Publication.setCompteur(Integer.valueOf(ServiceApp.getValue("5", 1))+1);
 				Commentaire.setCompteur(Integer.valueOf(ServiceApp.getValue("6", 1))+1);
 			}	
@@ -169,7 +169,7 @@ public class LoginController extends HttpServlet {
 				response.sendRedirect(ServiceApp.getValue("5", 2));
 				
 			}else if(action.equalsIgnoreCase("deconnexion")) {
-				response.sendRedirect(ServiceApp.getValue("1", 2));
+				 response.sendRedirect(ServiceApp.getValue("1", 2));
 				/* En développement */
 				//RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("1", 2));
 				//dispatcher.forward(request, response);
