@@ -124,7 +124,9 @@ public class ProfilController extends HttpServlet {
 				
 			}else if(action.equalsIgnoreCase("ajouterAmi")) {
 				ServiceUser.addFriend(user, userAuth.getListeAmi());
+				ServiceUser.addFriend(userAuth, user.getListeAmi());
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
+				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				request.setAttribute("idUser", idUser);
 				request.setAttribute("idAfficher", idProfil);
 				//logger.info(idProfil+"");
@@ -134,9 +136,18 @@ public class ProfilController extends HttpServlet {
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("enleverAmi")) {
-				user = ServiceUser.getAmiById(idProfil, userAuth.getListeAmi());
+				int idRemove;
+				if(request.getParameter("idRemove") != null) {
+					logger.info(request.getParameter("idRemove"));
+					idRemove = Integer.parseInt(request.getParameter("idRemove"));
+				}else {
+					idRemove = idProfil;
+				}
+				user = ServiceUser.getAmiById(idRemove, userAuth.getListeAmi());
+				ServiceUser.removeFriend(userAuth, user.getListeAmi());
 				ServiceUser.removeFriend(user, userAuth.getListeAmi());
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
+				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				request.setAttribute("idUser", idUser);
 				request.setAttribute("idAfficher", idProfil);
 				//logger.info(idProfil+"");

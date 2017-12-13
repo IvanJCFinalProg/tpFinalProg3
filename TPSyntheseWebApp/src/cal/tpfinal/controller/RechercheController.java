@@ -43,11 +43,6 @@ public class RechercheController extends HttpServlet {
 			dispatcher.forward(request, response);
 			
 		}else if(action.equalsIgnoreCase("afficherPageRecherche")) {
-			
-			//List<User> listeRecherche = (List<User>)session.getAttribute("listeRecherche");
-			//logger.info(listeRecherche.size());
-			//logger.info(listeRecherche.get(0));
-			//session.setAttribute("listeRecherche", listeRecherche);
 			session.setAttribute("user", user);
 			response.sendRedirect("recherche.jsp");
 		}

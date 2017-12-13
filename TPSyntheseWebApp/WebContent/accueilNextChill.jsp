@@ -39,7 +39,7 @@
                   	<li class="dropdown" >
 				       <li class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 				       <a href="#"><span class="fa fa-cog fa-2x"></span> Paramètres</a></li>
-				       
+
 				        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
 				          <li><a href="#">Paramètres</a></li>
 				          <li><a href="#">Amis</a></li>

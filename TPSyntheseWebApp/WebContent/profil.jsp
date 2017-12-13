@@ -186,6 +186,9 @@
 							<a href="UserController?action=afficherProfil&idAfficher=<%= profilAmi.getCredential().getId()%>
 							&idUser=<%=user.getCredential().getId()%>"><%=profilAmi.getPrenom()+" "+profilAmi.getNom()%></a>
 						</div>
+						<%if(user.getCredential().getId() == profil.getCredential().getId() || profilAmi.getCredential().getId() == user.getCredential().getId()){ %>
+						<a href="ProfilController?action=enleverAmi&idRemove=<%=profilAmi.getCredential().getId()%>">Enlever ami</a>
+						<%} %>
 					<%
 					}
 					%>
