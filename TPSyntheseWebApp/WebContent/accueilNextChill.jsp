@@ -61,6 +61,12 @@
 						<div class="container">
 						  <div class="row">
 						    <div class="col-md-offset-3 col-md-6 col-xs-12">
+						    	<div>
+									<form method="post" action="RechercheController?action=rechercher&idUser=<%=user.getCredential().getId()%>">
+										<input type="text" name="tagRecherche"/>
+										<button type="submit">Rechercher</button>
+									</form>
+								</div>
 						    	<div class="well well-sm well-social-post">
 							        <form id="publiForm" name="formPublication" action="UserController?action=publier" method="post">
 							          <ul class="list-inline" id='list_PostActions'>

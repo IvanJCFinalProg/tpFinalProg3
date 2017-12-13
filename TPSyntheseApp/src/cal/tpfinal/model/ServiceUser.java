@@ -4,6 +4,7 @@ package cal.tpfinal.model;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -47,8 +48,17 @@ public class ServiceUser {
 		return null;
 	}
 	public static List<User> getUsersByTag(String tag, Map<Integer, User> tableUsers){
-		//On recherche un utilisateur par tag, un tag est une string exemple le nom, prenom,etc...
-		return null;
+		List<User> liste = new ArrayList<User>();
+		String regex = "(?i).*"+tag+".*";
+		for(User user : tableUsers.values()) {
+			if(user.getNom().equalsIgnoreCase(tag) || user.getNom().indexOf(tag) >=0 
+					|| user.getPrenom().equalsIgnoreCase(tag) || user.getPrenom().indexOf(tag) >=0
+					|| user.getPrenom().matches(regex) || user.getNom().matches(regex)) {
+				//string.matches("(?i).*i am.*")
+				liste.add(user);
+			}
+		}
+		return liste;
 	}
 	
 	/**
