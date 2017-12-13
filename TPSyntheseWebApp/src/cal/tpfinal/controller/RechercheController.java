@@ -45,6 +45,7 @@ public class RechercheController extends HttpServlet {
 		}else if(action.equalsIgnoreCase("afficherPageRecherche")) {
 			session.setAttribute("user", user);
 			response.sendRedirect("recherche.jsp");
+			//response.sendRedirect(ServiceApp.getValue("7", 2));
 		}
 	}
 	/**

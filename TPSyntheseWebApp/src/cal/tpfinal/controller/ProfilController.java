@@ -31,6 +31,7 @@ import cal.tpfinal.model.ServiceUser;
 public class ProfilController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LogManager.getLogger(ProfilController.class);
+	private final String AFFICHER_PROFIL = "UserController?action=afficherProfil"; //--> Pour remplacer les millions de fois ou on lecrit
 	
 	public void init(ServletConfig config) throws ServletException {
 		logger.info("Initialisation de l'application");
@@ -75,7 +76,7 @@ public class ProfilController extends HttpServlet {
 					ServiceApp.setValue("5", String.valueOf(p.getId()), 1);
 				}
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
+				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_PROFIL);
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("commenter")) {
@@ -93,7 +94,7 @@ public class ProfilController extends HttpServlet {
 					ServiceApp.setValue("6", String.valueOf(c.getId()), 1);
 				}
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
+				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_PROFIL);
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("supprimerPublication")) {
@@ -104,7 +105,7 @@ public class ProfilController extends HttpServlet {
 				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
+				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_PROFIL);
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("supprimerCommentaire")) {
@@ -119,7 +120,7 @@ public class ProfilController extends HttpServlet {
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 
-				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil");
+				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_PROFIL);
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("ajouterAmi")) {
@@ -127,40 +128,32 @@ public class ProfilController extends HttpServlet {
 				ServiceUser.addFriend(userAuth, user.getListeAmi());
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
-				request.setAttribute("idUser", idUser);
-				request.setAttribute("idAfficher", idProfil);
-				//logger.info(idProfil+"");
-				session.setAttribute("idAfficher", idProfil);
-				session.setAttribute("idUser", idUser);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil&idUser="+idUser+"&idAfficher="+idProfil+"");
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_PROFIL+"&idUser="+idUser+"&idAfficher="+idProfil+"");
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("enleverAmi")) {
 				int idRemove;
-				if(request.getParameter("idRemove") != null) {
-					logger.info(request.getParameter("idRemove"));
+				if(request.getParameter("idRemove") != null && Integer.parseInt(request.getParameter("idRemove")) != idUser) {
 					idRemove = Integer.parseInt(request.getParameter("idRemove"));
 				}else {
 					idRemove = idProfil;
 				}
+				
 				user = ServiceUser.getAmiById(idRemove, userAuth.getListeAmi());
 				ServiceUser.removeFriend(userAuth, user.getListeAmi());
 				ServiceUser.removeFriend(user, userAuth.getListeAmi());
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
-				request.setAttribute("idUser", idUser);
-				request.setAttribute("idAfficher", idProfil);
-				//logger.info(idProfil+"");
-				session.setAttribute("idAfficher", idProfil);
-				session.setAttribute("idUser", idUser);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("UserController?action=afficherProfil&idUser="+idUser+"&idAfficher="+idProfil+"");
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher( "UserController?action=afficherProfil&idUser="+idUser+"&idAfficher="+idProfil+"");
 				dispatcher.forward(request, response);
 			}
 			
 			
 		}catch (Exception e) {
-			//logger.error(LoginController.class.getName()+" Erreur dans la fonction processRequest()");
-			//logger.debug(e.getMessage());
+			logger.error(ProfilController.class.getName()+" Erreur dans la fonction processRequest()");
+			logger.debug(e.getMessage());
 		}
 		
 	}

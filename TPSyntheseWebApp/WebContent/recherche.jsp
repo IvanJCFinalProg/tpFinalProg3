@@ -17,7 +17,6 @@
 </head>
 <body>
 	<%
-			//System.out.println(request.getSession().getAttribute("user"));
 		User user = (User)session.getAttribute("user"); 
 		session.setAttribute("user", user);
 		session.setAttribute("idAfficher", user.getCredential().getId());
