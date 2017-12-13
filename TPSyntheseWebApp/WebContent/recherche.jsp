@@ -52,7 +52,8 @@
 			            <a href="#"><span class="ion-map"></span>Emplacement</a>
 			        </nav>
 				</div>
-				<div class="col-md-10">
+				<div class="col-md-1"></div>
+				<div class="col-md-8">
 					<div>
 						<form method="post" action="RechercheController?action=rechercher&idUser=<%=user.getCredential().getId()%>">
 							<input type="text" name="tagRecherche"/>
