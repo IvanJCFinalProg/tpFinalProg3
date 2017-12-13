@@ -1,6 +1,7 @@
 package cal.tpfinal.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -14,10 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cal.tpfinal.bean.Commentaire;
 import cal.tpfinal.bean.Credential;
+import cal.tpfinal.bean.Publication;
 import cal.tpfinal.bean.User;
 import cal.tpfinal.model.ServiceApp;
+import cal.tpfinal.model.ServiceCommentaire;
 import cal.tpfinal.model.ServiceConnection;
+import cal.tpfinal.model.ServicePublication;
 import cal.tpfinal.model.ServiceUser;
 import cal.tpfinal.util.IServiceUtils;
 
@@ -61,6 +66,46 @@ public class AdminController extends HttpServlet {
 				ServiceConnection.deleteCredential(tableLogins.get(idUser), tableLogins);
 				ServiceUser.saveToXML(mapUsers, ServiceApp.getValue("2", 2));
 				ServiceConnection.saveMapCredentials(ServiceApp.getValue("3", 2), tableLogins);
+				List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
+				for(Publication p : feedAccueil) {
+					if(p.getId_User() == idUser) {
+						ServicePublication.removePublication(feedAccueil, ServicePublication.getPublicationById(feedAccueil, p.getId()));
+						ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+					}else {
+						for(Commentaire c : p.getListeCommentaires()) {
+							if(c.getId_User() == idUser) {
+								Publication publiFeed = ServicePublication.getPublicationById(feedAccueil, p.getId());
+								ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(feedAccueil, p.getId()).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publiFeed.getListeCommentaires(), c.getId()));
+								ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+							}
+						}
+					}
+				}
+				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+				for(User user : mapUsers.values()) {
+					for(User ami : user.getListeAmi()) {
+						if(ami.getCredential().getId() == idUser) {
+							ServiceUser.removeFriend(ami, user.getListeAmi());
+							ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
+							break;
+						}
+					}
+					for(Publication p : user.getFeed()) {
+						if(p.getId_User() == idUser) {
+							ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), p.getId()));
+							ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
+						}else {
+							for(Commentaire c : p.getListeCommentaires()) {
+								if(c.getId_User() == idUser) {
+									Publication publi = ServicePublication.getPublicationById(user.getFeed(), p.getId());
+									ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), p.getId()).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), c.getId()));
+									ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
+								}
+							}
+						}
+					}
+				}
+				ServiceUser.saveToXML(mapUsers, ServiceApp.getValue("2", 2));
 				RequestDispatcher dispatcher = request.getRequestDispatcher(IServiceUtils.REDIRECTION_ADMIN);
 				dispatcher.forward(request, response);
 			}
