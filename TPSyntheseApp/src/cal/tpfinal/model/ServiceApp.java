@@ -47,9 +47,13 @@ public class ServiceApp {
 			case 3:
 				props.load(new FileInputStream(IServiceUtils.FILE3));
 				break;
+			
+			case 4:
+				props.load(new FileInputStream(IServiceUtils.FILE4));
+				break;
 			}
 		} catch (Exception e) {
-			logger.error(ServiceApp.class.getName()+" - Function getPropretiesFile() - Impossible d'ouvrir le fichier properties");
+			logger.error(ServiceApp.class.getName()+" - Function getPropretiesFile( option :"+option+" ) - Impossible d'ouvrir le fichier properties");
 			logger.debug(e.getMessage());
 		}
 		return props;

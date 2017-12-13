@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cal.tpfinal.bean.Admin;
 import cal.tpfinal.bean.Commentaire;
 import cal.tpfinal.bean.Credential;
 import cal.tpfinal.bean.Publication;
@@ -49,6 +50,7 @@ public class AdminController extends HttpServlet {
 		HttpSession session = request.getSession();
 		try {
 			Map<Integer, User> mapUsers = null; int idUser = -1;
+			Admin admin = (Admin)request.getAttribute("admin");
 			if(request.getParameter(ServiceApp.getValue("5", 3))!=null) {
 				mapUsers = ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2));
 				idUser = Integer.valueOf(request.getParameter(ServiceApp.getValue("5", 3)));

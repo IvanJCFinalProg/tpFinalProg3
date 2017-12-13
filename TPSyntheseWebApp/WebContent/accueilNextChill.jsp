@@ -56,7 +56,7 @@
 				        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
 				          <li><a href="#">Amis</a></li>
 				          <li><a href="UserController?action=modifierInfos&idUser=<%=user.getCredential().getId()%>">Général</a></li>
-				          <li><a href="#">Sécurité</a></li>
+				          <li><a href="UserController?action=contacter&idUser=<%=user.getCredential().getId()%>">Nous contacter</a></li>
 				        </ul>
 					</li>
                     <li><a href="LoginController?action=deconnexion&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>

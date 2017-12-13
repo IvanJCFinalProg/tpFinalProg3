@@ -141,6 +141,10 @@ public class UserController extends HttpServlet {
 				session.setAttribute("user", user);
 				request.getRequestDispatcher(ServiceApp.getValue("6", 2)).forward(request, response);
 			}
+			else if(action.equalsIgnoreCase("contacter")) {
+				session.setAttribute("user", user);
+				request.getRequestDispatcher(ServiceApp.getValue("8", 2)).forward(request, response);
+			}
 			else if (action.equalsIgnoreCase("saveModifs")) {
 				String nom = "", prenom = "", email = "";
 				if(!request.getParameter("newNom").isEmpty()) {

@@ -22,6 +22,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 
+import cal.tpfinal.bean.Admin;
 import cal.tpfinal.bean.Commentaire;
 import cal.tpfinal.bean.Credential;
 import cal.tpfinal.bean.Publication;
@@ -134,8 +135,8 @@ public class LoginController extends HttpServlet {
 				if(email.substring(0,email.indexOf("@")).equals(ServiceApp.getValue("4", 1))) {
 					if(email.equals(ServiceApp.getValue("2", 1)) && password.equals(ServiceApp.getValue("3", 1))) {
 						request.setAttribute("mapUsers", ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
-						RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("4", 2));
-						dispatcher.forward(request, response);
+						request.setAttribute("admin", Admin.getInstance());
+						request.getRequestDispatcher(ServiceApp.getValue("4", 2)).forward(request, response);
 					}
 				}else {
 					Credential user = Authentification.verificationUtilisateur(request.getParameter("email"),request.getParameter("password"), ServiceApp.getValue("3", 2));
