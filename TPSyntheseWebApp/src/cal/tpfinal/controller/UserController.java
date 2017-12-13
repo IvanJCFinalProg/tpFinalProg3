@@ -91,7 +91,6 @@ public class UserController extends HttpServlet {
 				}
 				session.setAttribute("feedAccueil", (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml"));
 				session.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
-			//	request.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_ACCUEIL);
 				dispatcher.forward(request, response);
@@ -104,7 +103,6 @@ public class UserController extends HttpServlet {
 				ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), idPublication));
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				session.setAttribute("user", ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
-			//	request.setAttribute("user", ServiceUser.getUserById(user.getCredential().getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_ACCUEIL);
 				dispatcher.forward(request, response);
@@ -121,7 +119,6 @@ public class UserController extends HttpServlet {
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				session.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2))));
-			//	request.setAttribute("user", ServiceUser.getUserById((Integer)session.getAttribute("idAfficher"), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_ACCUEIL);
 				dispatcher.forward(request, response);
@@ -132,8 +129,6 @@ public class UserController extends HttpServlet {
 				session.setAttribute("amitie", (ServiceUser.getAmiById(idProfil, user.getListeAmi()) == null)? false:true);
 				session.setAttribute("user", user);
 				session.setAttribute("profil", profil);
-				//request.setAttribute("user", user);
-				//request.setAttribute("profil", profil);
 				
 				response.sendRedirect("profil.jsp");
 			}

@@ -3,7 +3,6 @@ package cal.tpfinal.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +22,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 
+import cal.tpfinal.bean.Commentaire;
 import cal.tpfinal.bean.Credential;
 import cal.tpfinal.bean.Publication;
 import cal.tpfinal.bean.User;
@@ -54,6 +53,10 @@ public class LoginController extends HttpServlet {
 			ServiceValidation.getMapErreurs().clear();
 			if(!(ServiceUser.loadMapUserFromXML(ServiceApp.getValue("3",2))!= null)) {
 				User.setCompteur(Integer.valueOf(ServiceApp.getValue("1", 1))+1);
+			}
+			if(!(ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml")!= null)) {
+				Publication.setCompteur(Integer.valueOf(ServiceApp.getValue("5", 1))+1);
+				Commentaire.setCompteur(Integer.valueOf(ServiceApp.getValue("6", 1))+1);
 			}	
 		} catch (Exception e) {
 			logger.error(LoginController.class.getName()+" | Probleme - Function init(LoginControler) - Initialisation des donnees");
@@ -75,7 +78,6 @@ public class LoginController extends HttpServlet {
 				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
 			}catch(Exception e) {}
 		}
-		//session.setAttribute("feedAccueil", (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml"));
 		session.setAttribute("feedAccueil", feedAccueil);
 		
 		try {

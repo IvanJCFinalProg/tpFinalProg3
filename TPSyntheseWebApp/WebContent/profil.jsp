@@ -21,14 +21,11 @@
 	<body>
 		<%
 			User profil = (User)session.getAttribute("profil");
-			session.setAttribute("profil", profil);
-			boolean ami = false;
+			boolean ami =(boolean) session.getAttribute("amitie");
 			User user = (User)session.getAttribute("user"); 
 			
-			ami =(boolean) session.getAttribute("amitie");
-			
 			session.setAttribute("user", user);
-			
+			session.setAttribute("profil", profil);
 			session.setAttribute("idAfficher", profil.getCredential().getId());
 			session.setAttribute("idUser", user.getCredential().getId());
 			%>
