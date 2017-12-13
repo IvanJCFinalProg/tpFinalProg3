@@ -139,7 +139,6 @@
 							<div>
 								<%
 									for(Commentaire commentaire : publication.getListeCommentaires()){
-										//User commenteur = ServiceUser.getUserById(commentaire.getId_User(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 										User commenteur = commentaire.getUser();
 								%>
 										<br>
