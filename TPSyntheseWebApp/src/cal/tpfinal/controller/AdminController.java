@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,11 +46,13 @@ public class AdminController extends HttpServlet {
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter(ServiceApp.getValue("1", 3));
+		HttpSession session = request.getSession();
 		try {
 			Map<Integer, User> mapUsers = null; int idUser = -1;
 			if(request.getParameter(ServiceApp.getValue("5", 3))!=null) {
 				mapUsers = ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2));
 				idUser = Integer.valueOf(request.getParameter(ServiceApp.getValue("5", 3)));
+				request.setAttribute("idUser", idUser);
 			}
 			if(action.equals(ServiceApp.getValue("2", 3))) {
 				ServiceUser.blockUser(idUser, mapUsers);
@@ -110,7 +113,10 @@ public class AdminController extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 			else if(action.equals(ServiceApp.getValue("4", 3))) {
-				//request.getRequestDispatcher("UserController?action=accueil").forward(request, response);
+				User profil = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
+				session.setAttribute("profil", profil);
+				response.sendRedirect("afficheProfilByAdmin.jsp");
+				//request.getRequestDispatcher("afficheProfilByAdmin.jsp").forward(request, response);
 			}
 			else if(action.equals(ServiceApp.getValue("8", 3))) {
 				response.sendRedirect(ServiceApp.getValue("1", 2));
@@ -119,6 +125,48 @@ public class AdminController extends HttpServlet {
 				request.setAttribute("mapUsers", mapUsers);
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("4", 2));
 				dispatcher.forward(request, response);
+				
+			}else if(action.equalsIgnoreCase("supprimerPublication")) {
+				
+				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
+				User profil = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
+				session.setAttribute("profil", profil);
+				List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
+				ServicePublication.removePublication(profil.getFeed(), ServicePublication.getPublicationById(profil.getFeed(), idPublication));
+				ServicePublication.removePublication(feedAccueil, ServicePublication.getPublicationById(feedAccueil, idPublication));
+				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+				ServiceUser.saveUser(ServiceApp.getValue("2", 2), profil);
+				
+				request.getRequestDispatcher("AdminController?action="+ServiceApp.getValue("4", 3)).forward(request, response);
+				
+			}else if(action.equalsIgnoreCase("supprimerCommentaire")) {
+				
+				User profil = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
+				session.setAttribute("profil", profil);
+				List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
+				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
+				int idCommentaire = Integer.parseInt(request.getParameter("idCommentaire"));
+				
+				Publication publiFeed = ServicePublication.getPublicationById(feedAccueil, idPublication);
+				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(feedAccueil, idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publiFeed.getListeCommentaires(), idCommentaire));
+				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+				
+				Publication publi = ServicePublication.getPublicationById(profil.getFeed(), idPublication);
+				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(profil.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));
+				ServiceUser.saveUser(ServiceApp.getValue("2", 2), profil);
+				request.getRequestDispatcher("AdminController?action="+ServiceApp.getValue("4", 3)).forward(request, response);
+				
+			}else if(action.equalsIgnoreCase("enleverAmi")) {
+				User profil = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
+				session.setAttribute("profil", profil);
+				int idRemove = Integer.parseInt(request.getParameter("idRemove"));
+				
+				User ami = ServiceUser.getAmiById(idRemove, profil.getListeAmi());
+				ServiceUser.removeFriend(ami, profil.getListeAmi());
+				ServiceUser.removeFriend(profil, ami.getListeAmi());
+				ServiceUser.saveUser(ServiceApp.getValue("2", 2), ami);
+				ServiceUser.saveUser(ServiceApp.getValue("2", 2), profil);
+				request.getRequestDispatcher("AdminController?action="+ServiceApp.getValue("4", 3)).forward(request, response);
 			}
 		} catch (Exception e) {
 			logger.error(AdminController.class.getName()+" Erreur dans la fonction processRequest()");

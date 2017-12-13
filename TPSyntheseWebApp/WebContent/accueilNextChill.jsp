@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="cal.tpfinal.model.ServiceApp"%>
 <%@page import="cal.tpfinal.model.ServiceUser"%>
 <%@page import="cal.tpfinal.bean.Commentaire"%>
@@ -31,7 +32,13 @@
 			session.setAttribute("user", user);
 			session.setAttribute("idAfficher", user.getCredential().getId());
 			session.setAttribute("idUser", user.getCredential().getId());
-			List<Publication> feedAccueil = (List<Publication>)session.getAttribute("feedAccueil");
+			List<Publication> feedAccueil;
+			if((List<Publication>)session.getAttribute("feedAccueil") == null){
+				feedAccueil = new ArrayList<Publication>();
+			}else{
+				feedAccueil = (List<Publication>)session.getAttribute("feedAccueil");
+			}
+			
 			session.setAttribute("feedAccueil",feedAccueil);
 			%>
 		<nav class="navbar navbar-default navbar-fixed-top">

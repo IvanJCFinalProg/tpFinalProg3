@@ -174,12 +174,6 @@ public class LoginController extends HttpServlet {
 				User userAuth = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 				userAuth.setConnected(false);
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
-				//session.setAttribute("user", userAuth);
-				/*session.invalidate();
-				response.setHeader("Cache-Control","no-cache");
-				response.setHeader("Cache-Control","no-store");
-				response.setHeader("Pragma","no-cache");				Marche pas
-				response.setDateHeader ("Expires", 0);*/
 				response.sendRedirect(ServiceApp.getValue("1", 2));
 				/* En développement */
 				//RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("1", 2));
