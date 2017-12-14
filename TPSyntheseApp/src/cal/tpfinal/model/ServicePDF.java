@@ -46,14 +46,6 @@ public class ServicePDF {
 	    barcode.setCode("16040202");
 	    PdfPCell cell1 = new PdfPCell();
 	    PdfPCell cell2 = new PdfPCell(barcode.createImageWithBarcode(writer.getDirectContent(), BaseColor.BLACK, BaseColor.GRAY), true);
-	    /*
-		PdfContentByte cByte = writer.getDirectContent();//pour ecrire
-		BarcodeEAN barCode = new BarcodeEAN();
-		barCode.setCodeType(Barcode.EAN13);
-		barCode.setCode("20112017-16H03-G02");
-		Image imageEAN = barCode.createImageWithBarcode(cByte, null, null);
-		
-		PdfPCell cell = new PdfPCell(imageEAN, true);*/
 		cell2.setPaddingTop(10);
 		cell2.setHorizontalAlignment(Element.ALIGN_LEFT);//alignment horizontal
 		cell2.setColspan(2);
@@ -64,7 +56,6 @@ public class ServicePDF {
 		cell1.setBorder(0);
 		table.addCell(cell1);
 		table.addCell(cell2);
-		//return imageEAN;
 	}
 	private PdfPTable genererTableauPublication(List<Publication> liste) {
 		PdfPTable tableau = new PdfPTable(2);
@@ -79,17 +70,6 @@ public class ServicePDF {
 	
 	private PdfPTable genererEntete(User user) throws Exception {
 		PdfPTable tabEntete = new PdfPTable(2);
-		//insertion du logo
-		//Image image = Image.getInstance(filename);
-		//image.setAlignment(Element.ALIGN_LEFT);
-		//image.scalePercent(25);
-		
-		PdfPCell cell = new PdfPCell();
-		//cell.setBorder(0);
-		//tabEntete.addCell(cell);
-		
-		/*cell = celluleSansBordure("Facture PDF d'une commande");
-		tabEntete.addCell(cell);*/
 		
 		tabEntete.addCell(celluleSansBordure("Nom"));
 		tabEntete.addCell(celluleSansBordure(user.getNom()));
@@ -114,33 +94,10 @@ public class ServicePDF {
 			
 			document.add(tableauEntete);
 			document.add(tableauProduit);
-			
-			//Paragraph para = new Paragraph("\n\n Voici l'addresse du cegep : ");
-			//Anchor anchor = new Anchor("http://www.claurendeau.qc.ca", FontFactory.getFont(FontFactory.TIMES_BOLDITALIC,13,new BaseColor(0,0,250)));
-			
-			//para.add(anchor);
-			
-			//document.add(para);
 			document.close();
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
-	}
-	public static void main(String[] args) {
-		User user = new User();
-		user.setNom("Patate");
-		user.setPrenom("Bob");
-		user.setPhoneNumber("(514)123-4567");
-		Publication p1 = new Publication("Je suis une patate", user);
-		Publication p2 = new Publication("J'etais une patate", user);
-		Publication p3 = new Publication("Je serai une patate", user);
-		List<Publication> feed = new ArrayList<>();
-		feed.add(p1);
-		feed.add(p2);
-		feed.add(p3);
-		user.setFeed(feed);
-		ServicePDF pdfService = new ServicePDF(user);
-		pdfService.generationPDF("C:/appBasesDonnees/pdfs/"+user.getCredential().getId()+".pdf");
 	}
 }

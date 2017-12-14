@@ -40,7 +40,7 @@ public class ServicePublication {
 		return null;
 	}
 	
-	public static boolean saveListePublication(String fileName, List<Publication> liste) throws Exception {
+	public static boolean saveListePublication(String fileName, List<Publication> liste) {
 		try {
 			XStream stream = new XStream(new DomDriver());
 			stream.alias("commentaire", Commentaire.class);
@@ -52,7 +52,7 @@ public class ServicePublication {
 			stream.alias("Date", DateTime.class);
 			stream.toXML(liste, new FileOutputStream(fileName));
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}
 		return new File(fileName).exists();
 	}
