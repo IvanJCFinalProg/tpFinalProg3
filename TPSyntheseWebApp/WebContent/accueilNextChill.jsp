@@ -39,26 +39,25 @@
 		<nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
               <div class="navbar-header">
-                  <a class="navbar-brand" href="LoginController?action=accueil">NextChilling</a>
+                  <span id="logo" class="ion-person"></span><a class="navbar-brand" href="LoginController?action=accueil">NextChilling</a>
               </div>
               <div class="collapse navbar-collapse" id="myNavbar">
-                  <ul class="nav navbar-nav navbar-right">
-                  	<li><a href="UserController?action=afficherProfil&idAfficher=<%= user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-user fa-2x"></span> Profil</a></li>
-                  	<li class="dropdown" >
-				       <li class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				       <a href="#"><span class="fa fa-cog fa-2x"></span> Paramètres</a></li>
-
-				        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-				          <li><a href="UserController?action=modifierInfos&idUser=<%=user.getCredential().getId()%>">Général</a></li>
-				          <li><a href="UserController?action=contacter&idUser=<%=user.getCredential().getId()%>">Nous contacter</a></li>
-				          <li>
-				          	<form name="fermerCompte" method="post" action="LoginController?action=fermerCompte&idUser=<%= user.getCredential().getId()%>">
-				          		<button type="submit">Fermer compte</button>
-				          	</form>
-				          </li>
-				        </ul>
+              	<ul class="nav navbar-nav navbar-right">
+                  	<li><a href="UserController?action=afficherProfil&idAfficher=<%=user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="ion ion-ios-person fa-2x"></span> Profil</a></li> 	
+                  	<li class="dropdown">
+				       <button class="dropbtn"><span class="ion ion-gear-b fa-2x"></span> Paramètres</button>
+				       <ul class="dropdown-content">
+							<li><a href="UserController?action=modifierInfos&idUser=<%=user.getCredential().getId()%>">Général</a></li>
+					          <li><a href="UserController?action=contacter&idUser=<%=user.getCredential().getId()%>">Nous contacter</a></li>
+					          <li role="separator" class="divider"></li>
+					          <li>
+					          	<form name="fermerCompte" method="post" action="LoginController?action=fermerCompte&idUser=<%= user.getCredential().getId()%>">
+					          		<button type="submit">Fermer compte</button>
+					          	</form>
+					          </li>
+				       </ul>
 					</li>
-                    <li><a href="LoginController?action=deconnexion&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
+                    <li><a href="LoginController?action=deconnexion&idUser=<%=user.getCredential().getId()%>"><span class="ion ion-log-out fa-2x"></span> Déconnexion</a></li>
 	            </ul>
 		        </div>
 		    </div>
@@ -69,12 +68,7 @@
 				<div class="col-md-2">
 					<!-- Barre de navigation de côté qui permet de naviguer dans le contenu de la page -->
 			        <nav id="navigCote" class="sidenav">
-			            <a href="#logo"><span class="ion-earth"></span></a>
-			            <a href="#solde"><span class="ion-arrow-graph-down-right"></span></a>
-			            <a href="#innov"><span class="ion-power"></span></a>
-			            <a href="#propos"><span class="ion-person"></span></a>
-			            <a href="#qualites"><span class="ion-clipboard"></span></a>
-			            <a href="#map"><span class="ion-map"></span></a>
+			           
 			        </nav>
 				</div>
 				<div class="col-md-10">

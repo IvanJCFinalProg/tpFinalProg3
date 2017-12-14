@@ -23,6 +23,13 @@ body{
 
 }
 
+#logo{
+	position: relative;
+    right: 290px;
+    top: -5px;
+    font-size: 3em;
+}
+
 /* Message erreur*/
 .errormsg {
     margin: .5em 0 0;
@@ -75,6 +82,13 @@ textarea[name=publication]:hover {
     font-size: 20px;
 }
 
+.col-md-2{
+	background-image: url("../images/redFlower.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	
+}
+
 /* Style pour la barre de navigation de cotée*/
 /* Style pour la navigation de côté sur la barre de navigation */
 .sidenav{
@@ -88,6 +102,9 @@ textarea[name=publication]:hover {
     padding-top: 60px;
     margin-top: 90px;
     width: 18%;
+    background-image: url("../images/redFlower.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .sidenav > a > span{
@@ -196,9 +213,14 @@ textarea[name=publication]:hover {
 }           
 
 
-/* Style page Général  | Modif infos*/                 
+/* Style page Général  | Modif infos*/   
+#sectionGeneral1{
+	background-image: url("../images/coverChangeInfos.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+}              
 #sectionGeneral1 > div > .col-md-6{
-	background-color: #cde6ea;
+	background-color: rgba(255, 255, 255, 0.64);
 	box-shadow: 0 10px 20px rgba(0,0,0,.5);
     transition: .5s;
     padding: 18px 40px 0;
