@@ -146,17 +146,7 @@ public class LoginController extends HttpServlet {
 						userAuth.setConnected(true);
 						ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
 						session.setAttribute("user", userAuth);
-						//request.setAttribute("user", ServiceUser.getUserById(user.getId(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2))));
-						/* En développement */
-						/*if(request.getParameter("checkbox") != null) {
-							 Cookie cookie = new Cookie( "email", email );
-							    cookie.setMaxAge( DUREE_VIE_COOKIE );
-							    response.addCookie( cookie );
-						}else {
-							Cookie cookie = new Cookie(request.getParameter("email"), "");
-							cookie.setMaxAge(0);
-							response.addCookie(cookie);
-						}*/
+						
 						RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("5", 2));
 						dispatcher.forward(request, response);
 					}
@@ -167,7 +157,7 @@ public class LoginController extends HttpServlet {
 				}
 			}else if(action.equalsIgnoreCase("accueil")) {
 				User user= (User)session.getAttribute("user");
-				/* En développement */
+				
 				session.setAttribute("user", user);
 				response.sendRedirect(ServiceApp.getValue("5", 2));
 				
@@ -177,9 +167,7 @@ public class LoginController extends HttpServlet {
 				userAuth.setConnected(false);
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
 				response.sendRedirect(ServiceApp.getValue("1", 2));
-				/* En développement */
-				//RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("1", 2));
-				//dispatcher.forward(request, response);
+				
 			}else if(action.equalsIgnoreCase("fermerCompte")) {
 				Map<Integer, User> mapUsers = ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2));
 				int idUser= Integer.parseInt(request.getParameter("idUser"));
