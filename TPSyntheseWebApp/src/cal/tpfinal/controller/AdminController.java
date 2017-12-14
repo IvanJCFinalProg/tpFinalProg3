@@ -24,6 +24,7 @@ import cal.tpfinal.bean.User;
 import cal.tpfinal.model.ServiceApp;
 import cal.tpfinal.model.ServiceCommentaire;
 import cal.tpfinal.model.ServiceConnection;
+import cal.tpfinal.model.ServicePDF;
 import cal.tpfinal.model.ServicePublication;
 import cal.tpfinal.model.ServiceUser;
 import cal.tpfinal.util.IServiceUtils;
@@ -64,8 +65,9 @@ public class AdminController extends HttpServlet {
 			}
 			else if(action.equals(ServiceApp.getValue("3", 3))) {
 				// Si je supprime le dernier id, la propertie dans le file doit changer
-				if(idUser==Integer.valueOf(ServiceApp.getValue("1", 1)))
-					ServiceApp.setValue("1", String.valueOf(Integer.valueOf(ServiceApp.getValue("1", 1))-1), 1);
+				/*if(idUser==Integer.valueOf(ServiceApp.getValue("1", 1)))
+					ServiceApp.setValue("1", String.valueOf(Integer.valueOf(ServiceApp.getValue("1", 1))-1), 1);*/
+				new ServicePDF(ServiceUser.getUserById(idUser, mapUsers)).generationPDF("C:/appBasesDonnees/pdfs/"+idUser+".pdf");
 				Map<Integer, Credential> tableLogins = ServiceConnection.loadMapCredentials(ServiceApp.getValue("3", 2));
 				ServiceUser.deleteUser(mapUsers.get(idUser), mapUsers);
 				ServiceConnection.deleteCredential(tableLogins.get(idUser), tableLogins);

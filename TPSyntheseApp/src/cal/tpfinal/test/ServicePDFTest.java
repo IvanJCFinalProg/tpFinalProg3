@@ -49,8 +49,8 @@ public class ServicePDFTest {
 
 	@Test
 	public void testGenerationPDF() {
-		pdfService.generationPDF("C:/appBasesDonnees/pdfs/"+user.getCredential().getId()+".pdf");
-		assertTrue(new File("C:/appBasesDonnees/pdfs/"+user.getCredential().getId()+".pdf").exists());
+		pdfService.generationPDF("C:/appBasesDonnees/testsServices/"+user.getCredential().getId()+".pdf");
+		assertTrue(new File("C:/appBasesDonnees/testsServices/"+user.getCredential().getId()+".pdf").exists());
 	}
 
 }
