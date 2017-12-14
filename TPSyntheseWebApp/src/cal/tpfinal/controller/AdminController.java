@@ -118,7 +118,6 @@ public class AdminController extends HttpServlet {
 				User profil = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 				session.setAttribute("profil", profil);
 				response.sendRedirect("afficheProfilByAdmin.jsp");
-				//request.getRequestDispatcher("afficheProfilByAdmin.jsp").forward(request, response);
 			}
 			else if(action.equals(ServiceApp.getValue("8", 3))) {
 				response.sendRedirect(ServiceApp.getValue("1", 2));

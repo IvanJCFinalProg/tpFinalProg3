@@ -9,11 +9,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<!--  <% if(true){%>
-		<script>
-		    history.forward();
-		</script>
-		<%} %>-->
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Bienvenue NextChill</title>
@@ -28,7 +23,6 @@
 	</head>
 	<body>
 		<%
-			//System.out.println(request.getSession().getAttribute("user"));
 			User user = (User)session.getAttribute("user"); 
 			session.setAttribute("user", user);
 			session.setAttribute("idAfficher", user.getCredential().getId());
@@ -138,9 +132,8 @@
 						      </div>
 						      <div class="box-likes">
 						        <div class="row">
-						          <span><a href="UserController?action=aimePublication&idPubli=<%=
-											publication.getId()%>&idUser=<%=user.getCredential().getId() %>">+99</a></span>
-						          <span>aime </span>
+						          <!--<span>+99</span>
+						          <span>aime </span>-->
 						        </div>
 						        <div class="row">
 						          <span><%=publication.getListeCommentaires().size() %> commentaires</span>
@@ -148,7 +141,8 @@
 						      </div>
 						      <div class="box-buttons">
 						        <div class="row">
-						          <button><span class="fa fa-thumbs-up"></span> J'aime</button>
+						          <button><!--<span class="fa fa-thumbs-up"></span> 
+						          	<a href="UserController?action=aimer&idPublication=<%=publication.getId()%>">J'aime</a>--></button>
 						          <button><span class="ion-chatbox-working"></span> Commenter</button>
 						        </div>
 						      </div>

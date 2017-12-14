@@ -116,7 +116,6 @@
 							%>
 							<div>
 								<%
-									//User publicateur = ServiceUser.getUserById(publication.getId_User(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 									User publicateur = publication.getUser();
 								%>
 								<p><%="#"+publication.getId()+"-"%>
