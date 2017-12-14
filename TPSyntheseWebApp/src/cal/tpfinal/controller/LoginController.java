@@ -28,6 +28,7 @@ import cal.tpfinal.bean.Credential;
 import cal.tpfinal.bean.Publication;
 import cal.tpfinal.bean.User;
 import cal.tpfinal.model.ServiceApp;
+import cal.tpfinal.model.ServiceCommentaire;
 import cal.tpfinal.model.ServiceConnection;
 import cal.tpfinal.model.ServicePassword;
 import cal.tpfinal.model.ServicePublication;
@@ -179,6 +180,56 @@ public class LoginController extends HttpServlet {
 				/* En développement */
 				//RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("1", 2));
 				//dispatcher.forward(request, response);
+			}else if(action.equalsIgnoreCase("fermerCompte")) {
+				Map<Integer, User> mapUsers = ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2));
+				int idUser= Integer.parseInt(request.getParameter("idUser"));
+				if(idUser==Integer.valueOf(ServiceApp.getValue("1", 1)))
+					ServiceApp.setValue("1", String.valueOf(Integer.valueOf(ServiceApp.getValue("1", 1))-1), 1);
+				Map<Integer, Credential> tableLogins = ServiceConnection.loadMapCredentials(ServiceApp.getValue("3", 2));
+				ServiceUser.deleteUser(mapUsers.get(idUser), mapUsers);
+				ServiceConnection.deleteCredential(tableLogins.get(idUser), tableLogins);
+				ServiceUser.saveToXML(mapUsers, ServiceApp.getValue("2", 2));
+				ServiceConnection.saveMapCredentials(ServiceApp.getValue("3", 2), tableLogins);
+				for(Publication p : feedAccueil) {
+					if(p.getId_User() == idUser) {
+						ServicePublication.removePublication(feedAccueil, ServicePublication.getPublicationById(feedAccueil, p.getId()));
+						ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+					}else {
+						for(Commentaire c : p.getListeCommentaires()) {
+							if(c.getId_User() == idUser) {
+								Publication publiFeed = ServicePublication.getPublicationById(feedAccueil, p.getId());
+								ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(feedAccueil, p.getId()).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publiFeed.getListeCommentaires(), c.getId()));
+								ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+							}
+						}
+					}
+				}
+				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+				for(User user : mapUsers.values()) {
+					for(User ami : user.getListeAmi()) {
+						if(ami.getCredential().getId() == idUser) {
+							ServiceUser.removeFriend(ami, user.getListeAmi());
+							ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
+							break;
+						}
+					}
+					for(Publication p : user.getFeed()) {
+						if(p.getId_User() == idUser) {
+							ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), p.getId()));
+							ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
+						}else {
+							for(Commentaire c : p.getListeCommentaires()) {
+								if(c.getId_User() == idUser) {
+									Publication publi = ServicePublication.getPublicationById(user.getFeed(), p.getId());
+									ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), p.getId()).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), c.getId()));
+									ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
+								}
+							}
+						}
+					}
+				}
+				ServiceUser.saveToXML(mapUsers, ServiceApp.getValue("2", 2));
+				response.sendRedirect(ServiceApp.getValue("1", 2));
 			}
 		}catch (Exception e) {
 			logger.error(LoginController.class.getName()+" Erreur dans la fonction processRequest()");

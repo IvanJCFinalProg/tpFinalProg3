@@ -38,7 +38,20 @@
               <div class="collapse navbar-collapse" id="myNavbar">
                   <ul class="nav navbar-nav navbar-right">
                   	<li><a href="UserController?action=afficherProfil&idAfficher=<%= user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-user fa-2x"></span> Profil</a></li>
-                  	<li><a href="#"><span class="fa fa-cog fa-2x"></span> Paramètres</a></li>
+                  	<li class="dropdown" >
+				       <li class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				       <a href="#"><span class="fa fa-cog fa-2x"></span> Paramètres</a></li>
+
+				        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+				          <li><a href="UserController?action=modifierInfos&idUser=<%=user.getCredential().getId()%>">Général</a></li>
+				          <li><a href="UserController?action=contacter&idUser=<%=user.getCredential().getId()%>">Nous contacter</a></li>
+				          <li>
+				          	<form name="fermerCompte" method="post" action="LoginController?action=fermerCompte&idUser=<%= user.getCredential().getId()%>">
+				          		<button type="submit">Fermer compte</button>
+				          	</form>
+				          </li>
+				        </ul>
+					</li>
                     <li><a href="LoginController?action=deconnexion&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
 	            </ul>
 		        </div>
