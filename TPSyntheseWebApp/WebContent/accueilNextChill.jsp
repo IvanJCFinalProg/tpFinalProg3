@@ -42,18 +42,25 @@
                   <span id="logo" class="ion-person"></span><a class="navbar-brand" href="LoginController?action=accueil">NextChilling</a>
               </div>
               <div class="collapse navbar-collapse" id="myNavbar">
+              	<div class="col-md-5">
+					<form method="post" class="search form-search combo-input-button" action="RechercheController?action=rechercher&idUser=<%=user.getCredential().getId()%>">
+						<input type="text" name="tagRecherche" class="form-control input-sm rechercher" maxlength="64" placeholder=" Recherche .... "/>
+						<button id="btnSearch" type="submit" class="btn btn-primary btn-sm"><span class="fa fa-search fa-2x"></span></button>
+					</form>
+				</div>
               	<ul class="nav navbar-nav navbar-right">
                   	<li><a href="UserController?action=afficherProfil&idAfficher=<%=user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="ion ion-ios-person fa-2x"></span> Profil</a></li> 	
                   	<li class="dropdown">
-				       <button class="dropbtn"><span class="ion ion-gear-b fa-2x"></span> Paramètres</button>
-				       <ul class="dropdown-content">
+				       <a id="btnDropMenu" class="dropbtn"><span class="ion ion-gear-b fa-2x"></span> Paramètres</a>
+				       <ul class="dropdown-content2">
 							<li><a href="UserController?action=modifierInfos&idUser=<%=user.getCredential().getId()%>">Général</a></li>
 					          <li><a href="UserController?action=contacter&idUser=<%=user.getCredential().getId()%>">Nous contacter</a></li>
-					          <li role="separator" class="divider"></li>
 					          <li>
-					          	<form name="fermerCompte" method="post" action="LoginController?action=fermerCompte&idUser=<%= user.getCredential().getId()%>">
-					          		<button type="submit">Fermer compte</button>
-					          	</form>
+					          	<a>
+						          	<form name="fermerCompte" method="post" action="LoginController?action=fermerCompte&idUser=<%= user.getCredential().getId()%>">
+						          		<button type="submit">Fermer compte</button>
+						          	</form>
+					          	</a>
 					          </li>
 				       </ul>
 					</li>
@@ -76,12 +83,7 @@
 						<div class="container">
 						  <div class="row">
 						    <div class="col-md-offset-3 col-md-6 col-xs-12">
-						    	<div>
-									<form method="post" action="RechercheController?action=rechercher&idUser=<%=user.getCredential().getId()%>">
-										<input type="text" name="tagRecherche"/>
-										<button type="submit">Rechercher</button>
-									</form>
-								</div>
+						    	
 						    	<div class="well well-sm well-social-post">
 							        <form id="publiForm" name="formPublication" action="UserController?action=publier" method="post">
 							          <ul class="list-inline" id='list_PostActions'>
