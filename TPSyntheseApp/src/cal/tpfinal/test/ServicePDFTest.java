@@ -25,7 +25,8 @@ public class ServicePDFTest {
 	public void setUp() throws Exception {
 		user.setNom("Patate");
 		user.setPrenom("Bob");
-		user.setPhoneNumber("(514)123-4567");
+		user.setAge(18);
+		user.getCredential().setEmail("potato@gmail.com");
 		p1 = new Publication("Je suis une patate", user);
 		p2 = new Publication("J'etais une patate", user);
 		p3 = new Publication("Je serai une patate", user);

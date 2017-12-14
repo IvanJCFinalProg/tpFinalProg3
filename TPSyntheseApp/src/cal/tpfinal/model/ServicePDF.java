@@ -41,21 +41,29 @@ public class ServicePDF {
 		return cellule;
 	}
 	private void genererBarCode(PdfWriter writer, PdfPTable table) {
-		BarcodeEAN barcode = new BarcodeEAN();
-	    barcode.setCodeType(Barcode.EAN8);
-	    barcode.setCode("16040202");
-	    PdfPCell cell1 = new PdfPCell();
-	    PdfPCell cell2 = new PdfPCell(barcode.createImageWithBarcode(writer.getDirectContent(), BaseColor.BLACK, BaseColor.GRAY), true);
-		cell2.setPaddingTop(10);
-		cell2.setHorizontalAlignment(Element.ALIGN_LEFT);//alignment horizontal
-		cell2.setColspan(2);
-		cell2.setBorder(0);
-		cell1.setPaddingTop(10);
-		cell1.setHorizontalAlignment(Element.ALIGN_LEFT);//alignment horizontal
-		cell1.setColspan(2);
-		cell1.setBorder(0);
-		table.addCell(cell1);
-		table.addCell(cell2);
+		PdfContentByte cByte = writer.getDirectContent(); // Pour écrire
+		// Je choisis le type de barre code
+		BarcodeEAN barCode = new BarcodeEAN();
+		// mettre en un format voulu
+		barCode.setCodeType(Barcode.EAN13);
+		// ce qui sera afficher en bas
+		String code = System.currentTimeMillis()+"";
+		if(code.length()<13)
+			while(code.length()<13)
+				code+=""+(int)(Math.random()*9);
+		else code = code.substring(0, 13);
+			
+		//String code  = RandomStringUtils.random(13, false, true);
+		barCode.setCode(code);
+		// generer une image du barre code
+		Image imageEAN = barCode.createImageWithBarcode(cByte, null, null);
+		// Mettre le barre code dans une cellule
+		PdfPCell cell = new PdfPCell(imageEAN,false);
+		cell.setPaddingTop(10);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(2);
+		table.addCell(cell);
 	}
 	private PdfPTable genererTableauPublication(List<Publication> liste) {
 		PdfPTable tableau = new PdfPTable(2);
@@ -77,8 +85,11 @@ public class ServicePDF {
 		tabEntete.addCell(celluleSansBordure("Prenom"));
 		tabEntete.addCell(celluleSansBordure(user.getPrenom()));
 		
-		tabEntete.addCell(celluleSansBordure("Telephone "));
-		tabEntete.addCell(celluleSansBordure(user.getPhoneNumber()));
+		tabEntete.addCell(celluleSansBordure("Age "));
+		tabEntete.addCell(celluleSansBordure(user.getAge()+""));
+		
+		tabEntete.addCell(celluleSansBordure("Email "));
+		tabEntete.addCell(celluleSansBordure(user.getCredential().getEmail()));
 		
 		return tabEntete;
 	}
