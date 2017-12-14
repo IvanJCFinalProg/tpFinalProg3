@@ -37,26 +37,31 @@ public class ServiceConnection {
 		return mapCredential.get(id);
 	}
 	
-	public static boolean saveCredential(String fileName, Credential credential) throws Exception {
-
-		XStream stream = new XStream(new DomDriver());
-		stream.alias("Credential", Credential.class);
-		stream.alias("tableLogins", Map.class);
-		stream.alias("Login", Entry.class);
-		Map<Integer, Credential> tmp = loadMapCredentials(fileName);
-		tmp.put(credential.getId(),credential);
-		stream.toXML(tmp, new FileOutputStream(fileName));
-		
+	public static boolean saveCredential(String fileName, Credential credential){
+		try {
+			XStream stream = new XStream(new DomDriver());
+			stream.alias("Credential", Credential.class);
+			stream.alias("tableLogins", Map.class);
+			stream.alias("Login", Entry.class);
+			Map<Integer, Credential> tmp = loadMapCredentials(fileName);
+			tmp.put(credential.getId(),credential);
+			stream.toXML(tmp, new FileOutputStream(fileName));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return (getCredentialById(credential.getId(), loadMapCredentials(fileName))).getId() == credential.getId();
 	}
 
-	public static boolean saveMapCredentials(String fileName, Map<Integer, Credential> mapCredential) throws Exception {
-
-		XStream stream = new XStream(new DomDriver());
-		stream.alias("Credential", Credential.class);
-		stream.alias("tableLogins", Map.class);
-		stream.alias("Login", Entry.class);
-		stream.toXML(mapCredential, new FileOutputStream(fileName));
+	public static boolean saveMapCredentials(String fileName, Map<Integer, Credential> mapCredential) {
+		try {
+			XStream stream = new XStream(new DomDriver());
+			stream.alias("Credential", Credential.class);
+			stream.alias("tableLogins", Map.class);
+			stream.alias("Login", Entry.class);
+			stream.toXML(mapCredential, new FileOutputStream(fileName));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return new File(fileName).exists();
 	}
 	

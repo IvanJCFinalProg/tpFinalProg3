@@ -27,14 +27,16 @@ public class ServiceCommentaire {
 		return null;
 	}
 	
-	public static boolean saveListeCommentaire(String fileName, List<Commentaire> liste) throws Exception {
-
-		XStream stream = new XStream(new DomDriver());
-		stream.alias("Commentaire", Commentaire.class);
-		stream.alias("Commentaires", List.class);
-		
-		stream.toXML(liste, new FileOutputStream(fileName));
+	public static boolean saveListeCommentaire(String fileName, List<Commentaire> liste) {
+		try {
+			XStream stream = new XStream(new DomDriver());
+			stream.alias("Commentaire", Commentaire.class);
+			stream.alias("Commentaires", List.class);
+			
+			stream.toXML(liste, new FileOutputStream(fileName));
+		}catch(Exception e){}
 		return new File(fileName).exists();
+		
 	}
 	
 	@SuppressWarnings("unchecked")
