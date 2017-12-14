@@ -24,6 +24,7 @@ import cal.tpfinal.bean.User;
 import cal.tpfinal.model.ServiceApp;
 import cal.tpfinal.model.ServiceCommentaire;
 import cal.tpfinal.model.ServiceConnection;
+import cal.tpfinal.model.ServicePDF;
 import cal.tpfinal.model.ServicePublication;
 import cal.tpfinal.model.ServiceUser;
 import cal.tpfinal.util.IServiceUtils;
@@ -35,7 +36,7 @@ import cal.tpfinal.util.IServiceUtils;
 public class AdminController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LogManager.getLogger(AdminController.class);
-    
+	private final String FEED_ACCUEIL = "C:/appBasesDonnees/tableFeed.xml";
 	
 	public void init(ServletConfig config) throws ServletException {
 		
@@ -63,30 +64,28 @@ public class AdminController extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 			else if(action.equals(ServiceApp.getValue("3", 3))) {
-				// Si je supprime le dernier id, la propertie dans le file doit changer
-				if(idUser==Integer.valueOf(ServiceApp.getValue("1", 1)))
-					ServiceApp.setValue("1", String.valueOf(Integer.valueOf(ServiceApp.getValue("1", 1))-1), 1);
+				new ServicePDF(ServiceUser.getUserById(idUser, mapUsers)).generationPDF("C:/appBasesDonnees/pdfs/"+idUser+".pdf");
 				Map<Integer, Credential> tableLogins = ServiceConnection.loadMapCredentials(ServiceApp.getValue("3", 2));
 				ServiceUser.deleteUser(mapUsers.get(idUser), mapUsers);
 				ServiceConnection.deleteCredential(tableLogins.get(idUser), tableLogins);
 				ServiceUser.saveToXML(mapUsers, ServiceApp.getValue("2", 2));
 				ServiceConnection.saveMapCredentials(ServiceApp.getValue("3", 2), tableLogins);
-				List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
+				List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication(FEED_ACCUEIL);
 				for(Publication p : feedAccueil) {
 					if(p.getId_User() == idUser) {
 						ServicePublication.removePublication(feedAccueil, ServicePublication.getPublicationById(feedAccueil, p.getId()));
-						ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+						ServicePublication.saveListePublication(FEED_ACCUEIL, feedAccueil);
 					}else {
 						for(Commentaire c : p.getListeCommentaires()) {
 							if(c.getId_User() == idUser) {
 								Publication publiFeed = ServicePublication.getPublicationById(feedAccueil, p.getId());
 								ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(feedAccueil, p.getId()).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publiFeed.getListeCommentaires(), c.getId()));
-								ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+								ServicePublication.saveListePublication(FEED_ACCUEIL, feedAccueil);
 							}
 						}
 					}
 				}
-				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+				ServicePublication.saveListePublication(FEED_ACCUEIL, feedAccueil);
 				for(User user : mapUsers.values()) {
 					for(User ami : user.getListeAmi()) {
 						if(ami.getCredential().getId() == idUser) {
@@ -132,10 +131,10 @@ public class AdminController extends HttpServlet {
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				User profil = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 				session.setAttribute("profil", profil);
-				List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
+				List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication(FEED_ACCUEIL);
 				ServicePublication.removePublication(profil.getFeed(), ServicePublication.getPublicationById(profil.getFeed(), idPublication));
 				ServicePublication.removePublication(feedAccueil, ServicePublication.getPublicationById(feedAccueil, idPublication));
-				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+				ServicePublication.saveListePublication(FEED_ACCUEIL, feedAccueil);
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), profil);
 				
 				request.getRequestDispatcher("AdminController?action="+ServiceApp.getValue("4", 3)).forward(request, response);
@@ -144,13 +143,13 @@ public class AdminController extends HttpServlet {
 				
 				User profil = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 				session.setAttribute("profil", profil);
-				List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
+				List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication(FEED_ACCUEIL);
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				int idCommentaire = Integer.parseInt(request.getParameter("idCommentaire"));
 				
 				Publication publiFeed = ServicePublication.getPublicationById(feedAccueil, idPublication);
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(feedAccueil, idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publiFeed.getListeCommentaires(), idCommentaire));
-				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+				ServicePublication.saveListePublication(FEED_ACCUEIL, feedAccueil);
 				
 				Publication publi = ServicePublication.getPublicationById(profil.getFeed(), idPublication);
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(profil.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));

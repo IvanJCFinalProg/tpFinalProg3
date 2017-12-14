@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 public class Publication {
 	private static final DateFormat DF = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");

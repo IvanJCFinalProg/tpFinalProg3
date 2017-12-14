@@ -113,6 +113,7 @@
 									&idUser=<%=user.getCredential().getId()%>"><%=publicateur.getPrenom()+" "+publicateur.getNom()%></a>
 						          <span><%= publication.getDate_publication()%><i class="fa fa-globe"></i></span>
 						        </h3>
+						        <%if(user.getCredential().getId() == publication.getId_User()) {%>
 						        <div class="dropdown">
 									  <button id="btnDrop" class="dropbtn"><span class="ion-more"></span></button>
 									  <div class="dropdown-content">
@@ -122,6 +123,7 @@
 										</form>
 									  </div>
 								</div>
+								<%} %>
 						        <!--  <span>
 						        	<i class="ion-more"></i>
 						        </span>-->
