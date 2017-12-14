@@ -1,16 +1,11 @@
 package cal.tpfinal.model;
 
 import java.io.FileOutputStream;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.itextpdf.text.Anchor;
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.Barcode;
@@ -52,8 +47,6 @@ public class ServicePDF {
 			while(code.length()<13)
 				code+=""+(int)(Math.random()*9);
 		else code = code.substring(0, 13);
-			
-		//String code  = RandomStringUtils.random(13, false, true);
 		barCode.setCode(code);
 		// generer une image du barre code
 		Image imageEAN = barCode.createImageWithBarcode(cByte, null, null);
@@ -67,7 +60,6 @@ public class ServicePDF {
 	}
 	private PdfPTable genererTableauPublication(List<Publication> liste) {
 		PdfPTable tableau = new PdfPTable(2);
-		DecimalFormat dcf = new DecimalFormat("0.00");
 		
 		for(Publication p : liste) {
 			tableau.addCell(p.getContent());

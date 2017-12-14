@@ -45,8 +45,8 @@ import cal.tpfinal.util.ServiceValidation;
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LogManager.getLogger(LoginController.class);
-	private static final int DUREE_VIE_COOKIE = 60*60*24*7;
-
+	private final String FEED_ACCUEIL = "C:/appBasesDonnees/tableFeed.xml";
+	
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
@@ -57,7 +57,7 @@ public class LoginController extends HttpServlet {
 			if(!(ServiceUser.loadMapUserFromXML(ServiceApp.getValue("3",2))!= null)) {
 				User.setCompteur(Integer.valueOf(ServiceApp.getValue("1", 1))+1);
 			}
-			if((ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml")!= null)) {
+			if((ServicePublication.loadListePublication(FEED_ACCUEIL)!= null)) {
 				Publication.setCompteur(Integer.valueOf(ServiceApp.getValue("5", 1))+1);
 				Commentaire.setCompteur(Integer.valueOf(ServiceApp.getValue("6", 1))+1);
 			}	
@@ -74,11 +74,11 @@ public class LoginController extends HttpServlet {
 		String action = request.getParameter("action");
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
-		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication("C:/appBasesDonnees/tableFeed.xml");
+		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication(FEED_ACCUEIL);
 		if(feedAccueil == null) {
 			feedAccueil = new ArrayList<Publication>();
 			try {
-				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+				ServicePublication.saveListePublication(FEED_ACCUEIL, feedAccueil);
 			}catch(Exception e) {}
 		}
 		session.setAttribute("feedAccueil", feedAccueil);
@@ -141,7 +141,7 @@ public class LoginController extends HttpServlet {
 						request.getRequestDispatcher(ServiceApp.getValue("4", 2)).forward(request, response);
 					}
 				}else {
-					Credential user = Authentification.verificationUtilisateur(request.getParameter("email"),request.getParameter("password"), ServiceApp.getValue("3", 2));
+					Credential user = Authentification.verificationUtilisateur(request.getParameter("email"),request.getParameter("password"),ServiceApp.getValue("3", 2));
 					if( user != null) {
 						User userAuth = ServiceUser.getUserById(user.getId(), ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 						userAuth.setConnected(true);
@@ -172,8 +172,6 @@ public class LoginController extends HttpServlet {
 			}else if(action.equalsIgnoreCase("fermerCompte")) {
 				Map<Integer, User> mapUsers = ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2));
 				int idUser= Integer.parseInt(request.getParameter("idUser"));
-				/*if(idUser==Integer.valueOf(ServiceApp.getValue("1", 1)))
-				ServiceApp.setValue("1", String.valueOf(Integer.valueOf(ServiceApp.getValue("1", 1))-1), 1);*/
 				new ServicePDF(ServiceUser.getUserById(idUser, mapUsers)).generationPDF("C:/appBasesDonnees/pdfs/"+idUser+".pdf");
 				Map<Integer, Credential> tableLogins = ServiceConnection.loadMapCredentials(ServiceApp.getValue("3", 2));
 				ServiceUser.deleteUser(mapUsers.get(idUser), mapUsers);
@@ -183,18 +181,19 @@ public class LoginController extends HttpServlet {
 				for(Publication p : feedAccueil) {
 					if(p.getId_User() == idUser) {
 						ServicePublication.removePublication(feedAccueil, ServicePublication.getPublicationById(feedAccueil, p.getId()));
-						ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+						ServicePublication.saveListePublication(FEED_ACCUEIL, feedAccueil);
 					}else {
 						for(Commentaire c : p.getListeCommentaires()) {
 							if(c.getId_User() == idUser) {
 								Publication publiFeed = ServicePublication.getPublicationById(feedAccueil, p.getId());
-								ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(feedAccueil, p.getId()).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publiFeed.getListeCommentaires(), c.getId()));
-								ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+								ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(feedAccueil, p.getId()).getListeCommentaires(),
+										ServiceCommentaire.getCommentaireById(publiFeed.getListeCommentaires(), c.getId()));
+								ServicePublication.saveListePublication(FEED_ACCUEIL, feedAccueil);
 							}
 						}
 					}
 				}
-				ServicePublication.saveListePublication("C:/appBasesDonnees/tableFeed.xml", feedAccueil);
+				ServicePublication.saveListePublication(FEED_ACCUEIL, feedAccueil);
 				for(User user : mapUsers.values()) {
 					for(User ami : user.getListeAmi()) {
 						if(ami.getCredential().getId() == idUser) {
@@ -211,7 +210,8 @@ public class LoginController extends HttpServlet {
 							for(Commentaire c : p.getListeCommentaires()) {
 								if(c.getId_User() == idUser) {
 									Publication publi = ServicePublication.getPublicationById(user.getFeed(), p.getId());
-									ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), p.getId()).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), c.getId()));
+									ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), p.getId()).getListeCommentaires(),
+											ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), c.getId()));
 									ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 								}
 							}
