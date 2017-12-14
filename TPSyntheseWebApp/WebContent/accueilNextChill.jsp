@@ -18,6 +18,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Bienvenue NextChill</title>
 		<link href="css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="css/ionicons-2.0.1/css/ionicons.css" rel="stylesheet">
         <link href="css/feedStyles.css" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 		<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -44,7 +45,7 @@
 		<nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
               <div class="navbar-header">
-                  <a class="navbar-brand" href="LoginController?action=accueil">Bonjour <%=user.getPrenom()%> <%=user.getNom() %></a>
+                  <a class="navbar-brand" href="LoginController?action=accueil">NextChilling</a>
               </div>
               <div class="collapse navbar-collapse" id="myNavbar">
                   <ul class="nav navbar-nav navbar-right">
@@ -107,77 +108,102 @@
 							          <input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
 							        </form>
 						      	</div>
+						      	
+						    
 						      	<%
 						for(Publication publication : feedAccueil){
 							%>
-							<div>
-								<%
+							<%
 									//User publicateur = ServiceUser.getUserById(publication.getId_User(), ServiceUser.fromToXML(ServiceApp.getValue("2", 2)));
 									User publicateur = publication.getUser();
-								%>
-								<p><%="#"+publication.getId()+"-"%>
-									<a href="UserController?action=afficherProfil&idAfficher=<%= publicateur.getCredential().getId()%>
+							%>
+							<div class="box text">
+						      <div class="box-header">
+						        <h3><a href="UserController?action=afficherProfil&idAfficher=<%= publicateur.getCredential().getId()%>
 									&idUser=<%=user.getCredential().getId()%>"><%=publicateur.getPrenom()+" "+publicateur.getNom()%></a>
-									<%="("+publication.getId_User()+")"+"-"+"\t"+publication.getDate_publication()%>
-								</p>
-								<p><%=publication.getContent()%></p>
-							</div>
-							<div>
-								<%
-									if(user.getCredential().getId() == publicateur.getCredential().getId()){
-								%>
-								<form id="delPubliForm" name="delPublication" action="UserController?action=supprimerPublication&idPubli=<%=
-								publication.getId()%>&idUser=<%=user.getCredential().getId() %>" method="post">
-									<button type="submit">Supprimer publication</button>
-								</form>
-								<%
-									}
-								%>
-							
+						          <span><%= publication.getDate_publication()%><i class="fa fa-globe"></i></span>
+						        </h3>
+						        <div class="dropdown">
+									  <button id="btnDrop" class="dropbtn"><span class="ion-more"></span></button>
+									  <div class="dropdown-content">
+									  	<form id="delPubliForm" name="delPublication" action="UserController?action=supprimerPublication&idPubli=<%=
+											publication.getId()%>&idUser=<%=user.getCredential().getId() %>" method="post">
+											 <a ><button id="btnSupprimerPub" type="submit">Supprimer publication</button></a>
+										</form>
+									  </div>
 								</div>
-								<div>
-									<form id="publiForm" name="formPublication" action="UserController?action=commenter" method="post">
-										<input type="text" name="commentaire"></input>
-										<input type="hidden" name="idUserPublication" value="<%=publication.getUser().getCredential().getId()%>"></input>
-										<input type="hidden" name="idPublication" value="<%=publication.getId()%>"></input>
-										<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
-										<button type="submit">Commenter</button>
-									</form>
-								</div>
-								<div>
-									<%
+						        <!--  <span>
+						        	<i class="ion-more"></i>
+						        </span>-->
+						        <div class="window"><span></span></div>
+						      </div>
+						       <div class="box-content">
+						        <div class="content">
+						          <p class="text-align"><%=publication.getContent()%></p>
+						        </div>
+						      </div>
+						      <div class="box-likes">
+						        <div class="row">
+						          <span><a href="UserController?action=aimePublication&idPubli=<%=
+											publication.getId()%>&idUser=<%=user.getCredential().getId() %>">+99</a></span>
+						          <span>aime </span>
+						        </div>
+						        <div class="row">
+						          <span><%=publication.getListeCommentaires().size() %> commentaires</span>
+						        </div>
+						      </div>
+						      <div class="box-buttons">
+						        <div class="row">
+						          <button><span class="fa fa-thumbs-up"></span> J'aime</button>
+						          <button><span class="ion-chatbox-working"></span> Commenter</button>
+						        </div>
+						      </div>
+						      <div class="box-comments">
+						      <%
 										for(Commentaire commentaire : publication.getListeCommentaires()){
 											User commenteur = commentaire.getUser();
 									%>
-											<br>
-											<p>#<%=commentaire.getId()%>-
-												<a href="UserController?action=afficherProfil&idAfficher=<%= commenteur.getCredential().getId()%>
-												&idUser=<%=user.getCredential().getId()%>"><%=commenteur.getPrenom()+" "+commenteur.getNom()%></a>
-												(<%=commenteur.getCredential().getId()%>)- <%=commentaire.getDate_publication()%>
-												<br>
-												<%=commentaire.getContent() %>
-											</p>
-											
+											<div class="comment">
+										          <div class="content">
+										            <h3><a href="UserController?action=afficherProfil&idAfficher=<%= commenteur.getCredential().getId()%>
+													&idUser=<%=user.getCredential().getId()%>"><%=commenteur.getPrenom()+" "+commenteur.getNom()%></a><span>
+													<time><%=commentaire.getDate_publication()%></time></span></h3><p><%=commentaire.getContent() %></p>
+													<%
+														if(user.getCredential().getId() == publicateur.getCredential().getId()
+															|| user.getCredential().getId() == commenteur.getCredential().getId()) {
+													%>
+														<form id="delCommentForm" name="delComment" action="UserController?action=supprimerCommentaire" method="post">
+															<button id="btnSupprimer" type="submit"><span class="ion-close-round"></span></button>
+															<input type="hidden" name="idPubli" value="<%=commentaire.getId_Publication()%>"></input>
+															<input type="hidden" name="idCommentaire" value="<%=commentaire.getId()%>"></input>
+															<input type="hidden" name="idUser" value="<%= user.getCredential().getId()%>"/>
+														</form>
+														
+													<% } %>
+										          </div>
+						        			</div>											
+										
 										<%
-											if(user.getCredential().getId() == publicateur.getCredential().getId()
-											|| user.getCredential().getId() == commenteur.getCredential().getId()){
-										%>
-											<form id="delCommentForm" name="delComment" action="UserController?action=supprimerCommentaire" method="post">
-												<button type="submit">Supprimer Commentaire</button>
-												<input type="hidden" name="idPubli" value="<%=commentaire.getId_Publication()%>"></input>
-												<input type="hidden" name="idCommentaire" value="<%=commentaire.getId()%>"></input>
-												<input type="hidden" name="idUser" value="<%= user.getCredential().getId()%>"/>
-											</form>
-										<%
-											}
 										}
-										%>
-								</div>
-								<br><br>
-								<%
-															
-									}					
-								%> 	
+								%>
+							  </div>
+						      <div class="box-new-comment">
+						          <div class="content">
+						          	<form id="publiForm" name="formPublication" action="UserController?action=commenter" method="post">
+						          		<input type="hidden" name="idUserPublication" value="<%=publication.getUser().getCredential().getId()%>"></input>
+										<input type="hidden" name="idPublication" value="<%=publication.getId()%>"></input>
+										<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
+							            <div id="textareaRow" class="row">
+							              <textarea class="form-control" name="commentaire" placeholder="   Commenter ..."></textarea>
+							            </div>
+							            <div id="commnentRow" class="row">
+							              <button id="btnCommnent" type="submit">Commenter</button>
+							            </div>
+						            </form>
+						          </div>
+						        </div>
+					    	</div>
+						   <% } %> 
 						    </div>
 						  </div>
 						</div>  				

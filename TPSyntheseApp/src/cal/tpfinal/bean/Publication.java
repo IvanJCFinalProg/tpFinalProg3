@@ -17,6 +17,7 @@ public class Publication {
 	private String content;
 	private String date_publication;
 	private String date_modification;
+	private int nbLike;
 	private int id;
 	private int id_User;
 	private User user;
@@ -72,13 +73,12 @@ public class Publication {
 		return date_modification;
 	}
 
-	/*public static void main(String[] args) {
-		Publication p = new Publication("Potato", 0);
-		System.out.println(p.getDate_publication());
-		 DateTime dt = new DateTime();
-		 DateTimeFormatter fmt = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
-		 String str = fmt.print(dt);
-		 System.out.println(str);
-	}*/
+	public int getNbLike() {
+		return nbLike;
+	}
+
+	public void setNbLike(int nbLike) {
+		this.nbLike = nbLike;
+	}
 }
 

@@ -9,6 +9,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Général - NextChill</title>
 		<link href="css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="css/ionicons-2.0.1/css/ionicons.css" rel="stylesheet">
         <link href="css/feedStyles.css" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 		<link rel="stylesheet" href="css/bootstrap.min.css">

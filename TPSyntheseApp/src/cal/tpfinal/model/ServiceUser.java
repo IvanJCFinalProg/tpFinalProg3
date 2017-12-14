@@ -181,7 +181,7 @@ public class ServiceUser {
 			return (Map<Integer, User>)stream.fromXML(new FileInputStream(fileName));
 			
 		} catch (Exception e) {
-			logger.error(ServiceUser.class.getName() +" Probleme dans la fonction fromToXML()");
+			logger.error(ServiceUser.class.getName() +" Probleme dans la fonction loadMapUserFromXML()");
 			logger.debug(e.getMessage() +" "+e.getLocalizedMessage());
 		}
 		

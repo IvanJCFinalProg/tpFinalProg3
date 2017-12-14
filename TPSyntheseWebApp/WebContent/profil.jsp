@@ -13,6 +13,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Bienvenue NextChill</title>
 		<link href="css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="css/ionicons-2.0.1/css/ionicons.css" rel="stylesheet">
         <link href="css/feedStyles.css" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 		<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -106,6 +107,9 @@
 									  <input type="hidden" name="idAfficher" value="<%=profil.getCredential().getId()%>"/>
 							        </form>
 						      	</div>
+						      	
+					   
+    
 				
 						<%
 						for(Publication publication : profil.getFeed()){
@@ -185,7 +189,9 @@
 											
 											
 					%>
-											
+						</div>
+						</div>					
+						</div>						
 					</section>
 				</div>
 				<div class="col-md-2">

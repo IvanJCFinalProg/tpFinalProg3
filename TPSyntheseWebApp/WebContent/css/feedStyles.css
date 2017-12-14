@@ -220,4 +220,436 @@ textarea[name=publication]:hover {
 .infosActuels{
 	font-weight: bold;
 	color: #e52d27;
-}             
+}        
+
+/* Style post*/  
+#btnSupprimer{
+	background: none !important;
+    border: none !important;
+    float: right;
+    font-size: 13.5px;
+    position: relative;
+    top: -15px;
+    right: -5px;
+    transition: ease-in-out .05s;
+}
+
+#btnSupprimerPub{
+	border: none !important;
+    background: transparent;
+}
+
+#btnSupprimer:hover{
+	color:red;
+}
+
+#btnDrop{
+	float: right;
+    font-size: 32px;
+    border: none !important;
+    background: transparent;
+    color: #9298A4;
+    margin: -40px 10px auto;
+    cursor: pointer;
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin: -6px 324px auto;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+
+.col-md-6 > h2:first-child {
+  margin: 40px auto 80px;
+}
+.col-md-6 > .box {
+  background: #FFF;
+  border-radius: 4px;
+  box-shadow: 0 0 50px 5px rgba(0,0,0,.25);
+  height: auto;
+  margin: 30px auto 40px;
+  max-width: 600px;
+  overflow: hidden;
+  padding: 20px 0 0;
+  position: relative;
+}
+.col-md-6 > .box > [class*="box-"] {
+  margin: 0 auto;
+  padding: 0 30px;
+  position: relative;
+}
+.col-md-6 > .box > [class*="box-"] img {
+  display: block;
+  width: 100%;
+}
+.col-md-6 > .box > .box-header {
+  margin: 0 auto;
+  padding: 0 30px 10px;
+  width: initial;
+}
+
+.col-md-6 > .box > .box-header > h3 {
+  margin-top: 30px;
+}
+
+.col-md-6 > .box > .box-header > h3 > a {
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+}
+.col-md-6 > .box > .box-header > h3 > span {
+  color: #9197A3;
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.col-md-6 > .box > .box-header > h3 > a{
+	color: #e52d27;
+	position: absolute;
+    top: -24px;
+}
+
+.col-md-6  > .box > .box-header > h3 > span .fa {
+  font-size: 15px;
+  margin-left: 5px;
+}
+
+.col-md-6 > .box > .box-header > span {
+  background: #F4F4F4;
+  border-radius: 3px;
+  color: #BCBFC6;
+  cursor: pointer;
+  font-size: 14px;
+  height: 18px;
+  line-height: 18px;
+  margin: 5px auto 0;
+  padding: 3px 4px;
+  position: absolute;
+  right: 40px;
+  top: 0;
+}
+.col-md-6  > .box > .box-header > span:hover {
+  color: #888;
+}
+.col-md-6  > .box > .box-header > span > i {
+  height: 18px;
+  line-height: 18px;
+}
+
+
+.col-md-6  > .box > .box-header > .dropdown > span {
+  height: 18px;
+  line-height: 18px;
+}
+
+
+..col-md-6  > .box > .box-content {
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: initial;
+}
+.col-md-6  > .box > .box-content > .content {
+  height: auto;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: initial;
+}
+
+.col-md-6  > .box > .box-content > .content > p {
+ 	font-size: 18px !important;
+}
+.col-md-6  > .box > .box-content > .bottom {
+  margin: 0 auto;
+  padding: 0 30px; 
+  position: relative;
+  width: initial;
+}
+.col-md-6  > .box > .box-content > .bottom > p {
+  color: #71747A;
+  font-size: 15px;
+  line-height: 20px;
+  margin: 0;
+  padding: 20px 0;
+}
+.col-md-6  > .box > .box-content > .bottom > span {
+  background: linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,0));
+  height: 160px;
+  left: 0;
+  line-height: 160px;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  text-align: right;
+  top: -160px;
+  vertical-align: bottom;
+  width: 100%;
+}
+.col-md-6  > .box > .box-content > .bottom > span > span {
+  background: rgba(0,0,0,.35);
+  border-radius: 4px;
+  bottom: 0;
+  color: #FFF;
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0 30px 25px auto;
+  opacity: .75;
+  overflow: hidden;
+  padding: 10px;
+  position: absolute;
+  right: 0;
+  top: auto;
+  -webkit-transition: all .25s ease-in-out;
+     -moz-transition: all .25s ease-in-out;
+          transition: all .25s ease-in-out;
+}
+.col-md-6  > .box > .box-content > .bottom > span > span:hover {
+  opacity: 1;
+}
+.col-md-6  > .box > .box-likes {
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 0 30px;
+  position: relative;
+}
+.col-md-6  > .box > .box-likes > .row {
+  border-top: 1px solid #F4F4F4;
+  padding: 20px 0;
+}
+.col-md-6  > .box > .box-likes > .row > span {
+  display: inline-block;
+  font-size: 13px;
+  margin: 0 2px 0 0;
+  position: relative;
+  vertical-align: middle;
+}
+.col-md-6  > .box > .box-likes > .row:first-child {
+  float: left;
+  width: 60%;
+}
+.col-md-6  > .box > .box-likes > .row:last-child {
+  float: left;
+  text-align: end;
+  width: 40%;
+}
+.col-md-6  > .box > .box-likes > .row:first-child > span:nth-child(4) {
+  background: #4D679F;
+  border-radius: 50px;
+  font-weight: bold;
+  padding: 0 8px 0 6px;
+}
+.col-md-6  > .box > .box-likes > .row:first-child > span:nth-child(4) > a {
+  color: #FFF;
+}
+.col-md-6  > .box > .box-likes > .row:first-child > span,
+.col-md-6  > .box > .box-likes > .row:last-child > span {
+  color: #9197A3;
+}
+.col-md-6  > .box > .box-likes > .row:last-child > span {
+  display: inline-block;
+  verrtical-align: middle;
+}
+
+.col-md-6  > .box > .box-buttons {
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+}
+.col-md-6  > .box > .box-buttons *,*::before,*::after {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.col-md-6  > .box > .box-buttons > .row {
+  border-bottom: 1px solid #F4F4F4;
+  border-top: 1px solid #F4F4F4;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+}
+.col-md-6  > .box > .box-buttons > .row > button:last-child {
+  border: 0;
+}
+.col-md-6  > .box > .box-buttons > .row > button {
+  background: #FFF;
+  border: 0;
+  border-right: 1px solid #F4F4F4;
+  color: #9197A3;
+  font-size: 20px;
+  float: left;
+  height: 60px;
+  line-height: 60px;
+  margin: 0;
+  *outline: 1px #08F;
+  padding: 0;
+  width: 33.33333333333%;
+}
+.col-md-6  > .box > .box-buttons > .row > button:hover {
+  background: #F5F5F5;
+  color: #7D8696;
+}
+.col-md-6  > .box > .box-buttons > .row > button:focus {
+  background: #F0F2F2;
+  color: #6C7588;
+  box-shadow: inset 0 0 10px rgba(0,0,0,.2);
+  outline-color: #08F;
+}
+.col-md-6  > .box > .box-click {
+  color: #4D679F;
+  font-size: 13px;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 10px 30px;
+  position: relative;
+}
+.col-md-6  > .box > .box-click > span {
+  cursor: pointer;
+}
+.col-md-6  > .box > .box-click > span i {
+  font-size: 18px;
+  margin-right: 5px;
+}
+.col-md-6  > .box > .box-comments {
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+}
+.col-md-6  > .box > .box-comments > .comment {
+  border-top: 1px solid #F4F4F4;
+  margin: 0;
+  overflow: hidden;
+  padding: 16px 30px;
+  position: relative;
+}
+
+.col-md-6 > .box > .box-comments > .comment > .content {
+  height: auto;
+  line-height: 20px;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: initial;
+}
+.col-md-6  > .box > .box-comments > .comment > .content > h3 {
+  float: left;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 4px auto 0;
+  text-transform: capitalize;
+  width: 150px;
+}
+
+.col-md-6  > .box > .box-comments > .comment > .content > h3 > a{
+  color: #e52d27;
+}
+.col-md-6  > .box > .box-comments > .comment > .content > h3 > span {
+  color: #9197A3;
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: none;
+}
+/* Taille de commentaire*/
+.col-md-6  > .box > .box-comments > .comment > .content > p {
+  color: #4B4D53;
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Nouveau commentaire*/
+.col-md-6  > .box > .box-new-comment {
+	/* Couleur gris*/
+  background: #9298A4;
+  margin: 0;
+  overflow: hidden;
+  padding: 20px 30px;
+  position: relative;
+}
+
+#textareaRow {
+  width: 70%;
+   display: inline-block;
+}
+
+.col-md-6  > .box > .box-new-comment > .content >  form > .row > textarea {
+  border: 1px solid transparent;
+  font-size: 15px;
+}
+
+#commnentRow {
+	float: right;
+    position: relative;
+    top: 12.5px;
+}
+
+textarea[name=commentaire] {
+    resize: none;
+}
+
+/* On enleve le shadow de l'élément box */
+.col-md-6  > .box.update,
+.col-md-6  > .box.text {
+  border: 1px solid #E0E1E4;
+  box-shadow: none;
+  padding: 20px 0 0;
+}
+.col-md-6  > .box.update > .box-header,
+.col-md-6  > .box.text > .box-header {
+  padding: 0 30px;
+}
+.col-md-6  > .box.update > .box-header > span,
+.col-md-6  > .box.text > .box-header > span{
+  background: transparent;
+  color: #9298A4;
+  font-size: 32px;
+  margin: -10px auto 0;
+}
+.col-md-6 > .box.update > .box-content > .content > p,
+.col-md-6  > .box.text > .box-content > .content > p {
+  border-top: 1px solid #F4F4F4;
+  color: #4D5057;
+  font-size: 14px;
+  line-height: 22px;
+  padding: 26px 30px;
+}
+
+.col-md-6  > .box.text > .box-buttons > .row > button {
+  font-size: 13px;
+}
+.col-md-6  > .box.text > .box-buttons > .row > button > span {
+  font-size: 20px;
+}
+
+.col-md-6 > .box > .box-new-comment > .content > .row > textarea:focus{background: #FFF;}
