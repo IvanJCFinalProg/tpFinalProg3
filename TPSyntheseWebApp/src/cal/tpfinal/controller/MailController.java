@@ -41,7 +41,7 @@ public class MailController extends HttpServlet {
 				String message = request.getParameter("message");
 				message += "\r\n\nDe "+user.getPrenom()+" "+user.getNom();
 				ServiceMail.sendMail(to, from, subject, message);
-				response.sendRedirect("LoginController?action=accueil");
+				response.sendRedirect(ServiceApp.getValue("11", 3));
 			}
 			
 			

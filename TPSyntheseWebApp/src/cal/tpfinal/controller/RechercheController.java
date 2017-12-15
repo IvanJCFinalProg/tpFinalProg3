@@ -26,7 +26,6 @@ import cal.tpfinal.model.ServiceUser;
 public class RechercheController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LogManager.getLogger(RechercheController.class);
-	private final String AFFICHER_RECHERCHE = "RechercheController?action=afficherPageRecherche";
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
@@ -41,12 +40,12 @@ public class RechercheController extends HttpServlet {
 				List<User> listeRecherche = ServiceUser.getUsersByTag(tag, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 				
 				session.setAttribute("listeRecherche", listeRecherche);
-				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_RECHERCHE);
+				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("10",3));
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("afficherPageRecherche")) {
 				session.setAttribute("user", user);
-				response.sendRedirect("recherche.jsp");
+				response.sendRedirect(ServiceApp.getValue("10",2));
 			}
 		} catch (Exception e) {
 			logger.error(RechercheController.class.getName()+" Erreur dans la fonction processRequest()");

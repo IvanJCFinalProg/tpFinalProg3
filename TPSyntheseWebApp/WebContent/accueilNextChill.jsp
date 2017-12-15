@@ -166,8 +166,9 @@
 													%>
 														<form id="delCommentForm" name="delComment" action="UserController?action=supprimerCommentaire" method="post">
 															<button id="btnSupprimer" type="submit"><span class="ion-close-round"></span></button>
-															<input type="hidden" name="idPubli" value="<%=commentaire.getId_Publication()%>"></input>
+															<input type="hidden" name="idPubli" value="<%=publication.getId()%>"></input>
 															<input type="hidden" name="idCommentaire" value="<%=commentaire.getId()%>"></input>
+															<input type="hidden" name="idAfficher" value="<%= publication.getId_User()%>"/>
 															<input type="hidden" name="idUser" value="<%= user.getCredential().getId()%>"/>
 														</form>
 														

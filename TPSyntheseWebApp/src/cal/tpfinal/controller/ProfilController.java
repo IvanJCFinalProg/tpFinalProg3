@@ -31,13 +31,11 @@ import cal.tpfinal.model.ServiceUser;
 public class ProfilController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LogManager.getLogger(ProfilController.class);
-	private final String AFFICHER_PROFIL = "UserController?action=afficherProfil";
-	private final String FEED_ACCUEIL = "C:/appBasesDonnees/tableFeed.xml";
 	
 	public void init(ServletConfig config) throws ServletException {
 		logger.info("Initialisation de l'application");
 		try {
-			if((ServicePublication.loadListePublication(FEED_ACCUEIL)!= null)) {
+			if((ServicePublication.loadListePublication(ServiceApp.getValue("9",2))!= null)) {
 				Publication.setCompteur(Integer.valueOf(ServiceApp.getValue("5", 1))+1);
 				Commentaire.setCompteur(Integer.valueOf(ServiceApp.getValue("6", 1))+1);
 			}	
@@ -61,7 +59,7 @@ public class ProfilController extends HttpServlet {
 		
 		session.setAttribute("idUser", idUser);
 		session.setAttribute("idAfficher", idProfil);
-		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication(FEED_ACCUEIL);
+		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication(ServiceApp.getValue("9",2));
 		
 		try {
 			if(action.equalsIgnoreCase("publier")) {
@@ -70,12 +68,12 @@ public class ProfilController extends HttpServlet {
 					Publication p = new Publication(content, userAuth);
 					ServicePublication.addPublication(user.getFeed(), p);
 					ServicePublication.addPublication(feedAccueil, p);
-					ServicePublication.saveListePublication(FEED_ACCUEIL, feedAccueil);
+					ServicePublication.saveListePublication(ServiceApp.getValue("9",2), feedAccueil);
 					ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 					ServiceApp.setValue("5", String.valueOf(p.getId()), 1);
 				}
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_PROFIL);
+				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("9", 3));
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("commenter")) {
@@ -88,12 +86,12 @@ public class ProfilController extends HttpServlet {
 					
 					ServiceCommentaire.addCommentaire(ServicePublication.getPublicationById(feedAccueil, idPublication).getListeCommentaires(), c);
 					ServiceCommentaire.addCommentaire(p.getListeCommentaires(), c);
-					ServicePublication.saveListePublication(FEED_ACCUEIL, feedAccueil);
+					ServicePublication.saveListePublication(ServiceApp.getValue("9",2), feedAccueil);
 					ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 					ServiceApp.setValue("6", String.valueOf(c.getId()), 1);
 				}
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_PROFIL);
+				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("9", 3));
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("supprimerPublication")) {
@@ -101,10 +99,10 @@ public class ProfilController extends HttpServlet {
 				
 				ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), idPublication));
 				ServicePublication.removePublication(feedAccueil, ServicePublication.getPublicationById(feedAccueil, idPublication));
-				ServicePublication.saveListePublication(FEED_ACCUEIL, feedAccueil);
+				ServicePublication.saveListePublication(ServiceApp.getValue("9",2), feedAccueil);
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_PROFIL);
+				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("9", 3));
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("supprimerCommentaire")) {
@@ -113,13 +111,13 @@ public class ProfilController extends HttpServlet {
 				
 				Publication publiFeed = ServicePublication.getPublicationById(feedAccueil, idPublication);
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(feedAccueil, idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publiFeed.getListeCommentaires(), idCommentaire));
-				ServicePublication.saveListePublication(FEED_ACCUEIL, feedAccueil);
+				ServicePublication.saveListePublication(ServiceApp.getValue("9",2), feedAccueil);
 				
 				Publication publi = ServicePublication.getPublicationById(user.getFeed(), idPublication);
 				ServiceCommentaire.removeCommentaire(ServicePublication.getPublicationById(user.getFeed(), idPublication).getListeCommentaires(), ServiceCommentaire.getCommentaireById(publi.getListeCommentaires(), idCommentaire));
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 
-				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_PROFIL);
+				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("9", 3));
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("ajouterAmi")) {
@@ -128,7 +126,7 @@ public class ProfilController extends HttpServlet {
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher(AFFICHER_PROFIL+"&idUser="+idUser+"&idAfficher="+idProfil+"");
+				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("9", 3)+"&idUser="+idUser+"&idAfficher="+idProfil+"");
 				dispatcher.forward(request, response);
 				
 			}else if(action.equalsIgnoreCase("enleverAmi")) {
@@ -145,7 +143,7 @@ public class ProfilController extends HttpServlet {
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), user);
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher( AFFICHER_PROFIL+"&idUser="+idUser+"&idAfficher="+idProfil+"");
+				RequestDispatcher dispatcher = request.getRequestDispatcher( ServiceApp.getValue("9", 3)+"&idUser="+idUser+"&idAfficher="+idProfil+"");
 				dispatcher.forward(request, response);
 			}
 			
