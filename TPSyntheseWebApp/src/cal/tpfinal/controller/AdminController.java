@@ -125,7 +125,7 @@ public class AdminController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("4", 2));
 				dispatcher.forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("supprimerPublication")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("14", 3))) {
 				
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				User profil = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
@@ -138,7 +138,7 @@ public class AdminController extends HttpServlet {
 				
 				request.getRequestDispatcher(ServiceApp.getValue("12", 3)+ServiceApp.getValue("4", 3)).forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("supprimerCommentaire")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("13", 3))) {
 				
 				User profil = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 				session.setAttribute("profil", profil);
@@ -155,7 +155,7 @@ public class AdminController extends HttpServlet {
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), profil);
 				request.getRequestDispatcher(ServiceApp.getValue("12", 3)+ServiceApp.getValue("4", 3)).forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("enleverAmi")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("20", 3))) {
 				User profil = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 				session.setAttribute("profil", profil);
 				int idRemove = Integer.parseInt(request.getParameter("idRemove"));

@@ -35,7 +35,7 @@ public class RechercheController extends HttpServlet {
 		User user = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 		
 		try {
-			if(action.equalsIgnoreCase("rechercher")) {
+			if(action.equalsIgnoreCase(ServiceApp.getValue("18", 3))) {
 				String tag = request.getParameter("tagRecherche");
 				List<User> listeRecherche = ServiceUser.getUsersByTag(tag, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 				
@@ -43,7 +43,7 @@ public class RechercheController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("10",3));
 				dispatcher.forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("afficherPageRecherche")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("19", 3))) {
 				session.setAttribute("user", user);
 				response.sendRedirect(ServiceApp.getValue("10",2));
 			}

@@ -125,8 +125,8 @@
 						        <div class="dropdown">
 									  <button id="btnDrop" class="dropbtn"><span class="ion-more"></span></button>
 									  <div class="dropdown-content">
-									  	<form id="delPubliForm" name="delPublication" action="UserController?action=supprimerPublication&idPubli=<%=
-											publication.getId()%>&idUser=<%=user.getCredential().getId() %>" method="post">
+									  	<form id="delPubliForm" name="delPublication" action="ProfilController?action=supprimerPublication&idPubli=<%=
+											publication.getId()%>&idUser=<%=user.getCredential().getId() %>&idAfficher=<%= profil.getCredential().getId()%>" method="post">
 											 <a ><button id="btnSupprimerPub" type="submit">Supprimer publication</button></a>
 										</form>
 									  </div>
@@ -172,7 +172,7 @@
 														if(user.getCredential().getId() == publicateur.getCredential().getId()
 															|| user.getCredential().getId() == commenteur.getCredential().getId()) {
 													%>
-														<form id="delCommentForm" name="delComment" action="UserController?action=supprimerCommentaire" method="post">
+														<form id="delCommentForm" name="delComment" action="ProfilController?action=supprimerCommentaire&idAfficher=<%= profil.getCredential().getId()%>" method="post">
 															<button id="btnSupprimer" type="submit"><span class="ion-close-round"></span></button>
 															<input type="hidden" name="idPubli" value="<%=commentaire.getId_Publication()%>"></input>
 															<input type="hidden" name="idCommentaire" value="<%=commentaire.getId()%>"></input>
@@ -189,7 +189,7 @@
 							  </div>
 						      <div class="box-new-comment">
 						          <div class="content">
-						          	<form id="publiForm" name="formPublication" action="UserController?action=commenter" method="post">
+						          	<form id="publiForm" name="formPublication" action="ProfilController?action=commenter&idAfficher=<%= profil.getCredential().getId()%>" method="post">
 						          		<input type="hidden" name="idUserPublication" value="<%=publication.getUser().getCredential().getId()%>"></input>
 										<input type="hidden" name="idPublication" value="<%=publication.getId()%>"></input>
 										<input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>

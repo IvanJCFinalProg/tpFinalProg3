@@ -70,7 +70,7 @@ public class LoginController extends HttpServlet {
 	}
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("action");
+		String action = request.getParameter(ServiceApp.getValue("1", 3));
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
 		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication(ServiceApp.getValue("9",2));
@@ -155,20 +155,20 @@ public class LoginController extends HttpServlet {
 						request.getRequestDispatcher(ServiceApp.getValue("1",2)).forward(request, response);
 					}
 				}
-			}else if(action.equalsIgnoreCase("accueil")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("25", 3))) {
 				User user= (User)session.getAttribute("user");
 				
 				session.setAttribute("user", user);
 				response.sendRedirect(ServiceApp.getValue("5", 2));
 				
-			}else if(action.equalsIgnoreCase("deconnexion")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("24", 3))) {
 				int idUser = Integer.parseInt(request.getParameter("idUser"));
 				User userAuth = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 				userAuth.setConnected(false);
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
 				response.sendRedirect(ServiceApp.getValue("1", 2));
 				
-			}else if(action.equalsIgnoreCase("fermerCompte")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("23", 3))) {
 				Map<Integer, User> mapUsers = ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2));
 				int idUser= Integer.parseInt(request.getParameter("idUser"));
 				new ServicePDF(ServiceUser.getUserById(idUser, mapUsers)).generationPDF(ServiceApp.getValue("12",2) +idUser+".pdf");

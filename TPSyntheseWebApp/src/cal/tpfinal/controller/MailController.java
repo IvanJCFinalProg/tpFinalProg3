@@ -34,7 +34,7 @@ public class MailController extends HttpServlet {
 		HttpSession session = request.getSession();
 		try {
 			User user = (User) session.getAttribute("user");
-			if(action.equalsIgnoreCase("envoieMail")) {
+			if(action.equalsIgnoreCase(ServiceApp.getValue("22", 3))) {
 				String from = request.getParameter("from");
 				String to = request.getParameter("to");
 				String subject = request.getParameter("subject");

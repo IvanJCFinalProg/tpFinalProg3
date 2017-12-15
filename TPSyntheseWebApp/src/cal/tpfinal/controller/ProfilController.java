@@ -49,7 +49,7 @@ public class ProfilController extends HttpServlet {
 	}
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("action");
+		String action = request.getParameter(ServiceApp.getValue("1", 3));
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
 		int idUser = (Integer)(session.getAttribute("idUser"));
@@ -62,7 +62,7 @@ public class ProfilController extends HttpServlet {
 		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication(ServiceApp.getValue("9",2));
 		
 		try {
-			if(action.equalsIgnoreCase("publier")) {
+			if(action.equalsIgnoreCase(ServiceApp.getValue("17", 3))) {
 				String content = request.getParameter("publication");
 				if(!content.isEmpty()) {
 					Publication p = new Publication(content, userAuth);
@@ -76,7 +76,7 @@ public class ProfilController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("9", 3));
 				dispatcher.forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("commenter")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("16", 3))) {
 				int idPublication = Integer.valueOf(request.getParameter("idPublication"));
 				String content = request.getParameter("commentaire");
 				
@@ -94,7 +94,7 @@ public class ProfilController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("9", 3));
 				dispatcher.forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("supprimerPublication")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("14", 3))) {
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				
 				ServicePublication.removePublication(user.getFeed(), ServicePublication.getPublicationById(user.getFeed(), idPublication));
@@ -105,7 +105,7 @@ public class ProfilController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("9", 3));
 				dispatcher.forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("supprimerCommentaire")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("13", 3))) {
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				int idCommentaire = Integer.parseInt(request.getParameter("idCommentaire"));
 				
@@ -120,7 +120,7 @@ public class ProfilController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("9", 3));
 				dispatcher.forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("ajouterAmi")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("21", 3))) {
 				ServiceUser.addFriend(user, userAuth.getListeAmi());
 				ServiceUser.addFriend(userAuth, user.getListeAmi());
 				ServiceUser.saveUser(ServiceApp.getValue("2", 2), userAuth);
@@ -129,7 +129,7 @@ public class ProfilController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("9", 3)+"&idUser="+idUser+"&idAfficher="+idProfil+"");
 				dispatcher.forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("enleverAmi")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("20", 3))) {
 				int idRemove;
 				if(request.getParameter("idRemove") != null && Integer.parseInt(request.getParameter("idRemove")) != idUser) {
 					idRemove = Integer.parseInt(request.getParameter("idRemove"));

@@ -54,14 +54,14 @@ public class UserController extends HttpServlet {
 	}
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("action");
+		String action = request.getParameter(ServiceApp.getValue("1", 3));
 		PrintWriter writer = response.getWriter();
 		HttpSession session = request.getSession();
 		int idUser = Integer.parseInt(request.getParameter("idUser"));
 		User user = ServiceUser.getUserById(idUser, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication(ServiceApp.getValue("9",2));
 		try {
-			if(action.equalsIgnoreCase("publier")) {
+			if(action.equalsIgnoreCase(ServiceApp.getValue("17", 3))) {
 				String content = request.getParameter("publication");
 				
 				if(!content.isEmpty()) {
@@ -76,7 +76,7 @@ public class UserController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("11",3));
 				dispatcher.forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("commenter")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("16", 3))) {
 				
 				int idPublication = Integer.valueOf(request.getParameter("idPublication"));
 				int idUserPublication = Integer.valueOf(request.getParameter("idUserPublication"));
@@ -99,7 +99,7 @@ public class UserController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("11",3));
 				dispatcher.forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("supprimerPublication")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("14", 3))) {
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				
 				ServicePublication.removePublication(feedAccueil, ServicePublication.getPublicationById(feedAccueil, idPublication));
@@ -111,7 +111,7 @@ public class UserController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("11",3));
 				dispatcher.forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("supprimerCommentaire")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("13", 3))) {
 				int idPublication = Integer.parseInt(request.getParameter("idPubli"));
 				int idCommentaire = Integer.parseInt(request.getParameter("idCommentaire"));
 				int idAfficher = Integer.parseInt(request.getParameter("idAfficher"));
@@ -131,7 +131,7 @@ public class UserController extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher(ServiceApp.getValue("11",3));
 				dispatcher.forward(request, response);
 				
-			}else if(action.equalsIgnoreCase("afficherProfil")) {
+			}else if(action.equalsIgnoreCase(ServiceApp.getValue("15", 3))) {
 				int idProfil = Integer.parseInt(request.getParameter("idAfficher"));
 				User profil = ServiceUser.getUserById(idProfil, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
 				session.setAttribute("amitie", (ServiceUser.getAmiById(idProfil, user.getListeAmi()) == null)? false:true);
@@ -140,15 +140,15 @@ public class UserController extends HttpServlet {
 				
 				response.sendRedirect(ServiceApp.getValue("11", 2));
 			}
-			else if(action.equalsIgnoreCase("modifierInfos")) {
+			else if(action.equalsIgnoreCase(ServiceApp.getValue("26", 3))) {
 				session.setAttribute("user", user);
 				request.getRequestDispatcher(ServiceApp.getValue("6", 2)).forward(request, response);
 			}
-			else if(action.equalsIgnoreCase("contacter")) {
+			else if(action.equalsIgnoreCase(ServiceApp.getValue("27", 3))) {
 				session.setAttribute("user", user);
 				request.getRequestDispatcher(ServiceApp.getValue("8", 2)).forward(request, response);
 			}
-			else if (action.equalsIgnoreCase("saveModifs")) {
+			else if (action.equalsIgnoreCase(ServiceApp.getValue("28", 3))) {
 				String nom = "", prenom = "", email = "";
 				if(!request.getParameter("newNom").isEmpty()) {
 					nom = request.getParameter("newNom");
@@ -180,7 +180,7 @@ public class UserController extends HttpServlet {
 				session.setAttribute("user", user);
 				request.getRequestDispatcher(ServiceApp.getValue("5", 2)).forward(request, response);
 			}
-			else if (action.equalsIgnoreCase("contacter")) {
+			else if (action.equalsIgnoreCase(ServiceApp.getValue("29", 3))) {
 				session.setAttribute("idUser", user.getCredential().getId());
 				session.setAttribute("user", user);
 				request.getRequestDispatcher(ServiceApp.getValue("8", 2)).forward(request, response);
