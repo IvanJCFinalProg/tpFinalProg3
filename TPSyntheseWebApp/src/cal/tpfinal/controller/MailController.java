@@ -7,10 +7,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cal.tpfinal.bean.User;
 import cal.tpfinal.model.ServiceApp;
 import cal.tpfinal.model.ServiceMail;
 
@@ -29,13 +31,19 @@ public class MailController extends HttpServlet {
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter(ServiceApp.getValue("1", 3));
+		HttpSession session = request.getSession();
 		try {
-			String from = request.getParameter("from");
-			String to = request.getParameter("to");
-			String subject = request.getParameter("subject");
-			String message = request.getParameter("message");
-		
-			ServiceMail.sendMail(to, from, subject, message);
+			User user = (User) session.getAttribute("user");
+			if(action.equalsIgnoreCase("envoieMail")) {
+				String from = request.getParameter("from");
+				String to = request.getParameter("to");
+				String subject = request.getParameter("subject");
+				String message = request.getParameter("message");
+				message += "\r\n\nDe "+user.getPrenom()+" "+user.getNom();
+				ServiceMail.sendMail(to, from, subject, message);
+				response.sendRedirect("LoginController?action=accueil");
+			}
+			
 			
 		}catch (Exception e) {
 			logger.error(MailController.class.getName()+" | Probleme dans la fonction processRequest()");

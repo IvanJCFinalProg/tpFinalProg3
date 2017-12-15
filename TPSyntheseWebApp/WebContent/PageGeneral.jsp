@@ -30,23 +30,32 @@
 		<nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
               <div class="navbar-header">
-                  <a class="navbar-brand" href="LoginController?action=accueil">Bonjour <%=user.getPrenom()%> <%=user.getNom() %></a>
+                  <span id="logo" class="ion-person"></span><a class="navbar-brand" href="LoginController?action=accueil">NextChilling</a>
               </div>
               <div class="collapse navbar-collapse" id="myNavbar">
-                  <ul class="nav navbar-nav navbar-right">
-                  	<li><a href="UserController?action=afficherProfil&idAfficher=<%= user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-user fa-2x"></span> Profil</a></li>
-                  	<li class="dropdown" >
-				        <button class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				          <li><a href="#"><span class="fa fa-cog fa-2x"></span>Paramètres</a></li>
-				        </button>
-				        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-				          <li><a href="#">Paramètres</a></li>
-				          <li><a href="#">Amis</a></li>
-				          <li><a href="#">Général</a></li>
-				          <li><a href="#">Sécurité</a></li>
-				        </ul>
+              	<div class="col-md-5">
+					<form method="post" class="search form-search combo-input-button" action="RechercheController?action=rechercher&idUser=<%=user.getCredential().getId()%>">
+						<input type="text" name="tagRecherche" class="form-control input-sm rechercher" maxlength="64" placeholder=" Recherche .... "/>
+						<button id="btnSearch" type="submit" class="btn btn-primary btn-sm"><span class="fa fa-search fa-2x"></span></button>
+					</form>
+				</div>
+              	<ul class="nav navbar-nav navbar-right">
+                  	<li><a href="UserController?action=afficherProfil&idAfficher=<%=user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="ion ion-ios-person fa-2x"></span> Profil</a></li> 	
+                  	<li class="dropdown">
+				       <a id="btnDropMenu" class="dropbtn"><span class="ion ion-gear-b fa-2x"></span> Paramètres</a>
+				       <ul class="dropdown-content2">
+							<li><a href="UserController?action=modifierInfos&idUser=<%=user.getCredential().getId()%>">Général</a></li>
+					          <li><a href="UserController?action=contacter&idUser=<%=user.getCredential().getId()%>">Nous contacter</a></li>
+					          <li>
+					          	<a>
+						          	<form name="fermerCompte" method="post" action="LoginController?action=fermerCompte&idUser=<%= user.getCredential().getId()%>">
+						          		<button type="submit">Fermer compte</button>
+						          	</form>
+					          	</a>
+					          </li>
+				       </ul>
 					</li>
-                    <li><a href="LoginController?action=deconnexion"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
+                    <li><a href="LoginController?action=deconnexion&idUser=<%=user.getCredential().getId()%>"><span class="ion ion-log-out fa-2x"></span> Déconnexion</a></li>
 	            </ul>
 		        </div>
 		    </div>

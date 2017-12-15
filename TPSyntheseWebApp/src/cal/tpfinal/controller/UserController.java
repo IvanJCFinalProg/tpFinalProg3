@@ -180,6 +180,11 @@ public class UserController extends HttpServlet {
 				session.setAttribute("user", user);
 				request.getRequestDispatcher(ServiceApp.getValue("5", 2)).forward(request, response);
 			}
+			else if (action.equalsIgnoreCase("contacter")) {
+				session.setAttribute("idUser", user.getCredential().getId());
+				session.setAttribute("user", user);
+				request.getRequestDispatcher(ServiceApp.getValue("8", 2)).forward(request, response);
+			}
 		}catch (Exception e) {
 			logger.error(UserController.class.getName()+" Erreur dans la fonction processRequest()");
 			logger.debug(e.getMessage());

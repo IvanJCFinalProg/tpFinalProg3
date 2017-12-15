@@ -35,7 +35,7 @@
 		<nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
               <div class="navbar-header">
-                  <span id="logo" class="ion-person"></span><a class="navbar-brand" href="LoginController?action=accueil">Profil de <%=user.getNom() %></a>
+                  <span id="logo" class="ion-person"></span><a class="navbar-brand" href="UserController?action=afficherProfil&idAfficher=<%=user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>">Profil de <%=user.getNom() %></a>
               </div>
               <div class="collapse navbar-collapse" id="myNavbar">
               	<div class="col-md-1">
@@ -45,7 +45,7 @@
 					</form>
 				</div>
               	<ul class="nav navbar-nav navbar-right">
-                  	<li><a href="UserController?action=afficherProfil&idAfficher=<%=user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="ion ion-ios-person fa-2x"></span> Profil</a></li> 	
+                  	<li><a href="LoginController?action=accueil"><span class="ion ion-ios-home fa-2x"></span>NextChill</a></li> 	
                   	<li class="dropdown">
 				       <a id="btnDropMenu" class="dropbtn"><span class="ion ion-gear-b fa-2x"></span> Paramètres</a>
 				       <ul class="dropdown-content2">
@@ -73,12 +73,16 @@
 			        <nav id="navigCote" class="sidenav">
 			        </nav>
 				</div>
-				<div class="col-md-10">
+				<div class="col-md-7">
 					<section class="">
 						<div class="container">
 						  <div class="row">
 						    <div class="col-md-offset-3 col-md-6 col-xs-12">
-						    	
+						    	<br>
+						    	<h1 class="titreProfil">Profil de <%=profil.getPrenom() %> <%=profil.getNom() %></h1>
+						    	<br>
+						    	<h2 class="titreProfil">Votre fil d'actualité</h2>
+						    	<br>
 						    	<div class="well well-sm well-social-post">
 						    	
 						    	<%
@@ -97,7 +101,7 @@
 							          <ul class='list-inline post-actions'>
 							            <li><a href="#"><span class="fa fa-user"></span></a></li>
 							            <li><a href="#" class='fa fa-map-marker'></a></li>
-							            <li class='pull-right'><button type="submit" name="publi" value="Publier">Publier</button></li>
+							            <li class='pull-right'><button type="submit" name="publi" id="btnPubli" value="Publier">Publier</button></li>
 							          </ul>
 							          <input type="hidden" name="idUser" value="<%=user.getCredential().getId()%>"></input>
 									  <input type="hidden" name="idAfficher" value="<%=profil.getCredential().getId()%>"/>
@@ -204,21 +208,24 @@
 						</div>						
 					</section>
 				</div>
-				<div class="col-md-2">
-					<h4>Liste d'amis</h4>
-					<% 
-						for(User profilAmi : profil.getListeAmi()){
-					%>
-						<div>
-							<a href="UserController?action=afficherProfil&idAfficher=<%= profilAmi.getCredential().getId()%>
-							&idUser=<%=user.getCredential().getId()%>"><%=profilAmi.getPrenom()+" "+profilAmi.getNom()%></a>
-						</div>
-						<%if(user.getCredential().getId() == profil.getCredential().getId() || profilAmi.getCredential().getId() == user.getCredential().getId()){ %>
-						<a href="ProfilController?action=enleverAmi&idRemove=<%=profilAmi.getCredential().getId()%>">Enlever ami</a>
-						<%} %>
-					<%
-					}
-					%>
+				<div class="col-md-3">
+					<div class="sectionListeAmi">
+						<br>
+						<h3 class="titreProfil">Liste d'ami(e)s </h3>
+						<% 
+							for(User profilAmi : profil.getListeAmi()){
+						%>
+							<div>
+								<a href="UserController?action=afficherProfil&idAfficher=<%= profilAmi.getCredential().getId()%>
+								&idUser=<%=user.getCredential().getId()%>"><%=profilAmi.getPrenom()+" "+profilAmi.getNom()%></a>
+							</div>
+							<%if(user.getCredential().getId() == profil.getCredential().getId() || profilAmi.getCredential().getId() == user.getCredential().getId()){ %>
+							<a href="ProfilController?action=enleverAmi&idRemove=<%=profilAmi.getCredential().getId()%>"><span class="ion-ios-minus"></span></a>
+							<%} %>
+						<%
+						}
+						%>
+					</div>
 				</div>
 			</div>
 		</section>
