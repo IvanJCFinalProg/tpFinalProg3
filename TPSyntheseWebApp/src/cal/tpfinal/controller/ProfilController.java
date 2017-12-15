@@ -63,7 +63,7 @@ public class ProfilController extends HttpServlet {
 		
 		try {
 			if(action.equalsIgnoreCase(ServiceApp.getValue("17", 3))) {
-				String content = request.getParameter("publication");
+				String content = new String((request.getParameter("publication")+"").getBytes(), "UTF-8");
 				if(!content.isEmpty()) {
 					Publication p = new Publication(content, userAuth);
 					ServicePublication.addPublication(user.getFeed(), p);
@@ -78,7 +78,7 @@ public class ProfilController extends HttpServlet {
 				
 			}else if(action.equalsIgnoreCase(ServiceApp.getValue("16", 3))) {
 				int idPublication = Integer.valueOf(request.getParameter("idPublication"));
-				String content = request.getParameter("commentaire");
+				String content = new String((request.getParameter("commentaire")+"").getBytes(), "UTF-8");
 				
 				if(content!=null && !content.isEmpty()) {
 					Publication p = ServicePublication.getPublicationById(user.getFeed(), idPublication);

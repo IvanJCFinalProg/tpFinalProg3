@@ -63,8 +63,7 @@ public class UserController extends HttpServlet {
 		List<Publication> feedAccueil = (List<Publication>)ServicePublication.loadListePublication(ServiceApp.getValue("9",2));
 		try {
 			if(action.equalsIgnoreCase(ServiceApp.getValue("17", 3))) {
-				String content = request.getParameter("publication");
-				
+				String content = new String((request.getParameter("publication")+"").getBytes(), "UTF-8");
 				if(!content.isEmpty()) {
 					Publication p = new Publication(content, user);
 					ServicePublication.addPublication(user.getFeed(), p);
@@ -82,7 +81,7 @@ public class UserController extends HttpServlet {
 				int idPublication = Integer.valueOf(request.getParameter("idPublication"));
 				int idUserPublication = Integer.valueOf(request.getParameter("idUserPublication"));
 				User publicateur = ServiceUser.getUserById(idUserPublication, ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2)));
-				String content = request.getParameter("commentaire");
+				String content = new String((request.getParameter("commentaire")+"").getBytes(), "UTF-8");
 				
 				if(request.getParameter("commentaire")!=null && !content.isEmpty()) {
 					Publication p = ServicePublication.getPublicationById(publicateur.getFeed(), idPublication);
