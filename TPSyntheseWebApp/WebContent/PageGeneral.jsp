@@ -84,8 +84,17 @@
 							<h4>Email actuel : <span class="infosActuels"><%=user.getCredential().getEmail() %></span></h4>
 							<input type="text" name="newEmail" id="email-new" class="form-control email" placeholder="Nouvel email" />
 							<div id="error-email-new"><%if(mapErreurs!=null){out.print(mapErreurs.get("errorEmail"));}%></div>
-							<br><br>
-							<input class="center-block" type="submit" name="submitModif" >
+							<br>
+							<input class="center-block" type="submit" name="submitModif" value="Sauvegarder" >
+						</form>
+					</div>
+					<div>
+						<form id="formModifPassword" name="formModifPassword" action="UserController?action=saveModifsPassword" method="post">
+							<input class="hidden" value="<%=user.getCredential().getId()%>" name="idUser">
+							<h1>Modifier votre mot de passe</h1>
+							<input type="password" name="newPassword" id="password-new" class="form-control password" placeholder="Nouveau mot de passe" />
+							<div id="error-password-new"><%if(mapErreurs!=null){out.print(mapErreurs.get("errorPassword"));}%></div>
+							<input class="center-block" type="submit" name="submitPassword" value="Sauvegarder" >
 						</form>
 					</div>
 				</div>

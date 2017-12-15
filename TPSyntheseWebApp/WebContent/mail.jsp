@@ -56,7 +56,7 @@
 		<section id="sectionGeneral1" class="container-fluid bg-1 ">
 			<div class="row">
 				<div class="col-md-3"></div>
-				<div class="col-md-6">
+				<div  class="col-md-6">
 					<div>
 						<h1 class="titreProfil">Un problême : Contactez-nous !</h1>
 						<br>
@@ -69,12 +69,12 @@
 				                <tr><td><input class="form-control hidden" value="nextchilling10@gmail.com" type="text" name="to"></td> </tr>
 				                <tr>
 				                    <td>Sujet :</td>
-				                    <td><input type="text" name="subject"></td>
+				                    <td><input type="text" placeholder="Entrer le suject" class="form-control" name="subject" style="padding-bottom: 5px;margin-bottom: 30px;"></td>
 				                </tr> 
 				                <br>
 				                <tr>
 				                    <td>Message : </td>
-				                    <td><textarea class="form-control" cols="25" rows="8" name="message" placeholder="Entrer votre message"></textarea></td>
+				                    <td><div class="form-group"><textarea class="form-control" style="resize: none" cols="25" rows="10" name="message" placeholder="Entrer votre message"></textarea></div></td>
 				                </tr>
 				            </table>
 				            <br>
