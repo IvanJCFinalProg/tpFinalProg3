@@ -36,6 +36,14 @@ public final class ServiceValidation {
 		}
 		return true;
 	}
+	
+	public static boolean validePassword(int idUser, String password) {
+		if(Authentification.isPasswordsSame(idUser, password,  ServiceApp.getValue("3",2))) {
+			mapErreurs.put("errorPassword", "<h5 class=\"errormsg\">Votre mot de passe est le même que l'ancien. Veuiller rentrer un nouveau.<h5>");
+			return false;
+		}
+		return true;
+	}
 
 	public static Map<String, String> getMapErreurs() {
 		return mapErreurs;

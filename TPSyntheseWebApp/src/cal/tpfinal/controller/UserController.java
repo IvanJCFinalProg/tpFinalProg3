@@ -24,6 +24,7 @@ import cal.tpfinal.bean.User;
 import cal.tpfinal.model.ServiceApp;
 import cal.tpfinal.model.ServiceCommentaire;
 import cal.tpfinal.model.ServiceConnection;
+import cal.tpfinal.model.ServicePassword;
 import cal.tpfinal.model.ServicePublication;
 import cal.tpfinal.model.ServiceUser;
 import cal.tpfinal.util.ServiceValidation;
@@ -171,6 +172,28 @@ public class UserController extends HttpServlet {
 				Map<Integer, User> tableUsers = ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2));
 				Map<Integer, Credential> tableLogins = ServiceConnection.loadMapCredentials(ServiceApp.getValue("3", 2));
 				
+				ServiceUser.updateUser(user.getCredential().getId(), user, tableUsers);
+				ServiceConnection.updateCredential(user.getCredential().getId(), user.getCredential(), tableLogins);
+				ServiceUser.saveToXML(tableUsers, ServiceApp.getValue("2", 2));
+				ServiceConnection.saveMapCredentials(ServiceApp.getValue("3", 2), tableLogins);
+				session.setAttribute("idAfficher", user.getCredential().getId());
+				session.setAttribute("idUser", user.getCredential().getId());
+				session.setAttribute("user", user);
+				request.getRequestDispatcher(ServiceApp.getValue("5", 2)).forward(request, response);
+			}
+			else if (action.equalsIgnoreCase("saveModifsPassword")) {
+				String password = "";
+				if(!request.getParameter("newPassword").isEmpty()) {
+					password = request.getParameter("newPassword");
+					user.getCredential().setPassword(ServicePassword.encryptPassword(password));
+				}
+				if(!ServiceValidation.validePassword(user.getCredential().getId(), password)) {
+					request.setAttribute("mapErreurs",ServiceValidation.getMapErreurs());
+					request.getRequestDispatcher(ServiceApp.getValue("6",2)).forward(request, response);
+				}
+				
+				Map<Integer, User> tableUsers = ServiceUser.loadMapUserFromXML(ServiceApp.getValue("2", 2));
+				Map<Integer, Credential> tableLogins = ServiceConnection.loadMapCredentials(ServiceApp.getValue("3", 2));
 				ServiceUser.updateUser(user.getCredential().getId(), user, tableUsers);
 				ServiceConnection.updateCredential(user.getCredential().getId(), user.getCredential(), tableLogins);
 				ServiceUser.saveToXML(tableUsers, ServiceApp.getValue("2", 2));

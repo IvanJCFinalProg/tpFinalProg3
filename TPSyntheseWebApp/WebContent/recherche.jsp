@@ -5,11 +5,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Recherche NextChill</title>
+		<title>Bienvenue NextChill</title>
 		<link href="css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="css/ionicons-2.0.1/css/ionicons.css" rel="stylesheet">
         <link href="css/feedStyles.css" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 		<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -28,41 +28,42 @@
 	<nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
               <div class="navbar-header">
-                  <a class="navbar-brand" href="LoginController?action=accueil">Bonjour <%=user.getPrenom()%> <%=user.getNom() %></a>
+                  <span id="logo" class="ion-person"></span><a class="navbar-brand" href="LoginController?action=accueil">NextChilling</a>
               </div>
               <div class="collapse navbar-collapse" id="myNavbar">
-                  <ul class="nav navbar-nav navbar-right">
-                  	<li><a href="UserController?action=afficherProfil&idAfficher=<%= user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-user fa-2x"></span> Profil</a></li>
-                  	<li class="dropdown" >
-				       <li class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				       <a href="#"><span class="fa fa-cog fa-2x"></span> Paramètres</a></li>
-
-				        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-				          <li><a href="UserController?action=modifierInfos&idUser=<%=user.getCredential().getId()%>">Général</a></li>
-				          <li><a href="UserController?action=contacter&idUser=<%=user.getCredential().getId()%>">Nous contacter</a></li>
-				          <li>
-				          	<form name="fermerCompte" method="post" action="LoginController?action=fermerCompte&idUser=<%= user.getCredential().getId()%>">
-				          		<button type="submit">Fermer compte</button>
-				          	</form>
-				          </li>
-				        </ul>
+              	<div class="col-md-5">
+					<form method="post" class="search form-search combo-input-button" action="RechercheController?action=rechercher&idUser=<%=user.getCredential().getId()%>">
+						<input type="text" name="tagRecherche" class="form-control input-sm rechercher" maxlength="64" placeholder=" Recherche .... "/>
+						<button id="btnSearch" type="submit" class="btn btn-primary btn-sm"><span class="fa fa-search fa-2x"></span></button>
+					</form>
+				</div>
+              	<ul class="nav navbar-nav navbar-right">
+                  	<li><a href="UserController?action=afficherProfil&idAfficher=<%=user.getCredential().getId()%>&idUser=<%=user.getCredential().getId()%>"><span class="ion ion-ios-person fa-2x"></span> Profil</a></li> 	
+                  	<li class="dropdown">
+				       <a id="btnDropMenu" class="dropbtn"><span class="ion ion-gear-b fa-2x"></span> Paramètres</a>
+				       <ul class="dropdown-content2">
+							<li><a href="UserController?action=modifierInfos&idUser=<%=user.getCredential().getId()%>">Général</a></li>
+					          <li><a href="UserController?action=contacter&idUser=<%=user.getCredential().getId()%>">Nous contacter</a></li>
+					          <li>
+					          	<a>
+						          	<form name="fermerCompte" method="post" action="LoginController?action=fermerCompte&idUser=<%= user.getCredential().getId()%>">
+						          		<button type="submit">Fermer compte</button>
+						          	</form>
+					          	</a>
+					          </li>
+				       </ul>
 					</li>
-                    <li><a href="LoginController?action=deconnexion&idUser=<%=user.getCredential().getId()%>"><span class="fa fa-sign-out fa-2x"></span> Déconnexion</a></li>
-	              </ul>
-		      </div>
-		  </div>
-	</nav>
+                    <li><a href="LoginController?action=deconnexion&idUser=<%=user.getCredential().getId()%>"><span class="ion ion-log-out fa-2x"></span> Déconnexion</a></li>
+	            </ul>
+		        </div>
+		    </div>
+		</nav>
 	<section class="bg-1 container-fluid">
 			<div class="row">
 				<div class="col-md-2">
 					<!-- Barre de navigation de côté qui permet de naviguer dans le contenu de la page -->
 			        <nav id="navigCote" class="sidenav">
-			            <a href="#"><span class="ion-earth"></span></a>
-			            <a href="#"><span class="ion-arrow-graph-down-right"></span>Soldes</a>
-			            <a href="#"><span class="ion-power"></span>Innovation</a>
-			            <a href="#"><span class="ion-person"></span>À propos</a>
-			            <a href="#"><span class="ion-clipboard"></span>Nos qualités</a>
-			            <a href="#"><span class="ion-map"></span>Emplacement</a>
+			            
 			        </nav>
 				</div>
 				<div class="col-md-1"></div>

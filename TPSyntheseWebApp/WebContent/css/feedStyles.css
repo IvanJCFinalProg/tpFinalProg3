@@ -18,6 +18,7 @@ html{
 	display: none;
 }
 
+
 body{
 	font: 400 20px Lato, sans-serif !important;
     line-height: 1.8;
@@ -26,6 +27,7 @@ body{
     padding: 0;
 
 }
+
 
 #logo{
 	position: relative;
@@ -382,7 +384,7 @@ textarea[name=publication]:hover {
 	box-shadow: 0 10px 20px rgba(0,0,0,.5);
     transition: .5s;
     padding: 18px 40px 0;
-    height: 730px;
+    height: 845px;
 }   
 
 #sectionGeneral1 > div > .col-md-6 > div > form > h1{

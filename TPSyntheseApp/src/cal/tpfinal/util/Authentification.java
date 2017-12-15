@@ -32,6 +32,11 @@ public class Authentification {
 		return false;
 	}
 	
+	public static boolean isPasswordsSame(int id, String password, String fileName) {
+		Map<Integer, Credential> tableLogins = ServiceConnection.loadMapCredentials(fileName);
+		return ServiceConnection.getCredentialById(id, tableLogins).getPassword().equals(ServicePassword.encryptPassword(password));
+	}
+	
 	@SuppressWarnings("unused")
 	private static boolean isPasswordIsCorrect(String password, Map<Integer, Credential> collectionUtilisateurs) {
 		for (Credential utilisateur : collectionUtilisateurs.values()) 
