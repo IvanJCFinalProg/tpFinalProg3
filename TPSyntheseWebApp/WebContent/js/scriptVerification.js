@@ -16,6 +16,8 @@ $(document).ready(function(){
 	var errorPrenomNew = false;
 	var errorEmailNew = false;
 	
+	var errorPasswordNew = false;
+	
 	$("#email").focusout(function() {
 		validateEmailLogin();
 	});
@@ -64,6 +66,31 @@ $(document).ready(function(){
 	$("#email-new").focusout(function() {
 		validateNewEmail();
 	});
+	
+	$("#password-new").focusout(function() {
+		validateNewPassword()
+	});
+	
+	function validateNewPassword() {
+		var password_length = $("#password-new").val().length;
+		if(password_length <= 0 ){
+			$("#error-password-new").html("<h5 class=\"errormsg\">Le mot de passe est requis.</h5>");
+			$("#error-password-new").show();
+			$("#password-new").css({"border-color":"#dd4b39"});
+			errorPasswordNew = true;
+		}
+		else if(password_length < 8){
+			$("#error-password-new").html("<h5 class=\"errormsg\">Les mots de passe sont faciles à deviner.</h5>" +
+			"<h5 class=\"errormsg\">Veuillez recommancer en utilisant au moins 8 caractères</h5>");
+			$("#password-new").css({"border-color":"#dd4b39"});
+			$("#error-password-new").show();
+			errorPasswordNew = true;
+			
+		}else{	
+			$("#password-new").css({"border-color":""});
+			$("#error-password-new").hide();
+		}
+	}
 	
 	/*** VALIDATION _ NEW INFOS***/
 	function validateNewNom() {
@@ -271,6 +298,16 @@ $(document).ready(function(){
 		validateNewEmail();
 		
 		if(!errorNomNew && !errorPrenomNew && !errorEmailNew)
+			return true;
+		else
+			return false;
+	});
+	
+	$("#formModifPassword").submit(function() {
+		errorPasswordNew = false;
+		validateNewPassword();
+		
+		if(!errorPasswordNew)
 			return true;
 		else
 			return false;

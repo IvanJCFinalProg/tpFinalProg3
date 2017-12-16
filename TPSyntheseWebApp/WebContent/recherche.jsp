@@ -58,7 +58,7 @@
 		        </div>
 		    </div>
 		</nav>
-	<section class="bg-1 container-fluid">
+		<section class="bg-1 container-fluid">
 			<div class="row">
 				<div class="col-md-2">
 					<!-- Barre de navigation de côté qui permet de naviguer dans le contenu de la page -->
